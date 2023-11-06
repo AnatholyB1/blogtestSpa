@@ -6,10 +6,10 @@ import proxyOptions from './proxyOptions';
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [react()],
-	server: {
-		port: 8080,
-		proxy: proxyOptions
-	},
+	//server: {
+		//port: 8080,
+		//proxy: proxyOptions
+	//},
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, 'src')
