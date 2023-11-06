@@ -15,9 +15,9 @@ export default defineConfig({
 			'@': path.resolve(__dirname, 'src')
 		}
 	},
-	build: {
-		outDir: '../blogtest/public/SpaBlogEditor',
-		emptyOutDir: true,
-		target: 'es2015',
-	},
+	//build: {
+		//outDir: '../blogtest/public/SpaBlogEditor',
+		//emptyOutDir: true,
+		//target: 'es2015',
+	//},
 });
