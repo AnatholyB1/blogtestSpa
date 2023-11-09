@@ -15,9 +15,7 @@ import { useEffect, useState } from "react"
 import { useContext } from "react"
 import { TabContext} from "@/provider/tabProvider"
 import { PostContext } from "@/provider/postProvider"
-import { TypeContext } from "@/provider/typeProvider"
 import { PageContext } from "@/provider/pageProvider"
-import { BloggerContext } from "@/provider/BloggerProvider"
 import { SystemPageContext } from "@/provider/SystemPageProvider"
 import DeleteModal from "./deleteModal"
 import { Table } from "@tanstack/react-table"
@@ -37,9 +35,8 @@ export function DataTableRowActions<TData>({
   const [value, setValue] = useState(false)
   const tabProvider = useContext(TabContext)
   const postContext = useContext(PostContext)
-  const typeContext = useContext(TypeContext)
   const pageContext = useContext(PageContext)
-  const blogContext = useContext(BloggerContext)
+
   const systemPageContext = useContext(SystemPageContext);
 
   useEffect(() => {
@@ -63,37 +60,45 @@ export function DataTableRowActions<TData>({
 
   const tabType = useContext(TabContext);
   const [page, setPage] = useState('default')
+  const [copy, setCopy] = useState(false)
 
 
   useEffect(() => {
     if (page !='default')
     {
-      switch (tabType.variable) {
-        case 'Categories':
-          typeContext.ChangeVariable(page);
-          router('/viewCategory');
-          break;
-        case 'Post':
-          postContext.ChangeVariable(page);
-          router('/viewBlog');
-          break;
-        case 'Page':
-          pageContext.changeVariable(page);
-          router('/viewPage');
-          break;
-        case 'Blogger':
-          blogContext.changeVariable(page);
-          router('/viewBlogger');
-          break;
-        case 'SystemPage':
-          systemPageContext.changeVariable(page);
-          router('/viewSystemPage');
-          break;
+      if(!copy)
+      {
+        switch (tabType.variable) {
+          case 'Post':
+            postContext.ChangeVariable(page);
+            router('/preview');
+            break;
+          case 'Page':
+            pageContext.changeVariable(page);
+            router('/preview');
+            break;
+          case 'SystemPage':
+            systemPageContext.changeVariable(page);
+            router('/preview');
+            break;
+        }
 
+      }else{
+        switch (tabType.variable) {
+          case 'Post':
+            postContext.makeCopy(page)
+            break;
+          case 'Page':
+            pageContext.changeVariable(page);
+
+            break;
+          case 'SystemPage':
+            systemPageContext.changeVariable(page);
+
+            break;
+        }
       }
- 
     }
-
   },[page])
   return (
     <>
@@ -110,8 +115,8 @@ export function DataTableRowActions<TData>({
       </Button> 
     </DropdownMenuTrigger>
     <DropdownMenuContent  align="end" className="w-[160px]" onMouseLeave={() => setValue(false)} onMouseEnter={() => setValue(true)}>
-      <DropdownMenuItem onClick={() => {setPage(row.id)}}>View</DropdownMenuItem>
-      <DropdownMenuItem>Make a copy</DropdownMenuItem>
+      {tabType.variable != 'Blogger' && tabType.variable != 'Categories' ? <DropdownMenuItem  onClick={() => {setPage(row.id)}}>View</DropdownMenuItem> : <></>}
+      <DropdownMenuItem onClick={() => {setCopy(true),setPage(row.id)}} >Make a copy</DropdownMenuItem>
       <DropdownMenuSeparator />
       <DropdownMenuItem onClick={() => {tabType.addRow(row.getValue('title') ? row.getValue('title') : row.getValue('name'))}}>
         <DeleteModal custom={true}>Delete<DropdownMenuShortcut className="pl-10">⌘⌫</DropdownMenuShortcut> </DeleteModal>

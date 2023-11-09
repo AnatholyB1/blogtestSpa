@@ -7,19 +7,19 @@ import {
 import { PresetSave } from "./playgroundComponent/preset-save"
 import EditBlog from "./playgroundComponent/editblog"
 import NewBlog from "./playgroundComponent/newBlog"
-import Blog from "./playgroundComponent/Blog"
+
 //import  {useRouter}  from "next/navigation"
 //import { PostContext } from "provider/postProvider"
 import { useContext, useState } from "react"
 //import { UpdateObject, contextType } from "typing"
-import Page from "./playgroundComponent/pageDoc"
+
 import EditPage from "./playgroundComponent/editPage"
 import NewPage from "./playgroundComponent/newPage"
 import { TabContextType } from "typing"
 import EditBlogger from "./playgroundComponent/editBlogger"
-import Blogger from "./playgroundComponent/blogger"
+
 import NewBlogger from "./playgroundComponent/newBlogger"
-import SystemPage from "./playgroundComponent/systemPage"
+
 import NewSystemPage from "./playgroundComponent/newSystemPage"
 import EditSystemPage from "./playgroundComponent/editSystemPage"
 //import { BloggerContext } from "provider/BloggerProvider"
@@ -40,7 +40,6 @@ import SideApp from "./mainComponent/sideApp"
 import { SidebarMain} from "./mainComponent/sidebar"
 import NewCategory from "./playgroundComponent/newCategories"
 import EditCategoy from "./playgroundComponent/editCategories"
-import Category from "./playgroundComponent/Category"
 
 
 
@@ -129,9 +128,7 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                             case 'edit':
                               return <EditPage state={state}/>;
                             case 'new':
-                              return <NewPage />;
-                            case 'view':
-                              return <Page/>;
+                              return <NewPage state={state} />;
                             default:
                               return null;
                           }
@@ -141,8 +138,7 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                               return <EditBlog state={state} />;
                             case 'new':
                               return <NewBlog state={state}/>;
-                            case 'view':
-                              return <Blog/>;
+
                             default:
                               return null;
                           }
@@ -152,30 +148,27 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                               return <EditBlogger />;
                             case 'new':
                               return <NewBlogger />;
-                            case 'view':
-                              return <Blogger/>;
+
                             default:
                               return null;
                           }
                         case 'SystemPage':
                           switch (state) {
                             case 'edit':
-                              return <EditSystemPage/>;
+                              return <EditSystemPage state={state}/>;
                             case 'new':
-                              return <NewSystemPage />;
-                            case 'view':
-                              return <SystemPage/>;
+                              return <NewSystemPage state={state}/>;
+
                             default:
                               return null;
                           }
                         case 'Categories':
                           switch (state){
                             case 'edit':
-                              return < EditCategoy/>;
+                              return < EditCategoy />;
                             case 'new':
                               return < NewCategory />;
-                            case 'view':
-                              return <Category/>
+
                             default:
                                 return null;
                           }

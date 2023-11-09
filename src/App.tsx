@@ -12,12 +12,6 @@ import EditBlog from './pages/editBlog/page'
 import EditBlogger from './pages/editBlogger/page'
 import EditPage from './pages/editPage/page'
 import EditSystemPage from './pages/editSystemPage/page'
-import ViewBlog from './pages/viewBlog/page'
-import ViewBlogger from './pages/viewBlogger/page'
-import ViewCategory from './pages/viewCategory/page'
-import ViewSystemPage from './pages/viewSystemPage/page'
-import ViewPage from './pages/viewPage/page'
-
 
 const router = createBrowserRouter(
 	
@@ -30,16 +24,11 @@ const router = createBrowserRouter(
 			<Route path="newSystemPage" element={<NewSystemPage/>}></Route>
 			<Route path="newBlogger" element={<NewBlogger/>}></Route>
 			<Route path="newPage" element={<NewPage/>}></Route>
-			<Route path="editCategories" element={<EditCategory/>}></Route>
+			<Route path="editCategory" element={<EditCategory/>}></Route>
 			<Route path="editPost" element={<EditBlog/>}></Route>
 			<Route path="editBlogger" element={<EditBlogger/>}></Route>
 			<Route path="editPage" element={<EditPage/>}></Route>
 			<Route path="editSystemPage" element={<EditSystemPage/>}></Route>
-			<Route path="viewBlog" element={<ViewBlog/>}></Route>
-			<Route path="viewBlogger" element={<ViewBlogger/>}></Route>
-			<Route path="viewCategories" element={<ViewCategory/>}></Route>
-			<Route path="viewSystemPage" element={<ViewSystemPage/>}></Route>
-			<Route path="viewPage" element={<ViewPage/>}></Route>
 			<Route path="/preview" element={<Preview/>}></Route>
 			
 		</Route>

@@ -5,7 +5,6 @@ import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
 
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
@@ -27,12 +26,25 @@ import { Category} from "typing"
 import { useFrappeGetDocList } from "frappe-react-sdk"
 import { PostContext } from "@/provider/postProvider"
 import { useContext, useEffect } from "react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import NewCategory from "./newCategories"
+import { CategoryContext } from "@/provider/categoryProvider"
 
 
 export function ModelSelector({mode} : {mode : string} ) {
   const [open, setOpen] = React.useState(false)
   const [selectedModel, setSelectedModel] = React.useState<Category>()
-  const {data } = useFrappeGetDocList<Category>('Blog Category',{fields : [ 'title',
+  const categoryContext = useContext(CategoryContext)
+  const {data, mutate } = useFrappeGetDocList<Category>('Blog Category',{fields : [ 'title',
   'name',
   'published'
    ]} )
@@ -45,6 +57,13 @@ export function ModelSelector({mode} : {mode : string} ) {
     }
 
   }, [])
+  useEffect(()=> {
+    if(categoryContext.update)
+    {
+      setOpen(false)
+      mutate()
+    }
+  },[categoryContext.update])
   useEffect(() => {
     if(selectedModel)
     {
@@ -103,6 +122,23 @@ export function ModelSelector({mode} : {mode : string} ) {
                 ))}
               </CommandList>
             </Command>
+              <Dialog>
+                  <DialogTrigger asChild>
+                    <Button  variant="ghost" className="w-full" >New Category</Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[600px]">
+                    <DialogHeader>
+                      <DialogTitle>Category</DialogTitle>
+                      <DialogDescription>
+                        Create a new category
+                      </DialogDescription>
+                    </DialogHeader>
+                      <NewCategory hasImage={false}></NewCategory>
+                    <DialogFooter>
+                      <Button onClick={() => {categoryContext.changeSubmit(true)}} type="submit">Save changes</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
           </HoverCard>
         </PopoverContent>
       </Popover>

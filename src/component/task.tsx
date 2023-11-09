@@ -109,7 +109,9 @@ export default function TaskPage() {
 
   useEffect(() => {
     mutate()
+    console.log('here')
     if (error) {
+      
       toast({title:'Eroor : error while fetching the blogs'})
     }
   },[error, tabType.mutate])

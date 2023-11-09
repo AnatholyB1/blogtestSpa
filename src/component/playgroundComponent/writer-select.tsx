@@ -26,16 +26,35 @@ import { UserType} from "typing"
 import { useFrappeGetDocList } from "frappe-react-sdk"
 import { PostContext } from "@/provider/postProvider"
 import { useContext, useEffect } from "react"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import NewBlogger from "./newBlogger"
+import { BloggerContext } from "@/provider/BloggerProvider"
+
 
 
 export function WriterSelector({mode} : {mode : string} ) {
   const [open, setOpen] = React.useState(false)
   const [selectedModel, setSelectedModel] = React.useState<UserType>()
   const postContext = useContext(PostContext);
+  const bloggerContext = useContext(BloggerContext);
   const {data} = useFrappeGetDocList<UserType>('Blogger',{fields : [
   'name',
   'full_name'
    ]} )
+   useEffect(()=> {
+    if(bloggerContext.update == 2)
+    {
+      setOpen(false)
+    }
+  },[bloggerContext.update])
    useEffect(() => {
     if(postContext.data?.blogger && !selectedModel && mode != 'new' )
     {
@@ -100,6 +119,23 @@ export function WriterSelector({mode} : {mode : string} ) {
                 ))}
               </CommandList>
             </Command>
+            <Dialog  >
+              <DialogTrigger>
+                <Button variant="ghost" className="w-full"  >New Blogger</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[600px]">
+                <DialogHeader>
+                  <DialogTitle>Blogger</DialogTitle>
+                  <DialogDescription>
+                    Create a new blogger
+                  </DialogDescription>
+                </DialogHeader>
+                  <NewBlogger></NewBlogger>
+                <DialogFooter>
+                  <Button onClick={() => {bloggerContext.changeSubmit(1)}} type="submit">Save changes</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </HoverCard>
         </PopoverContent>
       </Popover>

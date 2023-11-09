@@ -1,8 +1,7 @@
 
 import "@blocknote/core/style.css";
 import {useFrappeGetDocList, useFrappeCreateDoc, useFrappeFileUpload } from 'frappe-react-sdk'
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react'
 import { useContext } from "react";
 import { BloggerContext } from "@/provider/BloggerProvider";
 import { Textarea } from "@/components/ui/textarea"
@@ -24,20 +23,18 @@ import {
     CommandInput,
     CommandItem,
   } from "@/components/ui/command"
-  import {
+  import { Check, ChevronsUpDown } from "lucide-react"
+  import { cn } from "@/lib/utils";
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { useToast } from "@/components/ui/use-toast";
+import {
     Popover,
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
-  import { Check, ChevronsUpDown } from "lucide-react"
-  import { Button } from "@/components/ui/button";
-  import { cn } from "@/lib/utils";
-  
-
-
-import * as z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+  import {Button} from "@/components/ui/button"
  
 const formSchema = z.object({
     bio : z.string().min(0).max(50).default(''),
@@ -46,51 +43,113 @@ const formSchema = z.object({
       }).min(2,{
         message: "Username must be at least 2 characters.",
       }).max(50), 
-    avatar : z.string().min(2).max(50).default(''),
-    disabled :  z.boolean().default(false),
+    avatar : z.string().max(50).default(''),
+    disabled :  z.number().default(0),
     short_name :  z.string().min(2).max(50).default(''),
 })
 
 
 
-export default function NewBlogger () {
+export default function NewBlogger ({custom = false} : {custom? : boolean}) {
     const bloggerContext = useContext(BloggerContext)
     const [file, setFile] = useState<File>()
-    const { createDoc, loading : docLoading, isCompleted } = useFrappeCreateDoc()
+    const { createDoc, isCompleted } = useFrappeCreateDoc()
     const {upload} = useFrappeFileUpload()
-    const router = useNavigate()
     const [url , setUrl] = useState('')
     const {data : Users} = useFrappeGetDocList('User', {fields : ['full_name'], filters : [['user_type', '=' , 'System User']],limit: 200})
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpenCommand] = useState(false)
+    const {toast} = useToast()
+    const [preview, setPreview] = useState<string | null>(null);
+    const [loading, setloading] =  useState(true)
 
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues : {
+            full_name : 'Writer Name',
+            bio : 'Write something about the writer.',
+            disabled  : 0,
+            avatar : '',
+        }
+    })
+
+    useEffect(() => {
+        if(sessionStorage.getItem('blogger'))
+        {
+            console.log('here')
+            form.setValue('full_name',JSON.parse(sessionStorage.getItem('blogger')!).full_name);
+            form.setValue('bio',JSON.parse(sessionStorage.getItem('blogger')!).bio);
+            form.setValue('avatar',JSON.parse(sessionStorage.getItem('blogger')!).avatar);
+            form.setValue('disabled',JSON.parse(sessionStorage.getItem('blogger')!).disabled);
+            form.setValue('short_name',JSON.parse(sessionStorage.getItem('blogger')!).short_name);
+            setPreview( 'https://dev.zaviago.com' + JSON.parse(sessionStorage.getItem('blogger')!).avatar ?? undefined)
+            setloading(false)
+        }else{
+            form.setValue('full_name','Writter Name');
+            form.setValue('bio','Write something about the writer.');
+            form.setValue('disabled',0);
+            setloading(false)
+        }
+        if(sessionStorage.getItem('avatar'))
+        {
+            setPreview(sessionStorage.getItem('avatar'))
+        }
+    },[])
+
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        createDoc("Blogger", {
+            ...values,
+        }).then((response) => {response ? toast({title :'New Blogger created !' , description: form.getValues('full_name')}) : toast({variant : 'destructive',title: 'Blogger Created'})})
+    }
+ 
     const handleFile = (target : FileList | null) => {
         if(target)
         {
             setFile(target[0])
-            setUrl(URL.createObjectURL(target[0]))
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreview(reader.result as string)
+                sessionStorage.setItem('avatar', reader.result as string )
+            };
+            reader.readAsDataURL(target[0]);
+            
         }
     }
 
     useEffect(() => {
-        if(url != '' && bloggerContext.update == 1)
+        if(url != '' && bloggerContext.update)
         {
-            form.setValue('avatar',url);
-            form.handleSubmit(onSubmit)()
-    
+            form.setValue('avatar',url);    
         }
     },[url])
 
     useEffect(() => {
-        if(isCompleted && bloggerContext.update == 1)
+        if(form.getValues('avatar') != '' && bloggerContext.update)
         {
-            bloggerContext.changeSubmit(2)
-            router('/')
+            form.handleSubmit(onSubmit, (errors) => {console.log(errors), toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
+
+        }
+    },[form.watch('avatar')])
+
+    useEffect(() => {
+
+        if(form.getValues())
+        {
+            sessionStorage.setItem('blogger',JSON.stringify(form.getValues()))
+        }
+    },[form.watch('avatar'),form.watch('bio'),form.watch('full_name'),form.watch('disabled'),form.watch('short_name')])
+
+    useEffect(() => {
+        if(isCompleted && bloggerContext.update)
+        {
+
+            form.reset()
+            bloggerContext.changeSubmit(false)
         }
     },[isCompleted])
 
     useEffect(() =>{
 
-        if(bloggerContext.update == 1)
+        if(bloggerContext.update)
         {
             if(file)
             {
@@ -103,37 +162,25 @@ export default function NewBlogger () {
                   }).then((response) => {setUrl(response.file_url)})
             }
             else{
-                form.handleSubmit(onSubmit)();
+                form.handleSubmit(onSubmit, (errors) => {console.log(errors), toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
             }
         }
     },[bloggerContext.update])
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues : {
-            full_name : 'Writer Name',
-            disabled  : false,
-        }
-    })
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        createDoc("Blogger", {
-            ...values,
-        })
-      }
 
     return (
         <>
-            {docLoading ? 'loading ...' :
+            {loading ? 'loading ...' :
              <Form {...form}>          
-                <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+                <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)} >
                     <FormField
                         control={form.control}
                         name="avatar"
-                        render={({ field }) => (
+                        render={() => (
                             <FormItem className="w-[107px] h-[107px]">
                             <FormLabel className="w-full h-full" htmlFor="avatar">
-                                <Avatar className="w-full h-full">
-                                    <AvatarImage src={field.value ?  `https://dev.zaviago.com${field.value}` : url} />
+                                <Avatar className="w-full h-full text-center">
+                                    <AvatarImage src={preview ?? ''} />
                                     <AvatarFallback>{form.getValues('short_name') ? form.getValues('short_name') : 'CN'}</AvatarFallback>
                                     <Input id="avatar" className="hidden" hidden={true} type='file' onChange={(e) => handleFile(e.target.files)} />
                                 </Avatar>
@@ -162,13 +209,13 @@ export default function NewBlogger () {
                             </FormItem>
                         )}
                         />
-                    <FormField
+                        {!custom ?                   <FormField
                         control={form.control}
                         name="full_name"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
                             <FormLabel>Admin User</FormLabel>
-                                <Popover open={open} onOpenChange={setOpen}>
+                                <Popover open={open} onOpenChange={setOpenCommand}>
                                 <PopoverTrigger asChild>
                                 <FormControl>
                                     <Button
@@ -197,7 +244,7 @@ export default function NewBlogger () {
                                                 onSelect={() => {
                                                     form.setValue('full_name', user.full_name)
                                                     form.setValue('short_name', user.full_name)
-                                                    setOpen(false)
+                                                    setOpenCommand(false)
                                                 }}>{user.full_name}
                                                     <Check
                                                         className={cn(
@@ -216,9 +263,62 @@ export default function NewBlogger () {
                                 Select any admin user in team for writer.
                             </FormDescription>
                             <FormMessage />
-                            </FormItem>
-                        )}
-                        />
+                            </FormItem>)} /> :
+                            <FormField
+                            control={form.control}
+                            name="full_name"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                <FormLabel>Admin User</FormLabel>
+                                            <FormControl>
+                                                <div
+                                                role="combobox"
+                                                aria-expanded={open}
+                                                onAbort={() => setOpenCommand(false)}
+                                                onClick={() => setOpenCommand(!open)}
+                                                className={
+                                                    `w-full flex flex-row items-center px-3 justify-between border border-slate-400 rounded-md ${field.value == 'Writer Name' && "text-muted-foreground"}`
+                                                }
+                                                >
+                                                {field.value != 'Writer Name'
+                                                    ? field.value
+                                                    : "Select Admin User in team..."}
+                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                        <Command  className={`${open ? 'fixed' : 'hidden'} left-6 -bottom-[100px] border border-gray-500/50 bg-white w-[200px] h-[200px] z-[999] `} >
+                                                            <CommandInput  className="h-9 bg-white" placeholder="Select Admin User in team..."/>                        
+                                                            <CommandEmpty >No results found.</CommandEmpty>
+                                                            <CommandGroup  heading="System User" className="overflow-y-auto h-[200px]">
+                                                                {Users && Users.map((user, index) => (
+                                                                <CommandItem key={index} value={user.full_name} 
+                                                                onSelect={() => {
+                                                                    form.setValue('full_name', user.full_name)
+                                                                    form.setValue('short_name', user.full_name)
+                                                                    setOpenCommand(false)
+                                                                }}>{user.full_name}
+                                                                    <Check
+                                                                        className={cn(
+                                                                            "ml-auto h-4 w-4",
+                                                                            field.value === user.full_name ? "opacity-100" : "opacity-0"
+                                                                        )}
+                                                                        />
+                                                                </CommandItem>
+                                                                )
+                                                                )}
+                                                            </CommandGroup>
+                                                    </Command>
+                                                </div>
+                                            </FormControl>
+                                <FormDescription>
+                                    Select any admin user in team for writer.
+                                </FormDescription>
+                                <FormMessage />
+                                </FormItem>
+                                
+                            )}
+                            />
+                            }
+                    
+     
                 </form>
             </Form>  
             
@@ -227,5 +327,4 @@ export default function NewBlogger () {
         </>
     );
 }
-
 

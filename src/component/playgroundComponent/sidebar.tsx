@@ -34,7 +34,7 @@ export default function Sidebar ({className} : {className ? : string}){
             <div className="">
                 <div className="inline-flex p-[12px] gap-2 items-start">
                     <Select>
-                    <SelectTrigger className="w-[180px] bg-[#F4F4F5] h-[40px] bg-[#F4F4F5]">
+                    <SelectTrigger className="w-[180px] h-[40px] bg-[#F4F4F5]">
                     <ZaviagoIcon></ZaviagoIcon>
                     <SelectValue />
                     </SelectTrigger>

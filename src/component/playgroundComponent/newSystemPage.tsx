@@ -1,11 +1,12 @@
 
-import { BlockNoteView, useBlockNote} from '@blocknote/react';
+
 import { useFormik } from 'formik';
 import { useFrappeCreateDoc, useFrappeFileUpload } from 'frappe-react-sdk';
 import { SystemPageContext } from "@/provider/SystemPageProvider"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { UpdateObject } from 'typing';
+import Composer from './composer';
 
 
 
@@ -39,7 +40,7 @@ const Contents =  [{
     "children": []
 }]
 
-const NewSystemPage = () => {
+const NewSystemPage = ({state }: {state : string}) => {
     const [blocks, setBlocks] = useState<any>()
     const { createDoc, isCompleted} = useFrappeCreateDoc();
     const systemPageContext = useContext(SystemPageContext);
@@ -98,10 +99,6 @@ const NewSystemPage = () => {
             }
         }
     },[systemPageContext.update])
-    const editor = useBlockNote({
-        initialContent: Contents,
-        onEditorContentChange: (editor) => setBlocks(editor.topLevelBlocks)
-    });
     const formik = useFormik({
         initialValues: {
             blog_category: "",
@@ -123,10 +120,10 @@ const NewSystemPage = () => {
     });
 
     return (
-        <form className="flex h-full flex-col space-y-4" onSubmit={formik.handleSubmit}>
-            <div className="min-h-[400px] flex-1 p-4 md:min-h-[700px] rounded-md lg:min-h-[700px] " >
-            <BlockNoteView  editor={editor} />
-            </div>
+        <form className="w-full h-full" onSubmit={formik.handleSubmit}>
+
+            <Composer page='SystemPage' state={state} value={Contents} onChange={(value: any) => {formik.setFieldValue("content_json", { value }),setBlocks(value)}}></Composer>
+
         </form>
     );
 }

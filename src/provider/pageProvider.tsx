@@ -36,7 +36,10 @@ const PageProvider = ({children} : {children : any}) => {
     },[dataList,myVariable])
 
     useEffect(()=> {
-      mutate()
+      if(submited == 1)
+      {
+        mutate()
+      }
   
     },[submited])
   

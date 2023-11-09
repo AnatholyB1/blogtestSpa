@@ -1,5 +1,5 @@
 
-import { TypeContextType, contextType, view, Category } from "../../typing";
+import { TypeContextType, contextType, view, Category, TabContextType } from "../../typing";
 import { createContext, useState} from "react";
 const TypeContext = createContext<contextType>({} as contextType);
 
@@ -10,7 +10,7 @@ import {useFrappeGetDocList} from 'frappe-react-sdk'
 const TypeProvider = ({children} : {children : any}) => { 
     // Définissez la variable d'état et la fonction pour la mettre à jour
     const [myVariable, setMyVariable] = useState<TypeContextType>('');
-    const [previousPage, setPreviousPage] = useState<string>('')
+    const [previousPage, setPreviousPage] = useState<TabContextType>()
     const [block, setBlock] = useState<any>({})
     const [view, setView] = useState<view>('desktop')
 
@@ -22,7 +22,7 @@ const TypeProvider = ({children} : {children : any}) => {
       setMyVariable(newValue);
     };
 
-    const changepage = (newValue : string) => {
+    const changepage = (newValue : TabContextType) => {
       setPreviousPage(newValue);
     };
 
@@ -44,7 +44,6 @@ const TypeProvider = ({children} : {children : any}) => {
         data = {} as Category[];
         return {data, isLoading}
       }
- 
     } 
 
 

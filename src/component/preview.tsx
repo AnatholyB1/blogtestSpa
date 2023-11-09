@@ -4,9 +4,9 @@ import Main from "./previewComponent/main";
 
 export default function PreviewPage () {
     return (
-        <div className="w-screen h-screen flex flex-col align-center flex-1 self-stretch ">
-            <Headbar />
-            <Main/>
+        <div className="w-screen h-auto hidden md:grid grid-low-row ">
+            <Headbar className="place-slef-start"/>
+            <Main className="place-slef-auto w-full h-full " />
         </div>
     )
 }

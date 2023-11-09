@@ -54,7 +54,7 @@ import PostSkeleton from "@/skeletonComponent/skeletonPost";
             {docLoading ? 'loading ...' :             
             <form className="flex h-full flex-col space-y-4" onSubmit={formik.handleSubmit}>
                 <div className='flex h-full flex-col space-y-4 '>
-                    {data ? <Composer state={state} value={formik.initialValues.content_json.blocks} onChange={(value: any) => formik.setFieldValue("content_json", { blocks: value })} /> :  <PostSkeleton></PostSkeleton>}
+                    {data ? <Composer page="Page" state={state} value={formik.initialValues.content_json.blocks} onChange={(value: any) => formik.setFieldValue("content_json", { blocks: value })} /> :  <PostSkeleton></PostSkeleton>}
                 </div>
             </form>}
         

@@ -3,20 +3,9 @@ import {   BlockNoteView,
     useBlockNote,
     createReactBlockSpec,
 
-    DragHandleMenuItem,
-    DragHandleMenu,
-    RemoveBlockButton,
-    DefaultSideMenu,
-    SideMenuPositioner,
-    FormattingToolbarPositioner,
-    HyperlinkToolbarPositioner,
-    SlashMenuPositioner,
-
     } from '@blocknote/react';
     import {
       uploadToTmpFilesDotOrg_DEV_ONLY,
-        Block,
-        BlockNoteEditor,
         BlockSchema,
     
         defaultBlockSchema,
@@ -27,13 +16,13 @@ import React, {  useContext, useState } from 'react'
 import "@blocknote/core/style.css";
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { AnimationContext } from '@/provider/animationProvider';
 import { TypeContext } from '@/provider/typeProvider';
 import { cn } from '@/lib/utils';
 import FileSelection from './file-selector';
+import { TabContextType } from 'typing';
 
 
-export default function Composer  ({state, value , onChange , viewOnly = false, className } : {state : string,value : any, onChange? : any, viewOnly? : boolean, className ?: string})  {
+export default function Composer  ({state, page, value , onChange , viewOnly = false, className } : {page : TabContextType, state : string,value : any, onChange? : any, viewOnly? : boolean, className ?: string})  {
     const view = useContext(TypeContext)
 
     const customSchema = {
@@ -45,27 +34,25 @@ export default function Composer  ({state, value , onChange , viewOnly = false, 
     popover : PopOver,
     } satisfies BlockSchema;
 
+
     const handleChange = (editor : any) => {
       onChange && onChange(editor.topLevelBlocks) ; 
       view.changeBlock(editor.topLevelBlocks) ; 
       sessionStorage.setItem('block',JSON.stringify(editor.topLevelBlocks))
     }
-    const GetStorageItem = () => {
-      const temp = sessionStorage.getItem('block')
-      if(temp)
-      {
-        return JSON.parse(temp)
-      }
-      return false
+    
+    const handleSetting = (editor :any) => {
+      sessionStorage.setItem('block',JSON.stringify(editor.topLevelBlocks))
     }
 
 
     const editor = useBlockNote({
-        initialContent: GetStorageItem() ? GetStorageItem()  :  value,
+        initialContent :  value,
         editable: !viewOnly,
         uploadFile : uploadToTmpFilesDotOrg_DEV_ONLY,
         blockSchema: customSchema,
-        onEditorContentChange: (editor) => handleChange(editor)
+        onEditorContentChange: (editor) => handleChange(editor),
+        onEditorReady:(editor) => handleSetting(editor), 
     });
 
     const enableDropping = (event : React.DragEvent) =>
@@ -121,40 +108,13 @@ export default function Composer  ({state, value , onChange , viewOnly = false, 
         
     }
     return ( 
-      <div>
-        <FileSelection mode={state}></FileSelection>
-        <BlockNoteView onDragOver={enableDropping} onDrop={handleDrop} className={cn("h-full w-full ",className)} editor={editor} >
-           <FormattingToolbarPositioner editor={editor} />
-            <HyperlinkToolbarPositioner editor={editor} />
-            <SlashMenuPositioner editor={editor} />
-            <SideMenuPositioner
-                editor={editor}
-                sideMenu={(props) => (
-                <DefaultSideMenu {...props} dragHandleMenu={CustomDragHandleMenu} />
-                )}
-            />
+      <div className='w-full h-full flex flex-col rounded-xl bg-white '>
+        <FileSelection  page = {page} className={`w-full h-full ${state == 'view' && 'h-[16rem]'}  `} mode={state} ></FileSelection>
+        <BlockNoteView onDragOver={enableDropping} onDrop={handleDrop} className={cn("h-full w-full  rounded-none bg-white",className)} editor={editor} >
         </BlockNoteView>
       </div>
     )
 }
-
-
-const CustomDragHandleMenu : any = (props: {
-    editor: BlockNoteEditor;
-    block: Block;
-  }) => {
-    const animation = useContext(AnimationContext)
-    return (
-      <DragHandleMenu>
-        {/*Default item to remove the block.*/}
-        <RemoveBlockButton {...props}>Delete</RemoveBlockButton>
-        {/*Custom item which opens an alert when clicked.*/}
-        <DragHandleMenuItem onClick={() => animation.toggle('SideBarRight')}>
-          Colors
-        </DragHandleMenuItem>
-      </DragHandleMenu>
-    );
-  };
 
 
   const PopOver = createReactBlockSpec({

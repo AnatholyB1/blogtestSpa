@@ -33,6 +33,7 @@
     --ring: 222.2 84% 4.9%;
  
     --radius: 0.5rem;
+    --Slot: rgb(151 ,71 ,255,0.2);
   }
  
   .dark {
@@ -191,19 +192,5 @@
 
 .editor.openright{
   right : 370px;
-}
-
-.preview{
-  display: flex;
-  align-items: center;
-  padding: 24px;
-  flex: 1 0 0;
-  align-self: stretch;
-  background: #F4F4F5;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 16px;
 }
 

@@ -1,10 +1,10 @@
 
-import { BlockNoteView, useBlockNote} from '@blocknote/react';
 import { useFormik } from 'formik';
 import { useFrappeCreateDoc } from 'frappe-react-sdk';
 import { PageContext } from "@/provider/pageProvider"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import Composer from './composer';
 
 
 
@@ -38,11 +38,12 @@ const Contents =  [{
     "children": []
 }]
 
-const NewPage = () => {
+const NewPage = ({state} : {state : string}) => {
     const [blocks, setBlocks] = useState<any>()
     const { createDoc, isCompleted} = useFrappeCreateDoc();
     const pageContext = useContext(PageContext);
     const router = useNavigate()
+
 
     useEffect(() => {
         if(isCompleted && pageContext.update== 1)
@@ -57,13 +58,9 @@ const NewPage = () => {
         if(pageContext.update  == 1)
         {
             formik.handleSubmit()
-
         }
     },[pageContext.update])
-    const editor = useBlockNote({
-        initialContent: Contents,
-        onEditorContentChange: (editor) => setBlocks(editor.topLevelBlocks)
-    });
+
     const formik = useFormik({
         initialValues: {
             content_type: "JSON",
@@ -78,10 +75,10 @@ const NewPage = () => {
     });
 
     return (
-        <form className="flex h-full flex-col space-y-4" onSubmit={formik.handleSubmit}>
-            <div className="min-h-[400px] flex-1 p-4 md:min-h-[700px] rounded-md lg:min-h-[700px] " >
-            <BlockNoteView  editor={editor} />
-            </div>
+        <form className="w-full h-full" onSubmit={formik.handleSubmit}>
+
+            <Composer page='Page' state={state} value={Contents} onChange={(value: any) => {formik.setFieldValue("content_json", { value }),setBlocks(value)}}></Composer>
+
         </form>
     );
 }
