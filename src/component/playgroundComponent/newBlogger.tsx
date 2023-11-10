@@ -75,7 +75,7 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
     useEffect(() => {
         if(sessionStorage.getItem('blogger'))
         {
-            console.log('here')
+   
             form.setValue('full_name',JSON.parse(sessionStorage.getItem('blogger')!).full_name);
             form.setValue('bio',JSON.parse(sessionStorage.getItem('blogger')!).bio);
             form.setValue('avatar',JSON.parse(sessionStorage.getItem('blogger')!).avatar);
@@ -125,7 +125,7 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
     useEffect(() => {
         if(form.getValues('avatar') != '' && bloggerContext.update)
         {
-            form.handleSubmit(onSubmit, (errors) => {console.log(errors), toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
+            form.handleSubmit(onSubmit, (errors) => { toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
 
         }
     },[form.watch('avatar')])
@@ -141,7 +141,6 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
     useEffect(() => {
         if(isCompleted && bloggerContext.update)
         {
-
             form.reset()
             bloggerContext.changeSubmit(false)
         }
@@ -162,7 +161,7 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
                   }).then((response) => {setUrl(response.file_url)})
             }
             else{
-                form.handleSubmit(onSubmit, (errors) => {console.log(errors), toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
+                form.handleSubmit(onSubmit, (errors) => { toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
             }
         }
     },[bloggerContext.update])

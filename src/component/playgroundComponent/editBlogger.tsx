@@ -163,7 +163,7 @@ export default function EditBlogger () {
     useEffect(() => {
         if(form.getValues('avatar') != '' && bloggerContext.update )
         {
-            form.handleSubmit(onSubmit, (errors) => {console.log(errors), toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
+            form.handleSubmit(onSubmit, (errors) => { toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
 
         }
     },[form.watch('avatar')])
@@ -192,7 +192,7 @@ export default function EditBlogger () {
                   }).then((response) => {setUrl(response.file_url)})
             }
             else{
-                form.handleSubmit(onSubmit, (errors) => {console.log(errors), toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
+                form.handleSubmit(onSubmit, (errors) => { toast({variant : 'destructive', title : 'Error', description : 'errors'}), bloggerContext.changeSubmit(false)})()
             }
         }
     },[bloggerContext.update])

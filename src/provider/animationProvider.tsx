@@ -39,7 +39,7 @@ const AnimationProvider = ({children} : {children : any}) => {
                 setItemSideBar(!ItemSideBar)
                 break;
             case 'Error':
-                console.log('here')
+                
                 setError(!error)
                 break;
         }

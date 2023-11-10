@@ -19,7 +19,7 @@ export default function Main ({className} : {className? : string})
         {
             setContent(JSON.parse(temp))
         }
-        console.log(view.previousPage)
+       
     },[])
     useEffect(() => {
         if(content)

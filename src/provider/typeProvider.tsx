@@ -37,7 +37,7 @@ const TypeProvider = ({children} : {children : any}) => {
       'published',
       'image',
       'description'
-       ]} )
+       ], limit : 200} )
       if (data){
         return {data, isLoading}
       }else{

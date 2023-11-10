@@ -19,6 +19,16 @@ const PostProvider = ({children} : {children : any}) => {
     const [data , setData] = useState<DataDocList>()
     const [copy, setCopy] = useState(false)
     const tabContext = useContext(TabContext)
+    const [submit, setSubmit] = useState(false)
+    const [publish, setPublish] = useState(true)
+
+    const changeSubmit = (newValue : boolean) => {
+      setSubmit(newValue);
+    }
+
+    const changePublish = (newValue : boolean) => {
+      setPublish(newValue);
+    }
 
     
     // Fonction pour changer la variable
@@ -39,7 +49,7 @@ const PostProvider = ({children} : {children : any}) => {
     'name',
     'published',
     'title',
-    'blog_category', 'content_json', 'blogger','published_on','meta_image']} )
+    'blog_category', 'content_json', 'blogger','published_on','meta_image'],limit : 200} )
     const {createDoc,isCompleted} = useFrappeCreateDoc<DataDocList>()
 
 
@@ -58,11 +68,13 @@ const PostProvider = ({children} : {children : any}) => {
     },[dataList,myVariable])
 
     useEffect(()=> {
-      if(!object.submited)
+      if(!submit)
       {
         mutate()
       }
-    },[object.submited])
+    },[submit])
+
+
 
 
     useEffect(()=> {
@@ -103,6 +115,10 @@ const PostProvider = ({children} : {children : any}) => {
       dataList : dataList ,
       data : data,
       copy : copy,
+      publish : publish,
+      submit : submit,
+      setPublish : changePublish,
+      setSubmit : changeSubmit,
       makeCopy :handleCopy,
       ChangeObject : changeObject,
       ChangeVariable : changeVariable,

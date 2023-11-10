@@ -50,7 +50,7 @@ const NewBlog = ({state} : {state :string}) => {
             }
             if(errorTemp.blogger || errorTemp.category || errorTemp.title)
             {
-                console.log(errorTemp)
+       
                 if(!animation.sidebarRight)
                 {
                    
@@ -63,7 +63,7 @@ const NewBlog = ({state} : {state :string}) => {
                     title: "Ther is error on input infomation",
                     description: `${errorTemp.blogger ? errorTemp.blogger : ''} ${errorTemp.category ? errorTemp.category : ''} ${errorTemp.title ? errorTemp.title : '' }`
                 })
-                postContext.ChangeObject(undefined,'submited',false)
+                postContext.setSubmit(false)
             }else{
                 createDoc("Blog Post", {
                 ...values,
@@ -152,7 +152,7 @@ const NewBlog = ({state} : {state :string}) => {
         if(Contents)
         {
             setloading(false)
-            console.log(Contents)
+   
         }
     },[Contents])
     
@@ -160,48 +160,68 @@ const NewBlog = ({state} : {state :string}) => {
         if(url != '')
         {
             formik.setFieldValue('meta_image',url);
-
         }
     },[url])
 
     useEffect(() => {
-        if(formik.values.meta_image != '' && postContext.update.submited)
+        if(formik.values.meta_image != '' && postContext.submit)
         {
             formik.handleSubmit()
         }
     },[formik.values.meta_image])
 
     useEffect(() => {
-        if(isCompleted && postContext.update.submited)
+        if(isCompleted && postContext.submit)
         {
-            postContext.ChangeObject(undefined,'submited',false)
+            postContext.setSubmit(false)
             formik.resetForm()
             router('/')
         }
     },[isCompleted])
 
     useEffect(() =>{
-        if(postContext.update.submited)
+        if(!postContext.publish)
         {
-            if(postContext.update.published)
-            {
-                console.log(postContext.update.published)
-                formik.setFieldValue('published', postContext.update.published)
-            }
+            
+            formik.setFieldValue('published', 0)
+        }else{
+            formik.setFieldValue('published', 1)
+        }} ,[postContext.publish])
+
+        useEffect(() =>{
             if(postContext.update.category)
             {
                 formik.setFieldValue('blog_category', postContext.update.category)
-            }
-            if(postContext.update.writer)
-            {
-                formik.setFieldValue('blogger', postContext.update.writer)
-            }
-            if(postContext.update.publish_date)
-            {
-                formik.setFieldValue('published_on', postContext.update.publish_date)
-                formik.setFieldValue('published', 0)
-               
-            }
+            }} ,[postContext.update.category])
+    
+    useEffect(() =>{
+        if(postContext.update.writer)
+        {
+            formik.setFieldValue('blogger', postContext.update.writer)
+        }} ,[postContext.update.writer])
+    
+    useEffect(() =>{
+        if(postContext.update.publish_date)
+        {
+            formik.setFieldValue('published_on', postContext.update.publish_date)
+            formik.setFieldValue('published', 0)
+        }},[postContext.update.publish_date])
+
+    useEffect(() =>{
+        if(formik.values.published_on)
+        {
+            formik.setFieldValue('published', 0)
+        }
+    },[formik.values.published_on])
+
+    useEffect(() =>{
+        console.log(formik.errors)
+    },[formik.errors])
+
+
+    useEffect(() =>{
+        if(postContext.submit || formik.initialValues != formik.values)
+        {
             if(postContext.update.image)
             {
     
@@ -216,13 +236,12 @@ const NewBlog = ({state} : {state :string}) => {
             else{
     
                     formik.handleSubmit()
-    
                 
             }
             
         }
        
-    },[postContext.update.submited , postContext.update.image])
+    },[postContext.submit , postContext.update.image])
 
     
 

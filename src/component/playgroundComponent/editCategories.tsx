@@ -145,7 +145,7 @@ export default function EditCategory () {
     useEffect(() => {
         if(form.getValues('image') != '' && categoryContext.update )
         {
-            form.handleSubmit(onSubmit, (errors) => {console.log(errors), toast({variant : 'destructive', title : 'Error', description : 'errors'}), categoryContext.changeSubmit(false)})()
+            form.handleSubmit(onSubmit, (errors) => { toast({variant : 'destructive', title : 'Error', description : 'errors'}), categoryContext.changeSubmit(false)})()
 
         }
     },[form.watch('image')])
@@ -161,7 +161,7 @@ export default function EditCategory () {
     },[isCompleted])
 
     useEffect(() =>{
-        console.log(categoryContext.update)
+   
         if(categoryContext.update )
         {
             
@@ -177,7 +177,7 @@ export default function EditCategory () {
             }
             else{
               
-                form.handleSubmit(onSubmit, (errors) => {console.log(errors), toast({variant : 'destructive', title : 'Error', description : 'errors'}), categoryContext.changeSubmit(false)})()
+                form.handleSubmit(onSubmit, (errors) => { toast({variant : 'destructive', title : 'Error', description : 'errors'}), categoryContext.changeSubmit(false)})()
             }
         }
     },[categoryContext.update, file])

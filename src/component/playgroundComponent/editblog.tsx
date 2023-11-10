@@ -52,7 +52,7 @@ import { useToast } from '@/components/ui/use-toast';
             {
                 errorTemp.blogger =  ' No blogger selected'
             }
-            console.log(errorTemp)
+
             if(errorTemp.blogger || errorTemp.category || errorTemp.title)
             {
                 if(!animation.sidebarRight)
@@ -193,7 +193,7 @@ import { useToast } from '@/components/ui/use-toast';
                         }).then((response) => {setUrl(response.file_url)})
                     }
                     else{
-                        console.log(postContext.update.submited)
+   
                         formik.handleSubmit()
                     }
             

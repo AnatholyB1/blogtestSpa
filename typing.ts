@@ -7,7 +7,7 @@ export interface User {
 
 export type UpdateObject = {
   publish_date? : string,
-  published? : number,
+  published? : boolean,
   image? : File,
   category : string,
   writer : string
@@ -78,6 +78,10 @@ export type PostContextType = string
 
 export type contextPost = {
   update : UpdateObject;
+  publish : boolean;
+  setPublish : (value : boolean) => void;
+  submit : boolean;
+  setSubmit : (value : boolean) => void;
   variable : PostContextType;
   copy : boolean;
   dataList : DataDocList[] | undefined

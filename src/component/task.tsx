@@ -54,7 +54,7 @@ export default function TaskPage() {
       
 
   }
-  const {data , isLoading, mutate, error} = useFrappeGetDocList<GetData>(doctype,{ fields: fields });
+  const {data , isLoading, mutate, error} = useFrappeGetDocList<GetData>(doctype,{ fields: fields , limit : 200});
   let tasks : any = [];
   if (data) {
     switch(tabType.variable) {
@@ -109,7 +109,7 @@ export default function TaskPage() {
 
   useEffect(() => {
     mutate()
-    console.log('here')
+
     if (error) {
       
       toast({title:'Eroor : error while fetching the blogs'})

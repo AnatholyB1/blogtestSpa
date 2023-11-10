@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button"
 import { PostContext } from "@/provider/postProvider"
-import { useContext} from "react"
+import { useContext, useEffect} from "react"
 import { PageContext } from "@/provider/pageProvider"
 import { TabContextType } from "typing"
 import { BloggerContext } from "@/provider/BloggerProvider"
@@ -26,8 +26,8 @@ export function PresetSave( {page } : { page  : TabContextType}) {
     if (caseType == 'publish') {
       switch (page) {
         case 'Post': 
-        postContext.ChangeObject(undefined, 'published', 1)
-          postContext.ChangeObject(undefined,'submited',true)
+          postContext.setPublish(true)
+          postContext.setSubmit(true)
           break;
         case 'Page':
           pageContext.changeSubmit(1)
@@ -39,15 +39,15 @@ export function PresetSave( {page } : { page  : TabContextType}) {
         categoryContext.changeSubmit(true)
         break;
         default :
-        postContext.ChangeObject(undefined,'submited',1)
+        postContext.ChangeObject(undefined,'submited',true)
         break;
       }
     }
-    else{
+    else if ('save'){
       switch (page) {
         case 'Post':
-          postContext.ChangeObject(undefined, 'published', 0)
-          postContext.ChangeObject(undefined,'submited',true)
+          postContext.setPublish(false)
+          postContext.setSubmit(true)
           break;
         case 'Page':
           pageContext.ChangeObject(undefined, 'published', 0)
@@ -56,6 +56,10 @@ export function PresetSave( {page } : { page  : TabContextType}) {
       }
     }
   }
+
+  useEffect(() => {
+    console.log(postContext.data?.published)
+  }, [postContext.data?.published])
 
   return (
     <div className="flex justify-center items-center gap-[8px]">

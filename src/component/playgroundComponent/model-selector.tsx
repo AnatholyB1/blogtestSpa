@@ -47,29 +47,36 @@ export function ModelSelector({mode} : {mode : string} ) {
   const {data, mutate } = useFrappeGetDocList<Category>('Blog Category',{fields : [ 'title',
   'name',
   'published'
-   ]} )
+   ],limit : 200} )
   const postContext = useContext(PostContext);
-  useEffect(() => {
-    const newdata = data?.filter((item) => item.name === postContext.data?.blog_category)
-    if(newdata && mode != 'new' )
-    {
-      setSelectedModel(newdata[0])
-    }
-
-  }, [])
   useEffect(()=> {
     if(categoryContext.update)
     {
-      setOpen(false)
       mutate()
+      sessionStorage.removeItem('category')
+      setOpen(false)
     }
   },[categoryContext.update])
+
+
   useEffect(() => {
     if(selectedModel)
     {
       postContext.ChangeObject(undefined,'category',selectedModel.name)
     }
   },[selectedModel])
+
+
+  useEffect(() => {
+    if(postContext.data?.blog_category)
+    {
+      
+      setSelectedModel(data?.filter((item) => item.name === postContext.data?.blog_category)[0])
+      sessionStorage.setItem('category',JSON.stringify(data?.filter((item) => item.name === postContext.data?.blog_category)[0]))
+    }
+  },[postContext.data?.blog_category])
+
+
   //use commandGroup tu categorise category in group
   return (
 
