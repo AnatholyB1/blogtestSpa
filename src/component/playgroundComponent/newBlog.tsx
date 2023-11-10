@@ -204,19 +204,10 @@ const NewBlog = ({state} : {state :string}) => {
         if(postContext.update.publish_date)
         {
             formik.setFieldValue('published_on', postContext.update.publish_date)
-            formik.setFieldValue('published', 0)
         }},[postContext.update.publish_date])
 
-    useEffect(() =>{
-        if(formik.values.published_on)
-        {
-            formik.setFieldValue('published', 0)
-        }
-    },[formik.values.published_on])
 
-    useEffect(() =>{
-        console.log(formik.errors)
-    },[formik.errors])
+
 
 
     useEffect(() =>{

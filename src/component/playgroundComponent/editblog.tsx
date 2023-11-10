@@ -65,14 +65,14 @@ import { useToast } from '@/components/ui/use-toast';
                     title: "Ther is error on input infomation",
                     description: `${errorTemp.blogger ? errorTemp.blogger : ''} ${errorTemp.category ? errorTemp.category : ''} ${errorTemp.title ? errorTemp.title : '' }`
                 })
-                postContext.ChangeObject(undefined,'submited',false)
+                postContext.setSubmit(false)
             }else{
                 updateDoc("Blog Post", data.name , {
                 ...values,
                 title: values.content_json.blocks[0].content[0].text,
                 content_type: "JSON",
                 content: "",
-            }).then((response) => {response ? toast({title :'Post updated'}) : toast({title :'Error', description : 'An error occured'})})}}
+            }).then((response) => {response ? toast({title :'Post updated'}) : toast({title :'Error', description : 'An error occured'}), console.log(response)})}}
         })
 
 
@@ -123,7 +123,7 @@ import { useToast } from '@/components/ui/use-toast';
         },[Contents])
 
         useEffect(() => {
-            if(url != '' && postContext.update.submited)
+            if(url != '' )
             {
                 formik.setFieldValue('meta_image',url);
             }
@@ -131,7 +131,7 @@ import { useToast } from '@/components/ui/use-toast';
 
         useEffect(() => {
 
-            if(formik.values.meta_image != '' && postContext.update.submited)
+            if(formik.values.meta_image != '' && postContext.submit)
             {
                 formik.handleSubmit()
 
@@ -139,20 +139,22 @@ import { useToast } from '@/components/ui/use-toast';
         },[formik.values.meta_image])
 
         useEffect(() => {
-            if(isCompleted && postContext.update.submited)
+            if(isCompleted && postContext.submit)
             {
-                postContext.ChangeObject(undefined,'submited',false)
+                postContext.setSubmit(false)
                 formik.resetForm()
                 router('/')
             }
         },[isCompleted])
 
         useEffect(() =>{
-            if(postContext.update.published)
+            if(!postContext.publish)
             {
-                formik.setFieldValue('published', postContext.update.published)
-            }
-        },[postContext.update.published])
+                
+                formik.setFieldValue('published', 0)
+            }else{
+                formik.setFieldValue('published', 1)
+            }} ,[postContext.publish])
 
         useEffect(() =>{
             if(postContext.update.category)
@@ -172,16 +174,14 @@ import { useToast } from '@/components/ui/use-toast';
             if(postContext.update.publish_date)
             {
                 formik.setFieldValue('published_on', postContext.update.publish_date)
-                formik.setFieldValue('published', 0)
             }
         },[postContext.update.publish_date])
 
 
         useEffect(() =>{
-            if( postContext.update.submited )
+            console.log('here')
+            if( postContext.submit || formik.initialValues != formik.values)
             {  
-                if(postContext.update.image)
-                {
                     if(postContext.update.image)
                     {
                         upload(postContext.update.image,{
@@ -196,10 +196,8 @@ import { useToast } from '@/components/ui/use-toast';
    
                         formik.handleSubmit()
                     }
-            
-                }
             }
-        },[postContext.update.submited, postContext.update.image])
+        },[postContext.submit, postContext.update.image])
 
     
 

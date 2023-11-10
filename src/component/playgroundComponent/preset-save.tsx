@@ -26,6 +26,7 @@ export function PresetSave( {page } : { page  : TabContextType}) {
     if (caseType == 'publish') {
       switch (page) {
         case 'Post': 
+        
           postContext.setPublish(true)
           postContext.setSubmit(true)
           break;

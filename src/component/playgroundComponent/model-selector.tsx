@@ -49,14 +49,15 @@ export function ModelSelector({mode} : {mode : string} ) {
   'published'
    ],limit : 200} )
   const postContext = useContext(PostContext);
-  useEffect(()=> {
-    if(categoryContext.update)
-    {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  useEffect(() => {
+
+      sessionStorage.removeItem('category');
       mutate()
-      sessionStorage.removeItem('category')
-      setOpen(false)
-    }
-  },[categoryContext.update])
+ 
+  }, [dialogOpen]);
+
 
 
   useEffect(() => {
@@ -129,11 +130,11 @@ export function ModelSelector({mode} : {mode : string} ) {
                 ))}
               </CommandList>
             </Command>
-              <Dialog>
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                   <DialogTrigger asChild>
                     <Button  variant="ghost" className="w-full" >New Category</Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[600px]">
+                  <DialogContent className="sm:max-w-[600px]" >
                     <DialogHeader>
                       <DialogTitle>Category</DialogTitle>
                       <DialogDescription>
