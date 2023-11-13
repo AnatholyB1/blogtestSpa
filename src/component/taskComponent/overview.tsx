@@ -10,12 +10,31 @@ import {
 import { PlusCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useNavigate } from "react-router-dom";
 
 export default function Overview ({className, children} : {className ?: string, children ?: React.ReactNode})
 {
-    useHotkeys('shift+cmd+p', (event) => { console.log('Do something!', 'shift+cmd+p');
-
-    });
+    const nav = useNavigate()
+    useHotkeys('shift+p', 
+        () => 
+            {
+            nav('/newPost')
+    },{preventDefault : true});
+    useHotkeys('shift+b', 
+    () => 
+        {
+        nav('/newCategories')
+},{preventDefault : true});
+useHotkeys('shift+s', 
+() => 
+    {
+        nav('/newBlogger')
+},{preventDefault : true});
+useHotkeys('shift+g', 
+() => 
+    {
+    console.log('Do something!')
+},{preventDefault : true});
     return (
         <div className={cn('flex flex-col w-full gap-[24px] max-w-[1100px]',className)}>
             <div className="flex flex-row gap-[15px] self-stretch items-center justify-center">
