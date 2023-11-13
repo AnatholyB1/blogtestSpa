@@ -38,6 +38,7 @@ import { PageContext } from "@/provider/pageProvider"
 import { BloggerContext } from "@/provider/BloggerProvider"
 import { SystemPageContext } from "@/provider/SystemPageProvider"
 import { TabContextType } from "typing"
+import { ChevronDown } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: (ColumnDef<TData, TValue>)[]
@@ -148,6 +149,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
+                  
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
@@ -158,7 +160,7 @@ export function DataTable<TData, TValue>({
                         cell.getContext(),
                       )}
                     </TableCell>
-                  ))}
+                  ))}<div className="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"><div className="items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground flex h-8 w-8 p-0 data-[state=open]:bg-muted cursor-pointer"><ChevronDown className="h-4 w-4 stroke-1"></ChevronDown></div></div>
                 </TableRow>
               ))
             ) : (
