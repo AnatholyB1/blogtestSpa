@@ -52,11 +52,25 @@ export function ModelSelector({mode} : {mode : string} ) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   useEffect(() => {
-
-      sessionStorage.removeItem('category');
+    if(!dialogOpen)
+    {
       mutate()
- 
-  }, [dialogOpen]);
+    }
+  }, [dialogOpen,sessionStorage.getItem('category')]);
+
+  useEffect(() => {
+    if(sessionStorage.getItem('category'))
+    {
+      setSelectedModel(JSON.parse(sessionStorage.getItem('category')!))
+    }
+  },[])
+
+  useEffect(() => {
+    if(typeof categoryContext.data != 'undefined')
+    {
+      setSelectedModel(categoryContext.data)
+    }
+  },[categoryContext.data])
 
 
 
@@ -64,6 +78,7 @@ export function ModelSelector({mode} : {mode : string} ) {
     if(selectedModel)
     {
       postContext.ChangeObject(undefined,'category',selectedModel.name)
+      sessionStorage.setItem('category',JSON.stringify(selectedModel))
     }
   },[selectedModel])
 
@@ -73,7 +88,7 @@ export function ModelSelector({mode} : {mode : string} ) {
     {
       
       setSelectedModel(data?.filter((item) => item.name === postContext.data?.blog_category)[0])
-      sessionStorage.setItem('category',JSON.stringify(data?.filter((item) => item.name === postContext.data?.blog_category)[0]))
+    
     }
   },[postContext.data?.blog_category])
 

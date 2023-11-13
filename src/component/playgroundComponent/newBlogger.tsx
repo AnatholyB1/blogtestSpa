@@ -141,10 +141,22 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
     useEffect(() => {
         if(isCompleted && bloggerContext.update)
         {
-            form.reset()
             bloggerContext.changeSubmit(false)
         }
     },[isCompleted])
+
+    useEffect(() => {
+        if(bloggerContext.dataList)
+        {
+            const current = bloggerContext.dataList
+            console.log(current)
+            console.log(form.getValues().full_name)
+            const index = current?.findIndex((item) => item.full_name == form.getValues().full_name)
+            console.log(index)
+            index != -1 && bloggerContext.changeVariable(index.toString())
+            form.reset()
+        }
+    },[bloggerContext.dataList])
 
     useEffect(() =>{
 

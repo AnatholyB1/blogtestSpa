@@ -178,7 +178,7 @@
 .editor{
   position : fixed;
   top : 120px;
-  left : 360px;
+  left : 50px;
   bottom: 0px;
   right: 0px;
   transition: all 0.3s ease-in-out; /* Ajouter une transition fluide */
@@ -187,7 +187,7 @@
 }
 
 .editor.open{
-  left: 670px;
+  left: 360px;
 }
 
 .editor.openright{

@@ -116,7 +116,6 @@ export default function Composer  ({state, page, value , onChange , viewOnly = f
     )
 }
 
-
   const PopOver = createReactBlockSpec({
     type: "popover",
     propSchema: {

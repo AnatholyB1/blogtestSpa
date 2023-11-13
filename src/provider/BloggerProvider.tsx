@@ -26,7 +26,8 @@ const BloggerProvider = ({children} : {children : any}) => {
     'short_name',
     'avatar',
     'disabled',
-    'bio']} )
+    'bio'],limit:200} )
+    
 
     const deleteData = () => {
       setData(undefined)
@@ -54,6 +55,9 @@ const BloggerProvider = ({children} : {children : any}) => {
     const changeSubmit = (value : boolean) => {
         setSubmit(value)
     }
+
+
+
 
     // Valeur fournie par le contexte
     const contextValue : contextValueBlogger= {

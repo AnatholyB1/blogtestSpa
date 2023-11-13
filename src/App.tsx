@@ -29,7 +29,7 @@ const router = createBrowserRouter(
 			<Route path="editBlogger" element={<EditBlogger/>}></Route>
 			<Route path="editPage" element={<EditPage/>}></Route>
 			<Route path="editSystemPage" element={<EditSystemPage/>}></Route>
-			<Route path="/preview" element={<Preview/>}></Route>
+			<Route path="preview" element={<Preview/>}></Route>
 			
 		</Route>
 	)

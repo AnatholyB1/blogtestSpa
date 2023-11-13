@@ -33,7 +33,7 @@ export default function TaskPage() {
       break;
     case 'Post':
       doctype = 'Blog Post'
-      fields = ['name', 'title', 'blog_category', 'content_type', 'published']
+      fields = ['name', 'title', 'blog_category', 'content_type', 'published', 'published_on']
       break;
     case 'Page':
     doctype = 'BlogPage'
@@ -49,7 +49,7 @@ export default function TaskPage() {
     break;
     case 'Overview':
       doctype = 'Blog Post'
-      fields = ['name', 'title', 'blog_category', 'content_type', 'published']
+      fields = ['name', 'title', 'blog_category', 'content_type', 'published', 'published_on']
       break;
       
 
@@ -85,7 +85,7 @@ export default function TaskPage() {
             id: item.name,
             title: item.title,
             status: item.published == 1 ? "Published" : "Drafted",
-            contentType: item.content_type,
+            published_on: item.published_on ?? '-' ,
           });
           return acc;
         }, []).slice(0, 3);
@@ -97,7 +97,7 @@ export default function TaskPage() {
             id: item.name,
             title: item.title,
             status: item.published == 1 ? "Published" : "Drafted",
-            contentType: item.content_type,
+            published_on: item.published_on ?? '-' ,
           });
           return acc;
         }, []);
@@ -109,7 +109,7 @@ export default function TaskPage() {
 
   useEffect(() => {
     mutate()
-
+    
     if (error) {
       
       toast({title:'Eroor : error while fetching the blogs'})
@@ -126,10 +126,9 @@ export default function TaskPage() {
           <div className="flex items-center space-x-2">
           </div>
           <div className="flex flex-row gap-2">
-          {tabType.variable == 'Overview' && <MoreActionsComponent></MoreActionsComponent>}
           {tabType.delete && <DeleteModal className="w-[160px] h-[40px]"></DeleteModal>}
-          <Button className="h-[40px] w-[160px]" onClick={() => {router(`new${tabType.variable}`)}}><PlusCircle className="w-[16px] h-[16px]" ></PlusCircle > <span className="pl-2" >New {tabType.variable}</span></Button>
-          </div>
+          {tabType.variable == 'Overview' ? <MoreActionsComponent></MoreActionsComponent> : <Button className="h-[40px] w-[160px]" onClick={() => {router(`new${tabType.variable}`)}}><PlusCircle className="w-[16px] h-[16px]" ></PlusCircle > <span className="pl-2" >New {tabType.variable}</span></Button>}
+        </div>
         </div>
         {isLoading ? <TabSkeleton/> : (() => {
           switch(tabType.variable)

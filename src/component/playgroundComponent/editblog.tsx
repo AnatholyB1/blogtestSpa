@@ -38,6 +38,7 @@ import { useToast } from '@/components/ui/use-toast';
                 blog_category: '',
                 published_on : '',
                 meta_image : '',
+                name : ''
             },
             onSubmit: (values) => {
             let errorTemp = {} as error
@@ -67,12 +68,15 @@ import { useToast } from '@/components/ui/use-toast';
                 })
                 postContext.setSubmit(false)
             }else{
-                updateDoc("Blog Post", data.name , {
+                console.log(values, )
+                updateDoc("Blog Post", values.name , {
                 ...values,
-                title: values.content_json.blocks[0].content[0].text,
+                content_json : {blocks},
+                title: blocks![0].content[0].text,
                 content_type: "JSON",
-                content: "",
-            }).then((response) => {response ? toast({title :'Post updated'}) : toast({title :'Error', description : 'An error occured'}), console.log(response)})}}
+            }).then((response) => {response ? toast({title :'Post updated'}) : toast({title :'Error', description : 'An error occured'})})
+        }
+        }
         })
 
 
@@ -84,8 +88,8 @@ import { useToast } from '@/components/ui/use-toast';
             {
                 setContent(JSON.parse(temp))
                 setBlocks(JSON.parse(temp))
-                
             }
+            sessionStorage.getItem('name') && formik.setFieldValue('name', sessionStorage.getItem('name'))
           },[])
 
 
@@ -96,6 +100,7 @@ import { useToast } from '@/components/ui/use-toast';
         useEffect(() => {
             if(typeof postContext.data?.name != 'undefined')
             {
+                console.log(postContext.data)
                 data = postContext.data
                 formik.setValues({
                     title : data.title,
@@ -106,8 +111,10 @@ import { useToast } from '@/components/ui/use-toast';
                     blog_category: data.blog_category,
                     published_on : data.published_on ?? '',
                     meta_image : data.meta_image ?? '',
+                    name : data.name
                     
                 })
+                sessionStorage.setItem('name',data.name)
                 setContent(JSON.parse(data.content_json).blocks)
                 setBlocks(JSON.parse(data.content_json).blocks)
             }

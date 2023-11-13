@@ -45,30 +45,54 @@ export function WriterSelector({mode} : {mode : string} ) {
   const [selectedModel, setSelectedModel] = React.useState<UserType>()
   const postContext = useContext(PostContext);
   const bloggerContext = useContext(BloggerContext);
-  const {data} = useFrappeGetDocList<UserType>('Blogger',{fields : [
+  const {data, mutate} = useFrappeGetDocList<UserType>('Blogger',{fields : [
   'name',
   'full_name'
-   ]} )
-   useEffect(()=> {
-    if(bloggerContext.update == 2)
-    {
-      setOpen(false)
-    }
-  },[bloggerContext.update])
+   ],limit:200} )
+   const [dialogOpen, setDialogOpen] = React.useState(false);
+
    useEffect(() => {
-    if(postContext.data?.blogger && !selectedModel && mode != 'new' )
+    if(dialogOpen)
     {
-      const newdata = data?.filter((item) => item.name === postContext.data?.blogger)
-      if(newdata)
-      {
-        setSelectedModel(newdata[0])
-      }
+      sessionStorage.removeItem('blogger')
+    }else{
+      mutate()
     }
-    if(selectedModel  )
+  }, [dialogOpen,sessionStorage.getItem('blogger')]);
+
+  useEffect(() => {
+    if(sessionStorage.getItem('blogger'))
     {
-      postContext.ChangeObject(undefined,'writer',selectedModel?.name)
+      setSelectedModel(JSON.parse(sessionStorage.getItem('blogger')!))
+    }
+  },[])
+
+  useEffect(() => {
+    if(typeof bloggerContext.data != 'undefined')
+    {
+      setSelectedModel(bloggerContext.data)
+    }
+  },[bloggerContext.data])
+
+
+
+  useEffect(() => {
+    if(selectedModel)
+    {
+      postContext.ChangeObject(undefined,'writer',selectedModel.name)
+      sessionStorage.setItem('blogger',JSON.stringify(selectedModel))
     }
   },[selectedModel])
+
+
+  useEffect(() => {
+    if(postContext.data?.blogger)
+    {
+      
+      setSelectedModel(data?.filter((item) => item.name === postContext.data?.blogger)[0])
+      sessionStorage.setItem('blogger',JSON.stringify(data?.filter((item) => item.name === postContext.data?.blogger)[0]))
+    }
+  },[postContext.data?.blogger])
   //use commandGroup tu categorise category in group
   return (
     <div className="grid gap-2">
@@ -119,7 +143,7 @@ export function WriterSelector({mode} : {mode : string} ) {
                 ))}
               </CommandList>
             </Command>
-            <Dialog  >
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen} >
               <DialogTrigger>
                 <Button variant="ghost" className="w-full"  >New Blogger</Button>
               </DialogTrigger>
@@ -130,9 +154,9 @@ export function WriterSelector({mode} : {mode : string} ) {
                     Create a new blogger
                   </DialogDescription>
                 </DialogHeader>
-                  <NewBlogger></NewBlogger>
+                  <NewBlogger custom></NewBlogger>
                 <DialogFooter>
-                  <Button onClick={() => {bloggerContext.changeSubmit(1)}} type="submit">Save changes</Button>
+                  <Button onClick={() => {bloggerContext.changeSubmit(true)}} type="submit">Save changes</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>

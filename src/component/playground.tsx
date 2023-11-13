@@ -27,14 +27,11 @@ import EditSystemPage from "./playgroundComponent/editSystemPage"
 //import { SystemPageContext } from "provider/SystemPageProvider"
 import SideBarRight from "./playgroundComponent/sidebareright"
 import Header from "./playgroundComponent/header"
-import Sidebar from "./playgroundComponent/sidebar"
-import MainSideBar from "./playgroundComponent/mainsidebar"
 import { ChevronLeft, ChevronRight, MessageSquare } from "lucide-react"
 import { TabContext } from "@/provider/tabProvider"
 import { Button } from "@/components/ui/button"
 import { ArrowRightToLine, ArrowLeftToLine } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import ItemSideBar from "./playgroundComponent/itemSidebar"
 import { AnimationContext } from "@/provider/animationProvider"
 import SideApp from "./mainComponent/sideApp"
 import { SidebarMain} from "./mainComponent/sidebar"
@@ -75,17 +72,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
   return (
     <>
       <div className="hidden w-screen h-screen flex-row md:flex">
-        {page == ('Categories' || 'Blogger') ? (<> 
         <SidebarMain/>
-        <SideApp></SideApp>
-         </>) : 
-        (<>
-        <SideApp></SideApp>
-        <Sidebar className="flex flex-col w-[300px] h-screen pt-[6px]  pb-[16px]  items-start gap-[16px] self-stretch border-r border-solid border-gray-200 bg-white z-10"></Sidebar>
-        <ItemSideBar/>
-        <MainSideBar></MainSideBar>
-        </>)}
-        <div className={`${page == ('Categories' || 'Blogger') && 'main'} ${animationContext.sidebar ? 'open': ''} flex flex-col pb-0 items-center flex-1 self-stretch h-screen w-full`}>
+        <SideApp ></SideApp>
+        <div className={`main ${animationContext.sidebar ? 'open': ''} flex flex-col pb-0 items-center flex-1 self-stretch h-screen w-full`}>
           <Header className="flex h-[52px] px-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7]"></Header>
           <div className="flex px-[32px] z-10 py-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7] ">
             <div className="flex items-center gap-[5px]">
@@ -117,7 +106,7 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
               {state != 'view' ? <PresetSave page={page} /> : null }
             </div>
           </div>
-          <Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0 items-start flex-1 self-stretch ${animationContext.itemSideBar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
+          <Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0 items-start flex-1 self-stretch ${animationContext.sidebar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
             <SideBarRight state={state}/>
                   <div className="w-full h-full">
                       {(() => {

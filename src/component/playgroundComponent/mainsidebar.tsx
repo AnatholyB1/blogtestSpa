@@ -20,6 +20,7 @@ import { AnimationContext } from "@/provider/animationProvider"
 import { TabContext } from "@/provider/tabProvider";
 
 
+
 import {
   Select,
   SelectContent,
@@ -32,6 +33,7 @@ import {
 export default function MainSideBar ({className} : {className? : string}) {
     const animation = useContext(AnimationContext) 
     const tab = useContext(TabContext)
+
 
     return (
         <div className={cn(`main-bar ${animation.sidebar ? 'open' : 'close'} h-screen border-r border-gray-300`,className)}>

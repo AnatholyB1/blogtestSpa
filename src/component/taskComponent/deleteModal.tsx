@@ -60,8 +60,9 @@ export default function DeleteModal ({custom = false, children, className} : {cu
                 });
             });
             names.forEach((name) => {
-                deleteDoc(doctype, name).then(() => {tabContext.toggleMutate()})
+                deleteDoc(doctype, name)
             })
+            tabContext.toggleMutate()
         }
     }
 

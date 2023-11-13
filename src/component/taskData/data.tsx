@@ -17,15 +17,3 @@ import {
       icon: CheckCircledIcon,
     },
   ]
-  
-  export const contentType = [
-    {
-      label: "JSON",
-      value: "JSON",
-    },
-    {
-      label: "Rich Text",
-      value: "Rich Text",
-
-    },
-  ]

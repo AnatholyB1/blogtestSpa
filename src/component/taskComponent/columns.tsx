@@ -5,8 +5,8 @@ import { ColumnDef } from "@tanstack/react-table"
 
 import { Checkbox } from "@/components/ui/checkbox"
 
-import { contentType, statuses } from "../taskData/data"
-import { Task , CategoryTab, Blogger} from "typing"
+import { statuses } from "../taskData/data"
+import { Task , CategoryTab, BloggerType} from "typing"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
@@ -77,22 +77,15 @@ export const columnsTask: ColumnDef<(Task)>[] = [
     },
   },
   {
-    accessorKey: "contentType",
+    accessorKey: "published_on",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="content type" />
+      <DataTableColumnHeader column={column} title="Published On" />
     ),
     cell: ({ row }) => {
-      const content = contentType.find(
-        (content) => content.value === row.getValue("contentType")
-      )
-
-      if (!content) {
-        return null
-      }
 
       return (
         <div className="flex items-center">
-          <span>{content.label}</span>
+          <span>{row.getValue('published_on')}</span>
         </div>
       )
     },
@@ -178,7 +171,7 @@ export const columnsCategory: ColumnDef<(CategoryTab)>[] = [
 ]
 
 
-export const columnsBlogger: ColumnDef<(Blogger)>[] = [
+export const columnsBlogger: ColumnDef<(BloggerType)>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -203,7 +196,7 @@ export const columnsBlogger: ColumnDef<(Blogger)>[] = [
   {
     accessorKey: "avatar",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="avatar" />
+      <DataTableColumnHeader column={column} title="Avatar" />
     ),
     cell: ({ row }) => {
       return (
@@ -217,7 +210,7 @@ export const columnsBlogger: ColumnDef<(Blogger)>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="name" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
 

@@ -22,7 +22,7 @@ const taskSchema = z.object({
   id: z.string(),
   title: z.string(),
   status: z.string(),
-  contentType: z.string(),
+  published_on : z.string(),
 })
 
 export type Task = z.infer<typeof taskSchema>

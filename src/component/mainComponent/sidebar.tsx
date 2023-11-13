@@ -17,6 +17,7 @@ import NotificationIcon from "@/public/notificationIcon"
 import Addicon from "@/public/addIcon"
 import PlayIcon from "@/public/playIcon"
 import { AnimationContext } from "@/provider/animationProvider"
+import {Link} from "react-router-dom";
 
 
 import {
@@ -26,9 +27,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { TabContextType } from "typing"
 
-
-
+type BLogType = {title : TabContextType, icon : JSX.Element}
+const Blogs : BLogType[] = [{title : 'Overview', icon : <DashIcon/>},{title : 'Post', icon : <PostIcon/>},{title : 'Categories', icon : <DashIcon/>},{title : 'Blogger', icon : <ProfilIcon/>}]
+const Pages : BLogType[] = [{title : 'Page', icon : <MiniPageIcon/>},{title : 'SystemPage', icon : <DashIcon/>}]
 
 
 export function SidebarMain({ className}: {className? : string}) {
@@ -145,22 +148,18 @@ export function SidebarMain({ className}: {className? : string}) {
           </div>
 
           <div className="flex flex-col items-start space-y-0.5 self-stretch">
-            <Button variant="ghost" onClick={() => {tab.ChangeVariable('Overview')}} className="flex h-9 py-2 px-4  justify-start items-center space-x-2 self-stretch">
-                <DashIcon></DashIcon>
-                <h2 className="text-gray-900 font-inter text-sm leading-5">Blog Overview</h2>   
-              </Button>
-              <Button variant="ghost" onClick={() => {tab.ChangeVariable('Post')}} className="flex h-9 py-2 px-4  justify-start items-center space-x-2 self-stretch">
-                <PostIcon></PostIcon>
-                <h2 className="text-gray-900 font-inter text-sm leading-5">Post</h2>
-              </Button>
-              <Button variant="ghost" onClick={() => {tab.ChangeVariable('Categories')}} className="flex h-9 py-2 px-4  justify-start items-center space-x-2 self-stretch">
-                <DashIcon></DashIcon>
-                <h2 className="text-gray-900 font-inter text-sm leading-5">Categories</h2>   
-              </Button>
-              <Button variant="ghost" onClick={() => {tab.ChangeVariable('Blogger')}} className="flex h-9 py-2 px-4  justify-start items-center space-x-2 self-stretch">
-                <ProfilIcon></ProfilIcon>
-                <h2 className="text-gray-900 font-inter text-sm leading-5">Blogger</h2>   
-              </Button>
+            {Blogs.map((item, index)=> {
+              return (
+                <Link title='home' key={index} to="/">
+                  <Button variant="ghost" onClick={() => {tab.ChangeVariable(item.title)}} className="flex h-9 py-2 px-4  justify-start items-center space-x-2 self-stretch">
+                    {item.icon}
+                    <h2 className="text-gray-900 font-inter text-sm leading-5">{item.title}</h2>   
+                  </Button>
+                </Link>
+              )
+            }
+            )
+            }
           </div>
         </div>
 

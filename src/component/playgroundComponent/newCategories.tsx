@@ -55,6 +55,8 @@ export default function NewCategory ({hasImage = true} : {hasImage? : boolean}) 
         resolver: zodResolver(formSchema),
         defaultValues : {
             description : '',
+            title : 'Category title..',
+            published : 1,
         }
     })
 
@@ -70,8 +72,6 @@ export default function NewCategory ({hasImage = true} : {hasImage? : boolean}) 
             setPreview( 'https://dev.zaviago.com' + JSON.parse(sessionStorage.getItem('category')!).image ?? undefined)
             setloading(false)
         }else{
-            form.setValue('title','Category title..');
-            form.setValue('published',1);
             setloading(false)
         }
         if(sessionStorage.getItem('image'))
@@ -128,10 +128,22 @@ export default function NewCategory ({hasImage = true} : {hasImage? : boolean}) 
         if(isCompleted && categoryContext.update)
         {
             categoryContext.changeSubmit(false)
-            form.reset()
             
         }
     },[isCompleted])
+
+    useEffect(() => {
+        if(categoryContext.dataList)
+        {
+            const current = categoryContext.dataList
+            console.log(current)
+            console.log(form.getValues().title)
+            const index = current?.findIndex((item) => item.title == form.getValues().title)
+            console.log(index)
+            index != -1 && categoryContext.changeVariable(index.toString())
+            form.reset()
+        }
+    },[categoryContext.dataList])
 
     useEffect(() =>{
 

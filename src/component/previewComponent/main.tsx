@@ -5,13 +5,20 @@ import Composer from "../playgroundComponent/composer";
 import { TypeContext } from "@/provider/typeProvider";
 import { Smartphone, Tablet, Monitor } from "lucide-react";
 import { TabContextType } from "typing";
+import { BloggerContext } from "@/provider/BloggerProvider";
+import { CategoryContext } from "@/provider/categoryProvider";
+import { PostContext } from "@/provider/postProvider";
 
 
 export default function Main ({className} : {className? : string}) 
 {
     const view = useContext(TypeContext)
+    const postContext = useContext(PostContext)
+    const blogContext = useContext(BloggerContext)
+    const categoryContext = useContext(CategoryContext)
     const [isloading, setloading] = useState(true)
     const [content, setContent] = useState<any>()
+
 
     useEffect(() => {
         const temp = sessionStorage.getItem('block') ?? null
@@ -21,6 +28,22 @@ export default function Main ({className} : {className? : string})
         }
        
     },[])
+
+    useEffect(() => {
+        if(typeof postContext.data?.content_json !== 'undefined')
+        {
+            setContent(JSON.parse(postContext.data.content_json).blocks)
+        }
+        if(blogContext.data)
+        {
+            console.log(blogContext.data)
+        }
+        if(categoryContext.data)
+        {
+            console.log(categoryContext.data)
+        }
+    },[postContext.data, blogContext.data, categoryContext.data, ])
+
     useEffect(() => {
         if(content)
         {
@@ -53,7 +76,7 @@ export default function Main ({className} : {className? : string})
                         ${view.view == 'mobile' && 'w-[414px] h-full'} 
                         ${view.view == 'tablet' && 'w-[1024px] h-full'}
                         bg-white shadow-sm overflow-auto` }>
-                        <Composer page={view.previousPage ? view.previousPage : {} as TabContextType} state='view' value={content} viewOnly={true} ></Composer>
+                        <Composer  page={view.previousPage ? view.previousPage : {} as TabContextType} state='view' value={content} viewOnly={true} ></Composer>
                     </div>
                 </>
                 )
