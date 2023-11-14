@@ -37,14 +37,16 @@ import { TypeContext } from "@/provider/typeProvider"
 import { PageContext } from "@/provider/pageProvider"
 import { BloggerContext } from "@/provider/BloggerProvider"
 import { SystemPageContext } from "@/provider/SystemPageProvider"
-import { TabContextType } from "typing"
+import { DataDocList, TabContextType } from "typing"
 import { ChevronDown } from "lucide-react"
+import { useFrappeGetDocList } from "frappe-react-sdk"
 
 interface DataTableProps<TData, TValue> {
   columns: (ColumnDef<TData, TValue>)[]
   data: TData[]
   currentTab : TabContextType
 }
+
 
 export function DataTable<TData, TValue>({
   columns,
@@ -64,7 +66,10 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   )
+  const [selectedRow, setSelectedRow] = React.useState<{title : unknown, id : string}>()
   const [sorting, setSorting] = React.useState<SortingState>([])
+  const {data : postData, isLoading} = useFrappeGetDocList<DataDocList>('Blog Post',{limit : 200});
+  React.useEffect(() => {console.log(postData)},[postData])
   const [goView, setGoView] = React.useState<string>('no')
   React.useEffect(() => {
     if(goView != 'no' )
@@ -148,8 +153,8 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
+                <>
                 <TableRow
-                  
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
@@ -160,8 +165,30 @@ export function DataTable<TData, TValue>({
                         cell.getContext(),
                       )}
                     </TableCell>
-                  ))}<div className="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"><div className="items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground flex h-8 w-8 p-0 data-[state=open]:bg-muted cursor-pointer"><ChevronDown className="h-4 w-4 stroke-1"></ChevronDown></div></div>
+                  ))}{tabType.variable == 'Categories' && <div onClick={()=> {
+                    if(selectedRow?.id == row.id)
+                    {
+                      setSelectedRow( {title : undefined, id :''})
+                    }else{
+                      setSelectedRow( {title : row.getValue('title'), id :row.id})
+                    }
+                     
+                  }} className="p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"><div  className="items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground flex h-8 w-8 p-0 data-[state=open]:bg-muted cursor-pointer "><ChevronDown   className={`h-4 w-4 stroke-1 ${selectedRow?.id == row.id && 'rotate-180'} transform duration-300 delay-150`}></ChevronDown></div></div>}
                 </TableRow>
+                {(tabType.variable == 'Categories' && selectedRow?.id == row.id) && 
+                <div  className={`pl-5 border-b border-l min-h-[20px] transition-all ease-in-out duration-500 `}>
+                {isLoading ? 'loading...' : <div className="min-h-[20px] grid grid-flow-row ">
+                  {postData?.filter((item)=> {item.blog_category == row.getValue('title')}) ?  
+                    postData?.filter((item)=> {item.blog_category == row.getValue('title')}).map((item) => 
+                    {
+                      console.log('here')
+                      console.log(item)
+                        return(
+                          <div key={item.name}>{item.title} {item.published} {item.published_on?? '-'}</div>
+                        )
+                    }) : (<div>No item</div>)}</div>}
+                </div>}
+              </>
               ))
             ) : (
               <TableRow>
