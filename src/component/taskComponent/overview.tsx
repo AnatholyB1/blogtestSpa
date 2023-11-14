@@ -11,6 +11,8 @@ import { PlusCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
+import image1 from '@/public/image403.png'
+import image2 from '@/public/image404.png'
 
 export default function Overview ({className, children} : {className ?: string, children ?: React.ReactNode})
 {
@@ -49,7 +51,7 @@ useHotkeys('shift+g',
                     <Link title='new post' to='/newPost'><Button className="flex items-center justify-center gap-2"><PlusCircle className="w-4 h-4 stroke1"></PlusCircle> New post</Button></Link>
                 </div>
                 <div className="flex-end items-center">
-                    <img width={120} height={120} src="./src/public/image402.png" alt="image" />
+                    <img width={120} height={120} src={image1} alt="image" />
                 </div>
             </CardContent>
             </Card>
@@ -64,7 +66,7 @@ useHotkeys('shift+g',
                     <Link title='new post' to='/newPost'><Button className="flex items-center justify-center gap-2"><PlusCircle className="w-4 h-4 stroke1"></PlusCircle> New post</Button></Link>
                 </div>
                 <div className="flex-end items-center">
-                    <img width={120} height={120} src="./src/public/image403.png" alt="image" />
+                    <img width={120} height={120} src={image2} alt="image" />
                 </div>
             </CardContent>
             </Card>
