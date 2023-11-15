@@ -12,6 +12,7 @@ const TabProvider = ({children} : {children : any}) => {
     const [del, setDelete] = useState<boolean>(false)
     const [rows, setRows] = useState<string[]>([])
     const [mutate, setMutate] = useState<boolean>(false)
+
   
     const changeMutate = () => {
       setMutate(!mutate)

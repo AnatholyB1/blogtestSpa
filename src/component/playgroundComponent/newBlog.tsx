@@ -8,19 +8,29 @@ import { useNavigate } from "react-router-dom";
 import { AnimationContext } from '@/provider/animationProvider';
 import { error } from 'typing';
 import { useToast } from '@/components/ui/use-toast';
+import { LoadingStateContext } from '@/provider/loadinStateProvider';
 
 
 const NewBlog = ({state} : {state :string}) => {
     const [Contents, setContent] = useState<any>()
     const [blocks, setBlocks] = useState<any>()
-    const { createDoc, isCompleted } = useFrappeCreateDoc();
+    const { createDoc, isCompleted, loading : updatedoc } = useFrappeCreateDoc();
     const postContext = useContext(PostContext);
-    const {upload} = useFrappeFileUpload()
+    const {upload, progress} = useFrappeFileUpload()
     const [url , setUrl] = useState('')
     const [loading, setloading] =  useState(true)
     const router = useNavigate()
     const animation = useContext(AnimationContext)
     const {toast} = useToast()
+    const loadingState = useContext(LoadingStateContext)
+
+    useEffect(() => {
+        loadingState.setLoading(updatedoc)
+    },[updatedoc ])
+
+    useEffect(() => {
+        loadingState.setProgress(progress)
+    },[progress])
 
     const formik = useFormik({
         initialValues: {
@@ -71,7 +81,7 @@ const NewBlog = ({state} : {state :string}) => {
                 content_type: "JSON",
                 content_json: { blocks },
                 content: "",
-            }).then((response) => {response ? toast({title :'Post updated'}) : toast({title :'Error', description : 'An error occured'})})}
+            }).then((response) => {response ? (toast({title :'Post updated'})) : toast({title :'Error', description : 'An error occured'})})}
         },
     });
 
@@ -179,6 +189,7 @@ const NewBlog = ({state} : {state :string}) => {
         }
     },[isCompleted])
 
+
     useEffect(() =>{
         if(!postContext.publish)
         {
@@ -215,7 +226,7 @@ const NewBlog = ({state} : {state :string}) => {
         {
             if(postContext.update.image)
             {
-    
+                
                 upload(postContext.update.image,{
                     /** If the file access is private then set to TRUE (optional) */
                     "isPrivate": false,
@@ -225,7 +236,7 @@ const NewBlog = ({state} : {state :string}) => {
                     }).then((response) => {setUrl(response.file_url)})
             }
             else{
-    
+                    
                     formik.handleSubmit()
                 
             }

@@ -13,6 +13,8 @@ import { AnimationProvider } from './provider/animationProvider.tsx';
 import { CategoryProvider } from './provider/categoryProvider.tsx';
 import { FrappeProvider } from 'frappe-react-sdk'
 import { Toaster } from "@/components/ui/toaster"
+import { LoadingStateProvider } from './provider/loadinStateProvider.tsx';
+import { ProgressDemo } from './component/progress.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -25,13 +27,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           }}>
       <AnimationProvider>
       <TabProvider>
+      <LoadingStateProvider>
       <TypeProvider>
       <SystemPageProvider>
       <BloggerProvider>
       <PostProvider>
       <PageProvider>
       <CategoryProvider>
-        
+      <ProgressDemo/>
       <App />
       <Toaster />
       </CategoryProvider> 
@@ -40,6 +43,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </BloggerProvider>
       </SystemPageProvider>
       </TypeProvider>
+      </LoadingStateProvider>
       </TabProvider>
       </AnimationProvider>
       </FrappeProvider>

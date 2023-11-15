@@ -28,7 +28,6 @@ import EditSystemPage from "./playgroundComponent/editSystemPage"
 import SideBarRight from "./playgroundComponent/sidebareright"
 import Header from "./playgroundComponent/header"
 import { ChevronLeft, ChevronRight, MessageSquare } from "lucide-react"
-import { TabContext } from "@/provider/tabProvider"
 import { Button } from "@/components/ui/button"
 import { ArrowRightToLine, ArrowLeftToLine } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -37,12 +36,18 @@ import SideApp from "./mainComponent/sideApp"
 import { SidebarMain} from "./mainComponent/sidebar"
 import NewCategory from "./playgroundComponent/newCategories"
 import EditCategoy from "./playgroundComponent/editCategories"
+import { NavSkeleton } from "@/skeletonComponent/navSkeleton"
+import { SkeletonHeader } from "@/skeletonComponent/headSkeleton"
+import { PlaygroundSkeleton } from "@/skeletonComponent/playgroundskeletin"
+import { LoadingStateContext } from "@/provider/loadinStateProvider"
+import { TabContext } from "@/provider/tabProvider"
 
 
 
 export default function PlaygroundPage({state, page} : {state : string, page : TabContextType }) {
 
   //const router = useNavigate()
+  const loadingContext = useContext(LoadingStateContext)
   const tab = useContext(TabContext)
   //const postContext = useContext(PostContext)
   //const bloggerContext = useContext(BloggerContext)
@@ -75,8 +80,8 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
         <SidebarMain/>
         <SideApp ></SideApp>
         <div className={`main ${animationContext.sidebar ? 'open': ''} flex flex-col pb-0 items-center flex-1 self-stretch h-screen w-full`}>
-          <Header className="flex h-[52px] px-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7]"></Header>
-          <div className="flex px-[32px] z-10 py-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7] ">
+          {!loadingContext.loading ? <Header className="flex h-[52px] px-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7]"></Header> : <NavSkeleton></NavSkeleton>}
+          {!loadingContext.loading ? <div className="flex px-[32px] z-10 py-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7] ">
             <div className="flex items-center gap-[5px]">
               {animation ? 
               (
@@ -105,8 +110,8 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
             <div className="">
               {state != 'view' ? <PresetSave page={page} /> : null }
             </div>
-          </div>
-          <Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0 items-start flex-1 self-stretch ${animationContext.sidebar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
+          </div> : <SkeletonHeader></SkeletonHeader>}
+          {!loadingContext.loading ?<Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0 items-start flex-1 self-stretch ${animationContext.sidebar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
             <SideBarRight state={state}/>
                   <div className="w-full h-full">
                       {(() => {
@@ -164,7 +169,7 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         }
                       })()}
             </div>
-          </Tabs>
+          </Tabs>: <PlaygroundSkeleton></PlaygroundSkeleton>}
         </div>
       </div>
     </>
