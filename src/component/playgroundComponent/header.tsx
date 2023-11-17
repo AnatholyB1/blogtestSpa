@@ -7,8 +7,10 @@ import {
     AvatarImage,
   } from "@/components/ui/avatar"
 import { TabContext } from "@/provider/tabProvider"
-import { Bell, ChevronDown } from "lucide-react"
+import { Bell, ChevronDown, Search } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "@/components/ui/command"
 import ZaviagoIcon from "@/public/zaviagoIcon"
 import { LightningBoltIcon } from "@radix-ui/react-icons"
 import {
@@ -20,12 +22,11 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 
-  
 
 export default function Header ({className} : {className ?: string}) {
     const tab = useContext(TabContext)
     return ( 
-    <div className={cn(className,'')}>
+    <div className={cn(className,'font-inter h-12 px-7')}>
         <div className="flex flex-row items-center gap-[8px]">
             <span className="text-[#18181B] font-Inter font-medium text-[14px] leading-[20px]">{tab.variable}</span>
         </div>
@@ -37,41 +38,61 @@ export default function Header ({className} : {className ?: string}) {
                         <span className="text-[#006AFF] font-Inter text-[12px] font-normal leading-[20px]">Upgrade to Pro</span>
                     </button>
                     <Separator orientation="vertical" ></Separator>
-                    <div className="flex w-[320px] min-h-[40px] h-[40px] py-2 px-4 items-center gap-3 rounded-md bg-[#F4F4F5]">
-                        <ZaviagoIcon></ZaviagoIcon>
-                        <input id='search' className="outline-none focus:border-0 bg-[#F4F4F5]" type="text" placeholder="Search or type a command" />
-                        <span className="text-[#71717A] w-[70px] h-[20px]  font-Inter text-[12px] font-normal leading-[20px]">(CTRL + G)</span>
-                    </div>
+                    <Dialog>
+                    <DialogTrigger className='bg-zinc-100 rounded-md px-2 py-[6px] text-[13px] h-7 flex items-center w-[300px] text-zinc-500 tracking-[0.02em] gap-x-[9px] leading-5'>
+                        <Search viewBox='0 0 24 24' width='14' height='14' className='ml-1'/>
+                        Search or type a command (Ctrl + G)
+                    </DialogTrigger>
+                    <DialogContent className='p-0'>
+                        <Command>
+                        <CommandInput placeholder="Type a command or search..." />
+                        <CommandList>
+                            <CommandEmpty>No results found.</CommandEmpty>
+                            <CommandGroup heading="Suggestions">
+                            <CommandItem>Calendar</CommandItem>
+                            <CommandItem>Search Emoji</CommandItem>
+                            <CommandItem>Calculator</CommandItem>
+                            </CommandGroup>
+                            <CommandSeparator />
+                            <CommandGroup heading="Settings">
+                            <CommandItem>Profile</CommandItem>
+                            <CommandItem>Billing</CommandItem>
+                            <CommandItem>Settings</CommandItem>
+                            </CommandGroup>
+                        </CommandList>
+                        </Command>
+                    </DialogContent>
+                    </Dialog>
                 </div>
                 <Bell className="h-4 w-4 stroke-1"></Bell>
             </div>
-            <Separator orientation="vertical" ></Separator>
+            <Separator orientation="vertical" className="h-6"/>
             <DropdownMenu>
-            <DropdownMenuTrigger className="flex h-[36px] py-2 px-4 justify-center items-center gap-2"><span className="text-[#18181B] font-Inter text-[12px] font-normal leading-[20px]">Help</span><ChevronDown className="w-4 h-4 stroke-1"></ChevronDown></DropdownMenuTrigger>
-            <DropdownMenuContent>
+              <DropdownMenuTrigger className="m-[0!important] flex h-[36px] py-2 px-4 justify-center items-center gap-2"><span className="text-[#18181B] font-Inter text-[12px] font-normal leading-[20px]">Help</span><ChevronDown className="w-4 h-4 stroke-1"></ChevronDown></DropdownMenuTrigger>
+              <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem>Team</DropdownMenuItem>
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
+              </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>
-            <DropdownMenuTrigger>            
-                <Avatar >
-                    <AvatarImage  src="https://github.com/shadcn.png" />
+              <DropdownMenuTrigger className="m-[0!important]">            
+                <Avatar className="h-7 w-7">
+                    <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem>Team</DropdownMenuItem>
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
+              </DropdownMenuContent>
             </DropdownMenu>
         </div>
     </div>)

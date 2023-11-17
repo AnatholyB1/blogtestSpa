@@ -60,8 +60,10 @@
   }
 }
 
-
-
+/* I entered this code to change the font of all pages to Inter */
+* {
+  font-family:Inter
+}
 
 .nav-bar {
   position: fixed;
