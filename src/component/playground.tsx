@@ -41,6 +41,7 @@ import { SkeletonHeader } from "@/skeletonComponent/headSkeleton"
 import { PlaygroundSkeleton } from "@/skeletonComponent/playgroundskeletin"
 import { LoadingStateContext } from "@/provider/loadinStateProvider"
 import { TabContext } from "@/provider/tabProvider"
+import { AlertReturn } from "./playgroundComponent/alertreturn"
 
 
 
@@ -77,6 +78,7 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
   return (
     <>
       <div className="hidden w-screen h-screen flex-row md:flex">
+        <AlertReturn ></AlertReturn>
         <SidebarMain/>
         <SideApp ></SideApp>
         <div className={`main ${animationContext.sidebar ? 'open': ''} flex flex-col pb-0 items-center flex-1 self-stretch h-screen w-full`}>
@@ -111,9 +113,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
               {state != 'view' ? <PresetSave page={page} /> : null }
             </div>
           </div> : <SkeletonHeader></SkeletonHeader>}
-          {!loadingContext.loading ?<Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0 items-start flex-1 self-stretch ${animationContext.sidebar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
+          <Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0  flex-1 self-stretch ${animationContext.sidebar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
             <SideBarRight state={state}/>
-                  <div className="w-full h-full">
+                  <div className="w-full h-full flex items-start justify-center">
                       {(() => {
                         switch(page)
                         {
@@ -139,9 +141,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         case 'Blogger':
                           switch (state) {
                             case 'edit':
-                              return <EditBlogger />;
+                              return <EditBlogger title="Edit Blogger" className=" w-[400px] mt-[4rem]  p-4 rounded-md shadow-sm" />;
                             case 'new':
-                              return <NewBlogger />;
+                              return <NewBlogger  title="New Blogger" className=" w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
 
                             default:
                               return null;
@@ -159,9 +161,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         case 'Categories':
                           switch (state){
                             case 'edit':
-                              return < EditCategoy />;
+                              return < EditCategoy title="Edit Category" className="  w-[400px] mt-[4rem] p-4 rounded-md shadow-sm"/>;
                             case 'new':
-                              return < NewCategory />;
+                              return < NewCategory title="New Category" className=" w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
 
                             default:
                                 return null;
@@ -169,7 +171,8 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         }
                       })()}
             </div>
-          </Tabs>: <PlaygroundSkeleton></PlaygroundSkeleton>}
+          </Tabs>
+          {loadingContext.loading && <PlaygroundSkeleton  ></PlaygroundSkeleton>}
         </div>
       </div>
     </>

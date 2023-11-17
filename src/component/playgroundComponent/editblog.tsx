@@ -11,6 +11,7 @@ import { DataDocList } from "typing";
 import { AnimationContext } from '@/provider/animationProvider';
 import { error } from 'typing';
 import { useToast } from '@/components/ui/use-toast';
+import { LoadingStateContext } from "@/provider/loadinStateProvider";
 
 
     const EditBlog = ({state} : {state :string}) => {
@@ -18,14 +19,37 @@ import { useToast } from '@/components/ui/use-toast';
         const postContext = useContext(PostContext)
         let data =  {} as DataDocList;
         const [loading, setLoading] = useState(true)
-        const { updateDoc, isCompleted } = useFrappeUpdateDoc()
+        const { updateDoc, isCompleted , loading : updatedoc} = useFrappeUpdateDoc()
         const [url , setUrl] = useState('')
         const [Contents, setContent] = useState<any>()
         const [blocks, setBlocks] = useState<any>()
-        const {upload} = useFrappeFileUpload()
+        const {upload , progress} = useFrappeFileUpload()
         const router = useNavigate()
         const animation = useContext(AnimationContext)
         const {toast} = useToast()
+        const loadingState = useContext(LoadingStateContext)
+
+
+        useEffect(() => {
+            if(updatedoc === true)
+            {   
+                loadingState.setLoading(updatedoc)
+            }
+        },[updatedoc ])
+    
+        useEffect(() => {
+            if(isCompleted === true){
+            loadingState.setCompleted(true)}
+        },[isCompleted])
+    
+    
+        useEffect(() => {
+            if(progress > 0)
+            {
+                loadingState.setProgress(progress)
+            }
+        },[progress])
+    
 
         const formik = useFormik({
 
@@ -68,7 +92,6 @@ import { useToast } from '@/components/ui/use-toast';
                 })
                 postContext.setSubmit(false)
             }else{
-                console.log(values, )
                 updateDoc("Blog Post", values.name , {
                 ...values,
                 content_json : {blocks},
@@ -100,7 +123,7 @@ import { useToast } from '@/components/ui/use-toast';
         useEffect(() => {
             if(typeof postContext.data?.name != 'undefined')
             {
-                console.log(postContext.data)
+        
                 data = postContext.data
                 formik.setValues({
                     title : data.title,
@@ -186,7 +209,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 
         useEffect(() =>{
-            console.log('here')
+
             if( postContext.submit || formik.initialValues != formik.values)
             {  
                     if(postContext.update.image)

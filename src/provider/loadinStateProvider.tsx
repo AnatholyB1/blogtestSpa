@@ -17,11 +17,13 @@ const LoadingStateProvider = ({children} : {children : any}) => {
     const [progress, setProgress] = useState<number>(0)
     const [completed, setCompleted] = useState<boolean>(false)
 
+
     const ChangeLoading = (newValue : boolean) => {
         setLoading(newValue);
     }
-    const ChangeCompleted = (newValue : boolean) => {
-        setCompleted(newValue);
+    const ChangeCompleted = () => {
+            setCompleted(true);
+            setLoading(false)
     }
 
     const ChangeProgress = (newValue : number) => {

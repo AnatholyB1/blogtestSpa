@@ -31,6 +31,7 @@ const categorySchema = z.object({
   id: z.string(),
   title: z.string(),
   status: z.string(),
+  modified : z.string()
 })
 
 export type CategoryTab = z.infer<typeof categorySchema>
@@ -149,6 +150,7 @@ export type BloggerTask = {
 
 
 export type GetData = {
+  modified : string,
   name : string,
   full_name : string,
   bio : string,

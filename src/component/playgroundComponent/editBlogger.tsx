@@ -54,23 +54,51 @@ const formSchema = z.object({
     short_name :  z.string().min(2).max(50).default(''),
 })
 
+import { LoadingStateContext } from "@/provider/loadinStateProvider";
 
 
+interface EditBloggerProps extends React.FormHTMLAttributes<HTMLFormElement>  {
+    className?: string,
+    children?: React.ReactNode,
+}
 
 
-export default function EditBlogger () {
+export default function EditBlogger ({ ...props}:EditBloggerProps) {
     const [data, setData] = useState<BloggerType>()
     const bloggerContext = useContext(BloggerContext)
     const [loading, setloading] =  useState(true)
     const [file, setFile] = useState<File>()
-    const { updateDoc, isCompleted } = useFrappeUpdateDoc()
-    const {upload} = useFrappeFileUpload()
+    const { updateDoc, isCompleted, loading : updatedoc } = useFrappeUpdateDoc()
+    const {upload, progress} = useFrappeFileUpload()
     const router = useNavigate()
     const [url , setUrl] = useState('')
     const {data : Users} = useFrappeGetDocList('User', {fields : ['full_name'], filters : [['user_type', '=' , 'System User']],limit: 200})
     const [preview, setPreview] = useState<string | null>(null);
     const {toast} = useToast()
     const [open, setOpen] = useState(false)
+    const loadingState = useContext(LoadingStateContext)
+
+
+    useEffect(() => {
+        if(updatedoc === true)
+        {   
+            loadingState.setLoading(updatedoc)
+        }
+    },[updatedoc ])
+
+    useEffect(() => {
+        if(isCompleted === true){
+        loadingState.setCompleted(true)}
+    },[isCompleted])
+
+
+    useEffect(() => {
+        if(progress > 0)
+        {
+            loadingState.setProgress(progress)
+        }
+    },[progress])
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -202,7 +230,8 @@ export default function EditBlogger () {
         <>
             {loading ? 'loading ...' :
              <Form {...form}>          
-                <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+                <form className={cn('flex gap-4',props.className)} onSubmit={form.handleSubmit(onSubmit)} {...props}>
+                    <>{props.title && <h1 className="text-[#09090B] font-Inter text-[18px] font-semibold leading-[28px] mb-4">{props.title}</h1>}</>
                     <FormField
                         control={form.control}
                         name="avatar"
@@ -243,7 +272,7 @@ export default function EditBlogger () {
                         name="full_name"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
-                            <FormLabel>Admin User</FormLabel>
+                            <FormLabel>Admin User<span className="text-[#FF3131]">*</span></FormLabel>
                                 <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                 <FormControl>

@@ -9,6 +9,7 @@ import { AnimationContext } from '@/provider/animationProvider';
 import { error } from 'typing';
 import { useToast } from '@/components/ui/use-toast';
 import { LoadingStateContext } from '@/provider/loadinStateProvider';
+import { Loader2 } from 'lucide-react';
 
 
 const NewBlog = ({state} : {state :string}) => {
@@ -24,12 +25,26 @@ const NewBlog = ({state} : {state :string}) => {
     const {toast} = useToast()
     const loadingState = useContext(LoadingStateContext)
 
+    useEffect(() => { return ( ) => {postContext.setSubmit(false)}},[])
+
+
     useEffect(() => {
-        loadingState.setLoading(updatedoc)
+        if(updatedoc === true)
+        {   
+            loadingState.setLoading(updatedoc)
+        }
     },[updatedoc ])
 
     useEffect(() => {
-        loadingState.setProgress(progress)
+        if(isCompleted === true){
+        loadingState.setCompleted(true)}
+    },[isCompleted])
+
+    useEffect(() => {
+        if(progress > 0)
+        {
+            loadingState.setProgress(progress)
+        }
     },[progress])
 
     const formik = useFormik({
@@ -249,7 +264,7 @@ const NewBlog = ({state} : {state :string}) => {
 
     return (
         <form className="w-full h-full" onSubmit={formik.handleSubmit}>
-            {loading ? 'loading ' : <Composer page='Post' state={state} value={Contents} onChange={(value: any) => {formik.setFieldValue("content_json", { value }),setBlocks(value)}}></Composer>}
+            {loading ? <Loader2 className='w-10 h-10 storke-2 animate-spin absolute left-1/2 top-1/2'></Loader2> : <Composer page='Post' state={state} value={Contents} onChange={(value: any) => {formik.setFieldValue("content_json", { value }),setBlocks(value)}}></Composer>}
         </form>
     );
 }

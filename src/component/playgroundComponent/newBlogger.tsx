@@ -47,20 +47,26 @@ const formSchema = z.object({
     disabled :  z.number().default(0),
     short_name :  z.string().min(2).max(50).default(''),
 })
+import { LoadingStateContext } from "@/provider/loadinStateProvider";
 
+interface BloggerProps extends React.FormHTMLAttributes<HTMLFormElement>  {
+    className?: string,
+    children?: React.ReactNode,
+    custom? : boolean,
+}
 
-
-export default function NewBlogger ({custom = false} : {custom? : boolean}) {
+export default function NewBlogger ({ ...props } : BloggerProps) {
     const bloggerContext = useContext(BloggerContext)
     const [file, setFile] = useState<File>()
-    const { createDoc, isCompleted } = useFrappeCreateDoc()
-    const {upload} = useFrappeFileUpload()
+    const { createDoc, isCompleted, loading : updatedoc } = useFrappeCreateDoc()
+    const {upload, progress} = useFrappeFileUpload()
     const [url , setUrl] = useState('')
     const {data : Users} = useFrappeGetDocList('User', {fields : ['full_name'], filters : [['user_type', '=' , 'System User']],limit: 200})
     const [open, setOpenCommand] = useState(false)
     const {toast} = useToast()
     const [preview, setPreview] = useState<string | null>(null);
     const [loading, setloading] =  useState(true)
+    const loadingState = useContext(LoadingStateContext)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -71,6 +77,26 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
             avatar : '',
         }
     })
+
+    useEffect(() => {
+        if(updatedoc === true)
+        {   
+            loadingState.setLoading(updatedoc)
+        }
+    },[updatedoc ])
+
+    useEffect(() => {
+        if(isCompleted === true){
+        loadingState.setCompleted(true)}
+    },[isCompleted])
+
+
+    useEffect(() => {
+        if(progress > 0)
+        {
+            loadingState.setProgress(progress)
+        }
+    },[progress])
 
     useEffect(() => {
         if(sessionStorage.getItem('blogger'))
@@ -149,10 +175,7 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
         if(bloggerContext.dataList)
         {
             const current = bloggerContext.dataList
-            console.log(current)
-            console.log(form.getValues().full_name)
             const index = current?.findIndex((item) => item.full_name == form.getValues().full_name)
-            console.log(index)
             index != -1 && bloggerContext.changeVariable(index.toString())
             form.reset()
         }
@@ -183,7 +206,8 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
         <>
             {loading ? 'loading ...' :
              <Form {...form}>          
-                <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)} >
+                <form className={cn('flex flex-col gap-4',props.className)} onSubmit={form.handleSubmit(onSubmit)}  {...props}>
+                    <>{props.title && <h1 className="text-[#09090B] font-Inter text-[18px] font-semibold leading-[28px] mb-4">{props.title}</h1>}</>
                     <FormField
                         control={form.control}
                         name="avatar"
@@ -220,7 +244,7 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
                             </FormItem>
                         )}
                         />
-                        {!custom ?                   <FormField
+                                      {!props.custom ? <FormField
                         control={form.control}
                         name="full_name"
                         render={({ field }) => (
@@ -326,8 +350,8 @@ export default function NewBlogger ({custom = false} : {custom? : boolean}) {
                                 </FormItem>
                                 
                             )}
-                            />
-                            }
+                            />}
+                     
                     
      
                 </form>

@@ -27,11 +27,7 @@ export default function Header ({className} : {className ?: string}) {
     return ( 
     <div className={cn(className,'')}>
         <div className="flex flex-row items-center gap-[8px]">
-            <Avatar >
-                <AvatarImage  src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <span className="text-[#18181B] font-Inter font-medium text-[14px] leading-[20px]">Zaviago / {tab.variable}</span>
+            <span className="text-[#18181B] font-Inter font-medium text-[14px] leading-[20px]">{tab.variable}</span>
         </div>
         <div  className="flex flex-row items-center space-x-4">
             <div className="flex px-[2px] items-center space-x-4">

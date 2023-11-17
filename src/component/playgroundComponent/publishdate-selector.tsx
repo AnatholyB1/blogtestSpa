@@ -70,12 +70,12 @@ export function DatePicker({mode} : {mode : string} ) {
         </HoverCardContent>
       </HoverCard>
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild >
         <Button
           disabled={mode == 'view' ? true : false}
           variant={"outline"}
           className={cn(
-            "w-full justify-between",
+            " flex items-center felx-grow justify-between w-[175px]",
             !date && "text-muted-foreground"
           )}
         >

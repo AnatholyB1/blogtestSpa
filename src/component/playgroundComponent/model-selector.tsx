@@ -29,7 +29,6 @@ import { useContext, useEffect } from "react"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -119,7 +118,7 @@ export function ModelSelector({mode} : {mode : string} ) {
             role="combobox"
             aria-expanded={open}
             aria-label="Select a model"
-            className="w-full justify-between"
+            className="w-[175px] justify-between"
           >
             {selectedModel ? selectedModel.title : "Select a model..."}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -145,20 +144,17 @@ export function ModelSelector({mode} : {mode : string} ) {
                 ))}
               </CommandList>
             </Command>
-              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <Dialog open={dialogOpen}  onOpenChange={setDialogOpen}>
                   <DialogTrigger asChild>
-                    <Button  variant="ghost" className="w-full" >New Category</Button>
+                    <Button  variant="ghost" className="w-full flex-grow" >New Category</Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[600px]" >
+                  <DialogContent className="sm:max-w-[400px]" >
                     <DialogHeader>
-                      <DialogTitle>Category</DialogTitle>
-                      <DialogDescription>
-                        Create a new category
-                      </DialogDescription>
+                      <DialogTitle>Edit Category</DialogTitle>
                     </DialogHeader>
-                      <NewCategory hasImage={false}></NewCategory>
-                    <DialogFooter>
-                      <Button onClick={() => {categoryContext.changeSubmit(true)}} type="submit">Save changes</Button>
+                      <NewCategory ></NewCategory>
+                    <DialogFooter style={{justifyContent : "space-between"}}>
+                      <Button variant={'outline'} onClick={() => {setDialogOpen(false)}} type={'reset'}>Cancel</Button><Button onClick={() => {categoryContext.changeSubmit(true)}} type="submit">Generate new Category</Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>

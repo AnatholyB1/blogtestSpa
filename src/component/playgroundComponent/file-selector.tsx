@@ -53,12 +53,6 @@ export default function FileSelection ({mode, className, page} : {page : TabCont
     },[])
 
 
-    useEffect(() => {
-      if(preview)
-      {
-        
-      }
-    },[preview])
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
@@ -81,17 +75,10 @@ export default function FileSelection ({mode, className, page} : {page : TabCont
             <section className={cn("w-full h-auto  bg-white",className)}>
                 <label htmlFor="input_add_image">
                   <div title="Header" className="w-full h-auto grid grid-flow-row place-items-start gap-4">
-                    {preview ? 
+                    {preview &&
                       (
-                
                         <img className="w-full h-[16rem] object-cover  bg-Slot " src={preview} alt="Preview" />
                       ) 
-                    : 
-                      (
-              
-                        <div title='header' className="w-full h-[16rem]  bg-Slot button-text"></div>
-                  
-                      )
                     }
                      {mode != 'view' && (<div title='change image' id="buton_add_image" className="gap-2 flex flex-row px-[16px] py-[8px] hover:bg-secondary items-center rounded-md text-gray-700/60 font-[Inter] text-sm font-medium leading-3"><ImagePlus className="w-4 h-4 stroke-1"></ImagePlus><span>Change feature image</span></div>)}
                   </div>

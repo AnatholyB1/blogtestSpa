@@ -109,7 +109,7 @@ export default function Composer  ({state, page, value , onChange , viewOnly = f
     }
     return ( 
       <div className='w-full h-full flex flex-col rounded-xl bg-white '>
-        <FileSelection  page = {page} className={`w-full h-full ${state == 'view' && 'h-[16rem]'}  `} mode={state} ></FileSelection>
+        <FileSelection  page = {page} className={`w-full `} mode={state} ></FileSelection>
         <BlockNoteView onDragOver={enableDropping} onDrop={handleDrop} className={cn("h-full w-full  rounded-none bg-white",className)} editor={editor} >
         </BlockNoteView>
       </div>

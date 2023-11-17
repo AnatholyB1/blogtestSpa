@@ -4,42 +4,40 @@ import { Progress,  } from "@/components/ui/progress"
 import { LoadingStateContext } from "@/provider/loadinStateProvider"
 
 
+
 export function ProgressDemo() {
   const [progress, setProgress] = useState(0)
   const loading =  useContext(LoadingStateContext)
+  var timer : NodeJS.Timeout;
 
   useEffect(() => {
-    if(loading.loading)
+    if(loading.loading === true)
     {
-      setProgress(66)
+      clearTimeout(timer)
+      timer = setTimeout(() => setProgress(95), 1000)
     }
     if(loading.progress !== 0)
     {
-      setProgress(loading.progress)
+      const num = loading.progress/4
+      clearTimeout(timer)
+      timer = setTimeout(() => setProgress(num), 1000)
     }
     if(loading.completed)
     {
-      setProgress(100)
+      clearTimeout(timer)
+      timer = setTimeout(() => setProgress(100), 100)
     }
   }, [loading.progress, loading.loading, loading.completed])
 
   useEffect(() => {
-    var timer = {} as NodeJS.Timeout
-    if(progress !== 0)
-    {
-      timer = setTimeout(() => setProgress(66), 500)
-    }
-    if(progress === 66)
-    {
-      timer = setTimeout(() => setProgress(100), 1000)
-    }
     if(progress === 100)
     {
-      return () => {clearTimeout(timer); setProgress(0)}
+      clearTimeout(timer)
+      setTimeout(() => setProgress(0), 1000)
     }
-    return () => {clearTimeout(timer); setProgress(0)}
   }, [progress])
 
-  return <Progress value={progress} className="w-full z-20 h-1 rounded-none fixed top-0 left-0  bg-transparent ;
+
+  return <Progress value={progress} className="w-full z-[9999] h-1 rounded-none fixed top-0 left-0  bg-transparent ;
   ] " />
 }

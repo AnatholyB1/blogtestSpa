@@ -66,7 +66,6 @@ const CategoryProvider = ({children} : {children : any}) => {
       {
         if(myVariable)
         {
-          console.log(myVariable)
           let variable = parseInt(myVariable)
           setData(dataList[variable])
         }

@@ -117,7 +117,7 @@ export function WriterSelector({mode} : {mode : string} ) {
             role="combobox"
             aria-expanded={open}
             aria-label="Select a model"
-            className="w-full justify-between"
+            className="flex flex-row justify-between"
           >
             {selectedModel ? selectedModel.full_name : "Select a blogger..."}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />

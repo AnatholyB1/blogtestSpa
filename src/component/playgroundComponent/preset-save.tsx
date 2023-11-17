@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button"
 import { PostContext } from "@/provider/postProvider"
-import { useContext, useEffect} from "react"
+import { useContext} from "react"
 import { PageContext } from "@/provider/pageProvider"
 import { TabContextType } from "typing"
 import { BloggerContext } from "@/provider/BloggerProvider"
@@ -58,18 +58,16 @@ export function PresetSave( {page } : { page  : TabContextType}) {
     }
   }
 
-  useEffect(() => {
-    console.log(postContext.data?.published)
-  }, [postContext.data?.published])
+
 
   return (
     <div className="flex justify-center items-center gap-[8px]">
-      {page == 'Blogger' || page == 'Categories' ? (<><Button className="flex gap-2" variant={'destructive'}><Trash2 className="w-4 h-4 stroke-1"></Trash2>Delete</Button></>)
+      {page == 'Blogger' || page == 'Categories' ? (<><Button className="flex gap-2" variant={'destructive'}><Trash2 className="w-4 h-4 stroke-1"></Trash2>Delete</Button> <Button className="flex justify-center items-center gap-[5px]" type="submit" onClick={()=> handleClick('publish')}><UploadCloud className="w-[16px] h-[16px] stroke-1"/> Publish</Button> </>)
       : (<>
             <Button variant={'ghost'} onClick={() => {preview.changepage(page), router('/preview')}}>Preview</Button>
-           <Button className="flex justify-center items-center gap-[5px]" type="submit" onClick={()=> {handleClick('save')}}>Save</Button>
+            <Button className="flex justify-center items-center gap-[5px]" type="submit" onClick={()=> handleClick('publish')}><UploadCloud className="w-[16px] h-[16px] stroke-1"/> Publish</Button> 
+           <Button className="flex justify-center items-center gap-[5px]" variant={'secondary'} type="submit" onClick={()=> {handleClick('save')}}>Save</Button>
           </>)}
-        <Button className="flex justify-center items-center gap-[5px]" type="submit" onClick={()=> handleClick('publish')}><UploadCloud className="w-[16px] h-[16px] stroke-1"/> Publish</Button> 
       {((page !=  'Categories') && (page != 'Blogger') )   &&   ( <Button variant={'secondary'} onClick={() => {animation.toggle('SideBarRight'), animation.itemSideBar && animation.toggle('ItemSideBar')}}>{animation.sidebarRight ? <PanelRightClose className="w-[16px] h-[16px] stroke-1"/> : <PanelLeftClose className="w-[16px] h-[16px] stroke-1"/>}</Button>)}
     </div>
   )

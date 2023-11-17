@@ -12,6 +12,8 @@ import EditBlog from './pages/editBlog/page'
 import EditBlogger from './pages/editBlogger/page'
 import EditPage from './pages/editPage/page'
 import EditSystemPage from './pages/editSystemPage/page'
+import Test from './component/test'
+
 
 const router = createBrowserRouter(
 	
@@ -30,7 +32,7 @@ const router = createBrowserRouter(
 			<Route path="editPage" element={<EditPage/>}></Route>
 			<Route path="editSystemPage" element={<EditSystemPage/>}></Route>
 			<Route path="preview" element={<Preview/>}></Route>
-			
+			<Route path="test" element={<Test/>}></Route>
 		</Route>
 	)
 )

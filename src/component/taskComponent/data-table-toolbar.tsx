@@ -10,6 +10,9 @@ import { DataTableViewOptions } from "./data-table-view-options"
 import { statuses } from "../taskData/data"
 import { DataTableFacetedFilter } from "./data-table-faceted-filter"
 
+
+
+
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
@@ -29,7 +32,7 @@ export function DataTableToolbar<TData>({
       <div className="flex flex-1 items-center space-x-2">
         <Input
           id="filter"
-          placeholder="Filter tasks..."
+          placeholder="Search..."
           value={(table.getColumn(value)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(value)?.setFilterValue(event.target.value)

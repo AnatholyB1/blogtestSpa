@@ -3,7 +3,7 @@
 
 import { columnsTask, columnsCategory, columnsBlogger } from "./taskComponent/columns"
 import {DataTable} from "./taskComponent/data-table"
-import { BloggerTask, GetData } from "typing"
+import { BloggerTask, GetData, TabContextType } from "typing"
 import { Task , CategoryTab } from "typing"
 import { Button } from "@/components/ui/button"
 import {useFrappeGetDocList} from 'frappe-react-sdk'
@@ -17,6 +17,11 @@ import DeleteModal from "./taskComponent/deleteModal"
 import Overview from "./taskComponent/overview"
 import MoreActionsComponent from "./taskComponent/more-actions"
 import { useNavigate } from "react-router-dom"
+
+const description : {id : TabContextType, des : string}[] = [{id : 'Post', des : 'Manage posts, track post performance and learn about new ways to improve your blog.' },{ id  : 'Categories', des : 'Organize your blog content by effortlessly managing blog categories'},{id : 'Blogger', des : 'Manage bloggers in the app, including adding, editing, and deleting bloggers.' },{id : 'Overview', des : 'Manage posts, track post performance and learn about new ways to improve your blog.'}]
+
+
+
 
 
 
@@ -54,16 +59,18 @@ export default function TaskPage() {
       
 
   }
-  const {data , isLoading, mutate, error} = useFrappeGetDocList<GetData>(doctype,{ fields: fields , limit : 200});
+  const {data , isLoading, mutate, error} = useFrappeGetDocList<GetData>(doctype,{ fields: [ '*'] , limit : 200});
   let tasks : any = [];
   if (data) {
     switch(tabType.variable) {
       case 'Categories':
+        console.log(data)
         tasks = data.reduce((acc: CategoryTab [], item) => {
           acc.push({ 
             id: item.name,
             title: item.title,
             status: item.published == 1 ? "Published" : "Drafted",
+            modified : item.modified
           });
           return acc;
         }, []);
@@ -117,18 +124,18 @@ export default function TaskPage() {
   },[error, tabType.mutate])
   return (
     <>
-      <div className="flex h-full flex-1 flex-col gap-[24px] p-8  flex-wrap content-center">
+      <div className="flex h-full flex-1 flex-col gap-[20px] px-[50px] py-[20px] flex-wrap content-center">
         <div className="flex items-center justify-between space-y-2">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">Blog {tabType.variable}</h2>
-            {tabType.variable == 'Overview' && <p className="text-[#71717A] font-Inter text-[16px] font-normal leading-[24px]">Manage posts, track post performance and learn about new ways to improve your blog.</p>}
+            <h2 className="blog-title">{tabType.variable}</h2>
+            <p className="blog-description">{description.find((item) => item.id =tabType.variable)?.des}</p>
           </div>
           <div className="flex items-center space-x-2">
           </div>
           <div className="flex flex-row gap-2">
           {tabType.delete && <DeleteModal className="w-[160px] h-[40px]"></DeleteModal>}
-          {tabType.variable == 'Overview' ? <MoreActionsComponent></MoreActionsComponent> : <Button className="h-[40px] w-[160px]" onClick={() => {router(`new${tabType.variable}`)}}><PlusCircle className="w-[16px] h-[16px]" ></PlusCircle > <span className="pl-2" >New {tabType.variable}</span></Button>}
-        </div>
+           <MoreActionsComponent></MoreActionsComponent> <Button className="" onClick={() => {router(`new${tabType.variable == 'Overview' ? 'Post' : tabType.variable}`)}}><PlusCircle className="w-[16px] h-[16px]" ></PlusCircle > <span className="pl-2" >New {tabType.variable == 'Overview' ? "Post" : tabType.variable }</span></Button>
+          </div>
         </div>
         {isLoading ? <TabSkeleton/> : (() => {
           switch(tabType.variable)

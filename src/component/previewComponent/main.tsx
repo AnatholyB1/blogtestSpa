@@ -5,8 +5,6 @@ import Composer from "../playgroundComponent/composer";
 import { TypeContext } from "@/provider/typeProvider";
 import { Smartphone, Tablet, Monitor } from "lucide-react";
 import { TabContextType } from "typing";
-import { BloggerContext } from "@/provider/BloggerProvider";
-import { CategoryContext } from "@/provider/categoryProvider";
 import { PostContext } from "@/provider/postProvider";
 
 
@@ -14,8 +12,6 @@ export default function Main ({className} : {className? : string})
 {
     const view = useContext(TypeContext)
     const postContext = useContext(PostContext)
-    const blogContext = useContext(BloggerContext)
-    const categoryContext = useContext(CategoryContext)
     const [isloading, setloading] = useState(true)
     const [content, setContent] = useState<any>()
 
@@ -34,15 +30,7 @@ export default function Main ({className} : {className? : string})
         {
             setContent(JSON.parse(postContext.data.content_json).blocks)
         }
-        if(blogContext.data)
-        {
-            console.log(blogContext.data)
-        }
-        if(categoryContext.data)
-        {
-            console.log(categoryContext.data)
-        }
-    },[postContext.data, blogContext.data, categoryContext.data, ])
+    },[postContext.data ])
 
     useEffect(() => {
         if(content)

@@ -42,6 +42,10 @@ export function DataTableViewOptions<TData>({
               typeof column.accessorFn !== "undefined" && column.getCanHide()
           )
           .map((column) => {
+            if(column.id == 'status')
+            {
+              column.getIsVisible() && column.toggleVisibility(false)
+            }
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}

@@ -2,7 +2,7 @@
 
 import "@blocknote/core/style.css";
 import {useFrappeUpdateDoc, useFrappeFileUpload } from 'frappe-react-sdk'
-import { useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Textarea } from "@/components/ui/textarea"
@@ -17,7 +17,7 @@ import {
   } from "@/components/ui/form"
   import { Input } from "@/components/ui/input";
  
-  import {ImagePlus } from "lucide-react"
+  import { UploadCloud } from "lucide-react"
   import { TypeContext } from "@/provider/typeProvider";
 
 
@@ -39,9 +39,16 @@ const formSchema = z.object({
     published :  z.number().default(1),
 })
 
+import { LoadingStateContext } from "@/provider/loadinStateProvider";
+import { cn } from "@/lib/utils";
 
+interface EditCategoryProps extends React.FormHTMLAttributes<HTMLFormElement>  {
+    className?: string,
+    children?: React.ReactNode,
+    custom?: boolean,
+}
 
-export default function EditCategory () {
+export default function EditCategory ({ ...props} : EditCategoryProps) {
     const typeContext = useContext(TypeContext)
     const getData = typeContext.data
     const {data : dataList} = getData()
@@ -49,12 +56,34 @@ export default function EditCategory () {
     const categoryContext = useContext(CategoryContext)
     const [loading, setloading] =  useState(true)
     const [file, setFile] = useState<File>()
-    const { updateDoc, isCompleted } = useFrappeUpdateDoc()
-    const {upload} = useFrappeFileUpload()
+    const { updateDoc, isCompleted , loading : updatedoc} = useFrappeUpdateDoc()
+    const {upload, progress} = useFrappeFileUpload()
     const router = useNavigate()
     const [url , setUrl] = useState('')
     const [preview, setPreview] = useState<string | null>(null);
     const {toast} = useToast()
+    const loadingState = useContext(LoadingStateContext)
+
+
+    useEffect(() => {
+        if(updatedoc === true)
+        {   
+            loadingState.setLoading(updatedoc)
+        }
+    },[updatedoc ])
+
+    useEffect(() => {
+        if(isCompleted === true){
+        loadingState.setCompleted(true)}
+    },[isCompleted])
+
+
+    useEffect(() => {
+        if(progress > 0)
+        {
+            loadingState.setProgress(progress)
+        }
+    },[progress])
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -80,7 +109,7 @@ export default function EditCategory () {
             form.setValue('published',JSON.parse(sessionStorage.getItem('category')!).published)
             form.setValue('image',JSON.parse(sessionStorage.getItem('category')!).image)
             form.setValue('description',JSON.parse(sessionStorage.getItem('category')!).description)
-            setPreview( 'https://dev.zaviago.com' + JSON.parse(sessionStorage.getItem('category')!).image ?? undefined)
+            setPreview(JSON.parse(sessionStorage.getItem('category')!).image ?  'https://dev.zaviago.com' + JSON.parse(sessionStorage.getItem('category')!).image : 'undefined')
             setloading(false)
         }
         if(sessionStorage.getItem('image'))
@@ -96,7 +125,7 @@ export default function EditCategory () {
             form.setValue('published',data.published)
             form.setValue('image',data.image)
             form.setValue('description',data.description)
-            setPreview( "https://dev.zaviago.com" + data.image ?? undefined)
+            setPreview( data.image ? "https://dev.zaviago.com" + data.image : 'undefined')
             sessionStorage.setItem('category',JSON.stringify(data))
             setloading(false)
         }
@@ -188,35 +217,16 @@ export default function EditCategory () {
         <>
             {loading ? 'loading ...' :
              <Form {...form}>          
-                <form className="space-y-4 h-full " onSubmit={form.handleSubmit(onSubmit)}>
-                    <FormField
-                        control={form.control}
-                        name="image"
-                        render={() => (
-                            <FormItem className="w-auto h-auto">
-                            <FormLabel className="w-full h-full" htmlFor="image">
-                                    {preview ?  
-                                        <img className="w-full h-[16rem] object-cover  bg-Slot " src={preview} alt="no image"/> : 
-                                        <div title='header' className="w-full h-[16rem]  bg-Slot button-text"></div>
-                                    }
-                                    <div className="flex flex-row items-center text-[#71717A] h-[36px]  w-[180px] rounded-md justify-center font-Inter text-[14px] gap-2 font-medium leading-[20px] hover:bg-[#F4F4F5]"
-                                    ><ImagePlus className="w-4 h-4 stroke-1"></ImagePlus>Add a feature image</div> 
-                                    <Input id="image" accept=".png, .jpg, .jpeg" className="hidden" hidden={true} type='file' onChange={(e) => handleFile(e.target.files)} />
-                            </FormLabel>
-                            <FormControl>
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
+                <form className={cn('flex gap-4',props.className)} onSubmit={form.handleSubmit(onSubmit)} {...props}>
+                    <>{props.title && <h1 className="text-[#09090B] font-Inter text-[18px] font-semibold leading-[28px] mb-4">{props.title}</h1>}</>
                     <FormField
                         control={form.control}
                         name="title"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
-                            <FormLabel></FormLabel>
+                            <FormLabel>Title <span className="text-[#FF3131]">*</span></FormLabel>
                             <FormControl>
-                                <input className="text-[#71717A] font-Inter text-[36px] font-extrabold leading-[40px] tracking[-0.9px] focus:outline-none" type='text' {...field}></input>
+                                <Input placeholder="Category title..."  type='text' {...field}></Input>
                             </FormControl>
                             <FormDescription>
                             </FormDescription>
@@ -231,10 +241,35 @@ export default function EditCategory () {
                             <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Textarea {...field} placeholder="Add a note about the category orgive examples of what is included" />
+                                <Textarea placeholder="Add a note about the category orgive examples of what is included" {...field} />
                             </FormControl>
                             <FormDescription>
                             </FormDescription>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                        <FormField
+                        control={form.control}
+                        name="image"
+                        render={() => (
+                            <FormItem className="w-auto h-auto">
+                            <FormLabel className="relative w-full h-full " htmlFor="image"> 
+                                    {preview === 'undefined' ?                                         <>
+                                            <div title='header' className="w-full h-[16rem] border rounded-md shadow-sm  button-text"></div>
+                                            <div className="absolute top-1/2 left-1/2 origin-center -translate-x-1/2 -translate-y-1/2  ">
+                                            <div className="flex flex-col items-center gap-2  ">
+                                                <div className="flex items-center justify-center w-10 h-10 bg-slate-200/50 cursor-pointer rounded-full hover:bg-slate-200"><UploadCloud className="stroke-1"/></div>
+                                                <h2>Click to upload image</h2>
+                                                <p className="text-muted-foreground  text-center">PNG or JPEG (max. 800x400px)</p>
+                                            </div>                                           
+                                            </div>
+                                        </> :
+                                    <img className={`w-full h-[16rem] object-cover boder rounded-md shqdow-sm  `} src={preview!} alt="no image"/>}
+                                    <Input id="image" className="hidden" hidden={true} type='file' onChange={(e) => handleFile(e.target.files)} />
+                            </FormLabel>
+                            <FormControl>
+                            </FormControl>
                             <FormMessage />
                             </FormItem>
                         )}
@@ -243,6 +278,7 @@ export default function EditCategory () {
             </Form>  
             
             }
+        
         
         </>
     );
