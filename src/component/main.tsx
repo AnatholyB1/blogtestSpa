@@ -13,6 +13,8 @@ import { CategoryContext } from "@/provider/categoryProvider"
 import {BloggerContext} from '@/provider/BloggerProvider'
 import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
+import { SystemPageContext } from "@/provider/SystemPageProvider"
+import { PageContext } from "@/provider/pageProvider"
 
 
 export default function MusicPage() {
@@ -20,6 +22,8 @@ export default function MusicPage() {
   const postcontext = useContext(PostContext)
   const categoryContext = useContext(CategoryContext)
   const blogContext = useContext(BloggerContext)
+  const system = useContext(SystemPageContext)
+  const pageConstext = useContext(PageContext)
   useEffect(() => {
     sessionStorage.clear()
     if(animation.sidebarRight)
@@ -30,6 +34,9 @@ export default function MusicPage() {
     postcontext.ChangeVariable('null')
     categoryContext.deleteData()
     blogContext.deleteData()
+    pageConstext.setData({} as any)
+    pageConstext.mutate()
+    system.mutate()
   },[])
       const nav = useNavigate()
       useHotkeys('shift+p', 

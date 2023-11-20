@@ -20,14 +20,7 @@ const SystemPageProvider = ({children} : {children : any}) => {
       setMyVariable(newValue);
     };
     
-    var {data : dataList , mutate} = useFrappeGetDocList<SystemPage>('SystemPage',{fields : [
-    'name',
-   'content_json',
-'content_type',
-'meta_image',
-'published_on',
-'published',
-'title']} )
+    var {data : dataList , mutate} = useFrappeGetDocList<SystemPage>('SystemPage',{fields : ['*']} )
 
     useEffect(() => {
       if(dataList)
@@ -37,13 +30,13 @@ const SystemPageProvider = ({children} : {children : any}) => {
           let variable = parseInt(myVariable)
           setData(dataList[variable])
         }
+        else{
+          setData({} as SystemPage)
+        }
       }
     },[dataList,myVariable])
 
-    useEffect(()=> {
-      mutate()
-  
-    },[object.submited])
+
   
     const changeObject = (newobj? : UpdateObject, property?: keyof UpdateObject, value?: UpdateObject[keyof UpdateObject]) => {
       if (newobj) {
@@ -61,6 +54,7 @@ const SystemPageProvider = ({children} : {children : any}) => {
       data : data,
       changeSubmit : changeObject,
       changeVariable : changeVariable,
+      mutate : mutate,
     };
   
     return <SystemPageContext.Provider value={contextValue}>{children}</SystemPageContext.Provider>;
@@ -75,4 +69,5 @@ const SystemPageProvider = ({children} : {children : any}) => {
     data: SystemPage | undefined;
     changeSubmit: (newobj?: UpdateObject, property?: keyof UpdateObject, value?: UpdateObject[keyof UpdateObject]) => void;
     changeVariable: (newValue: string) => void;
+    mutate: () => void;
   }

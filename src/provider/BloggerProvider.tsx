@@ -49,7 +49,6 @@ const BloggerProvider = ({children} : {children : any}) => {
       {
         mutate()
       }
-  
     },[submited])
   
     const changeSubmit = (value : boolean) => {

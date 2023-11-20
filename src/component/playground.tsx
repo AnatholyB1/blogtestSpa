@@ -19,8 +19,6 @@ import { TabContextType } from "typing"
 import EditBlogger from "./playgroundComponent/editBlogger"
 
 import NewBlogger from "./playgroundComponent/newBlogger"
-
-import NewSystemPage from "./playgroundComponent/newSystemPage"
 import EditSystemPage from "./playgroundComponent/editSystemPage"
 //import { BloggerContext } from "provider/BloggerProvider"
 //import { PageContext } from "provider/pageProvider"
@@ -56,6 +54,23 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
   //const systemPageContext = useContext(SystemPageContext)
   const [animation , SetAnimation] = useState(false)
   const animationContext = useContext(AnimationContext)
+  const [isSaveClicked, setIsSaveClicked] = useState(false);
+  const [isPublishClicked, setIsPublishClicked] = useState(false);
+
+  const handleSaveClick = () => {
+    setIsSaveClicked(true);
+  };
+  const handlePublishClick = () => {
+    setIsPublishClicked(true);
+  };
+  const returnsaveClick = () => {
+    setIsSaveClicked(false);
+  }
+  const returnpublishClick = () => {
+    setIsPublishClicked(false);
+  }
+    
+
 
   /*const handleClick = () => {
     switch(page)
@@ -110,7 +125,7 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
               
             </div>
             <div className="">
-              {state != 'view' ? <PresetSave page={page} /> : null }
+              {state != 'view' ? <PresetSave onsaveclick={handleSaveClick} onpublishclick={handlePublishClick} page={page} /> : null }
             </div>
           </div> : <SkeletonHeader></SkeletonHeader>}
           <Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0  flex-1 self-stretch ${animationContext.sidebar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
@@ -122,9 +137,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         case 'Page' :
                           switch (state) {
                             case 'edit':
-                              return <EditPage state={state}/>;
+                              return <EditPage returnpublishClick={returnpublishClick}  returnsaveClick={returnsaveClick}   save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full  mt-[4rem]  p-4 rounded-md "/>;
                             case 'new':
-                              return <NewPage state={state} />;
+                              return <NewPage returnpublishClick={returnpublishClick}  returnsaveClick={returnsaveClick}   save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full  mt-[4rem]  p-4 rounded-md " />;
                             default:
                               return null;
                           }
@@ -151,9 +166,7 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         case 'SystemPage':
                           switch (state) {
                             case 'edit':
-                              return <EditSystemPage state={state}/>;
-                            case 'new':
-                              return <NewSystemPage state={state}/>;
+                              return <EditSystemPage  returnpublishClick={returnpublishClick}  returnsaveClick={returnsaveClick}   save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full  mt-[4rem]  p-4 rounded-md " />;
 
                             default:
                               return null;

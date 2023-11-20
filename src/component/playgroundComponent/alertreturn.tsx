@@ -27,18 +27,8 @@ import {
         }
     }
     useEffect(() => {
-
-        
-       
-
-    
         window.history.pushState(null, 'null', window.location.pathname);
         window.addEventListener('popstate', onBackButtonEvent);
-        return () => {
-        window.removeEventListener('popstate', onBackButtonEvent);  
-        };
-    
-
       }, []);
 
 

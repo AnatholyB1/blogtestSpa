@@ -19,10 +19,7 @@ const PageProvider = ({children} : {children : any}) => {
       setMyVariable(newValue);
     };
     
-    var {data : dataList , mutate} = useFrappeGetDocList('BlogPage',{fields : [ 'content_type',
-    'name',
-    'title',
-    'content_json']} )
+    var {data : dataList , mutate} = useFrappeGetDocList('BlogPage',{fields : [ '*']} )
 
     useEffect(() => {
       if(dataList)
@@ -53,6 +50,8 @@ const PageProvider = ({children} : {children : any}) => {
       variable : myVariable,
       dataList : dataList ,
       data : data,
+      mutate : mutate,
+      setData : setData,
       changeSubmit : changeSubmit,
       changeVariable : changeVariable,
     };

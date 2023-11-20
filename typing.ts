@@ -36,6 +36,22 @@ const categorySchema = z.object({
 
 export type CategoryTab = z.infer<typeof categorySchema>
 
+const PageSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  published_on : z.string()
+})
+
+export type PageTab = z.infer<typeof PageSchema>
+
+const SystemSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  published_on : z.string()
+})
+
+export type SystemPageTab = z.infer<typeof SystemSchema>
+
 
 
 export type DataDocList = {
@@ -150,6 +166,7 @@ export type BloggerTask = {
 
 
 export type GetData = {
+  creation : string
   modified : string,
   name : string,
   full_name : string,
@@ -186,6 +203,7 @@ number,
 title
 : 
 string,
+blogger : string,
 content_json : string,
 published_on? : string,
 meta_image? : string,

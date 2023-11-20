@@ -22,7 +22,7 @@ import FileSelection from './file-selector';
 import { TabContextType } from 'typing';
 
 
-export default function Composer  ({state, page, value , onChange , viewOnly = false, className } : {page : TabContextType, state : string,value : any, onChange? : any, viewOnly? : boolean, className ?: string})  {
+export default function Composer  ({state, page, value , onChange , viewOnly = false, className, noImage = false } : {noImage? : boolean, page : TabContextType, state : string,value : any, onChange? : any, viewOnly? : boolean, className ?: string})  {
     const view = useContext(TypeContext)
 
     const customSchema = {
@@ -109,7 +109,7 @@ export default function Composer  ({state, page, value , onChange , viewOnly = f
     }
     return ( 
       <div className='w-full h-full flex flex-col rounded-xl bg-white '>
-        <FileSelection  page = {page} className={`w-full `} mode={state} ></FileSelection>
+        {!noImage && <FileSelection  page = {page} className={`w-full `} mode={state} ></FileSelection>}
         <BlockNoteView onDragOver={enableDropping} onDrop={handleDrop} className={cn("h-full w-full  rounded-none bg-white",className)} editor={editor} >
         </BlockNoteView>
       </div>

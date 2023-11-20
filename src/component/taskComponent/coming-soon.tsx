@@ -15,7 +15,7 @@ interface AlertComingSoon extends ReactElement<any, any>{
 }
 export function AlertComingSoon ({...props}) : AlertComingSoon {
     const [open, setOpen] = useState(false)
-    useEffect(() => {setOpen(true)},[props.open])
+    useEffect(() => {if(props.open)setOpen(true)},[props.open])
     return(
             <AlertDialog {...props} open={open} >
             <AlertDialogContent >
