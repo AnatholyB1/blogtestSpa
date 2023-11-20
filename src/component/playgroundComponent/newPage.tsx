@@ -211,7 +211,7 @@ export default function NewPage ({ ...props}: NewPageProps)  {
                         control={form.control}
                         name="content_json"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col">
+                            <FormItem className="w-full h-full">
                             <FormControl>
                                 <Composer noImage page={'Post'} state={props.state!} value={field.value.blocks} onChange={(blocks: any) => {form.setValue("content_json", { blocks })} } /> 
                             </FormControl>
