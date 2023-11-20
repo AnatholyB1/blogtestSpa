@@ -140,9 +140,9 @@ export function SidebarMain({ className}: {className? : string}) {
                 aria-expanded={open}
                 className=" justify-between h-10 flex-grow"
               >
-                <span className="flex gap-x-2 items-center justify-center leading-[1px]">
+                <span className="flex gap-x-2 items-center justify-center leading-[1px] font-inter">
                   <Icons.ZaviagoSearch  className="w-5 h-5"/>
-                  zaviago
+                  Zaviago
                 </span>
                 <ChevronsUpDown className="ml-2 shrink-0 opacity-50" viewBox="0 0 24 24" width='12' height='12' />
               </Button>
@@ -211,29 +211,29 @@ export function SidebarMain({ className}: {className? : string}) {
                 
             <div id='main' className="flex flex-col items-center  h-[144px]">
               <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center self-stretch">
-              <LayoutGrid className={iconstyle}/>
-              <h2 className="text-forground font-inter text-[13px] leading-[20px]">DashBoard</h2>
-              </Button >
-              <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center  self-stretch">
-              < BellIcon className={iconstyle}/>
-              <h2 className="text-forground font-inter text-[13px] leading-[20px]">Notifications</h2>
+                <LayoutGrid className={iconstyle}/>
+                <h2 className="text-forground font-inter text-[13px] leading-[20px]">Dashboard</h2>
               </Button>
               <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center  self-stretch">
-              <Search className={iconstyle}/>
-              <h2 className="text-forground font-inter text-[13px] leading-[20px]">Search</h2>
+                <BellIcon className={iconstyle}/>
+                <h2 className="text-forground font-inter text-[13px] leading-[20px]">Notifications</h2>
+              </Button>
+              <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center  self-stretch">
+                <Search className={iconstyle}/>
+                <h2 className="text-forground font-inter text-[13px] leading-[20px]">Search</h2>
               </Button>
               <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center self-stretch">
-              <Settings className={iconstyle}/>
-              <h2 className="text-forground font-inter text-[13px] leading-[20px]">Settings</h2>
+                <Settings className={iconstyle}/>
+                <h2 className="text-forground font-inter text-[13px] leading-[20px]">Settings</h2>
               </Button>
             </div>
         </div>
 
 
         <div id='secondary' className="flex flex-col gap-4">
-              <div id='Blogs block' className="flex flex-col py-[8px] px-[16px] gap-[8px]">
+              <div id='Blogs block' className="flex flex-col py-2 gap-[8px]">
                 <div  className="flex justify-start items-center">          
-                    <h2 className="sidebar-title ">
+                    <h2 className="sidebar-title px-4">
                       Blogs
                     </h2>
                 </div>
@@ -241,7 +241,7 @@ export function SidebarMain({ className}: {className? : string}) {
                   {Blogs.map((item, index)=> {
                     return (
                       <Link title='home' key={index} to="/" className="w-full">
-                        <Button variant="ghost" onClick={() => {tab.ChangeVariable(item.title)}} className="flex h-[36px] py-[8px] gap-[8px] pl-0  w-full justify-start items-center  self-stretch">
+                        <Button variant="ghost" onClick={() => {tab.ChangeVariable(item.title)}} className="flex h-9 py-2 gap-2 w-full justify-start items-center  self-stretch">
                           {item.icon}
                           <h2 className="sidebar-item">{item.title}</h2>   
                         </Button>
@@ -253,19 +253,19 @@ export function SidebarMain({ className}: {className? : string}) {
                 </div>
               </div>
 
-              <div id='PageBlock' className="flex flex-col items-start py-[8px] gap-[8px]  px-[16px] self-stretch">
+              <div id='PageBlock' className="flex flex-col items-start py-2 gap-2 self-stretch">
 
                 <div className="flex  justify-center items-center">        
-                  <h2 className="sidebar-title ">
+                  <h2 className="sidebar-title px-4">
                     Pages
                   </h2>
                 </div>
 
-                <div className="flex flex-col items-start  self-stretch">
+                <div className="flex flex-col items-start self-stretch">
                 {Pages.map((item, index)=> {
                     return (
                       <Link title='home' className="w-full" key={index} to="/">
-                        <Button variant="ghost" onClick={() => {tab.ChangeVariable(item.title)}} className="flex h-9 gap-[8px] pl-0   w-full justify-start items-center self-stretch">
+                        <Button variant="ghost" onClick={() => {tab.ChangeVariable(item.title)}} className="flex h-9 gap-2 w-full justify-start items-center self-stretch">
                           {item.icon}
                           <h2 className="sidebar-item">{item.title}</h2>   
                         </Button>
