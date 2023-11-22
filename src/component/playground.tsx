@@ -41,6 +41,7 @@ import { LoadingStateContext } from "@/provider/loadinStateProvider"
 import { TabContext } from "@/provider/tabProvider"
 import { AlertReturn } from "./playgroundComponent/alertreturn"
 import ItemSideBar from "./playgroundComponent/itemSidebar"
+import { Link } from "react-router-dom"
 
 
 
@@ -70,8 +71,6 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
   const returnpublishClick = () => {
     setIsPublishClicked(false);
   }
-    
-
 
   /*const handleClick = () => {
     switch(page)
@@ -94,41 +93,43 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
   return (
     <>
       <div className="hidden w-screen h-screen flex-row md:flex">
-        <AlertReturn ></AlertReturn>
+        <AlertReturn />
         <SidebarMain/>
-        <SideApp ></SideApp>
+        <SideApp />
         <div className={`main ${animationContext.sidebar ? 'open': ''} flex flex-col pb-0 items-center flex-1 self-stretch h-screen w-full`}>
-          {!loadingContext.loading ? <Header className="flex h-[52px] px-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7]"></Header> : <NavSkeleton></NavSkeleton>}
-          {!loadingContext.loading ? <div className="flex px-[32px] z-10 py-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7] ">
+          {!loadingContext.loading ? <Header className="flex h-[52px] px-4 justify-between items-center self-stretch border-b border-[#E4E4E7]"></Header> : <NavSkeleton/>}
+          {!loadingContext.loading ? <div className="flex px-[32px] z-10 py-4 justify-between items-center self-stretch border-b border-[#E4E4E7] ">
             <div className="flex items-center gap-[5px]">
-              {animation ? 
-              (
-              <>
-                <ChevronLeft className="w-4 h-4 stroke-1"/>
-                <span className="text-black font-Inter text-[18px] font-semibold leading-[28px]">{tab.variable}</span>
+              <Link to='/'>
+                <Button variant='ghost' className="p-2">
+                  <ChevronLeft className="w-4 h-4 stroke-1"/>
+                </Button>
+              </Link>
+              <span className="text-black font-Inter text-[18px] font-semibold leading-[28px] mr-4">{tab.variable}</span>
+              <div className={`post-info ${animation ? 'active' : 'inactive'}`}>
                 <Avatar className="w-[35px] h-[35px]">
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <span className="text-[#09090B] font-Inter text-[14px] font-medium leading-[20px]">Name</span>
                 <span className="text-[#71717A] font-Inter text-[13px] font-normal leading-[20px]">Last Updated : </span><span className="text-[#71717A] font-Inter text-[13px] font-bold leading-[20px]">time</span>
-                <Button className="flex px-[16px] py-[8px] justify-center items-center gap-[8px]" variant={'outline'}><MessageSquare className="w-[16px] h-[16px] stroke-1"></MessageSquare><span className="text-[#18181B] font-Inter text-[14px] font-medium leading-[20px]">Comment</span></Button>
-                <Button className="px-[16px] py-[8px]" variant={'secondary'} onClick={() => SetAnimation(!animation)} ><ArrowLeftToLine className="w-4 h-4 stroke-1"></ArrowLeftToLine></Button>
-              </>
-             
-               ) : (
-                <>
-                <ChevronRight className="w-4 h-4 stroke-1"/>
-                <span className="text-black font-Inter text-[18px] font-semibold leading-[28px]">{tab.variable}</span>
-                <Button className="px-[16px] py-[8px]" variant={'secondary'} onClick={() => SetAnimation(!animation)} ><ArrowRightToLine className="w-4 h-4 stroke-1"></ArrowRightToLine> Info</Button>
-              </>
-               )}
-              
+                <Button className="flex px-4 py-2 justify-center items-center gap-2" variant={'outline'}><MessageSquare className="w-4 h-4 stroke-1"></MessageSquare><span className="text-[#18181B] font-Inter text-[14px] font-medium leading-[20px]">Comment</span></Button>
+              </div>
+              {animation ? (
+                <Button className="px-4 py-2" variant={'secondary'} onClick={() => SetAnimation(!animation)} >
+                  <ArrowLeftToLine className="w-4 h-4 stroke-1" />
+                </Button>
+              ) : (
+                <Button className="px-4 py-2 flex gap-x-2 items-center" variant={'secondary'} onClick={() => SetAnimation(!animation)}>
+                  <ArrowRightToLine className="w-4 h-4 stroke-1" />
+                  Info
+                </Button>
+              )}
             </div>
             <div className="">
               {state != 'view' ? <PresetSave onsaveclick={handleSaveClick} onpublishclick={handlePublishClick} page={page} /> : null }
             </div>
-          </div> : <SkeletonHeader></SkeletonHeader>}
+          </div> : <SkeletonHeader/>}
           <Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0  flex-1 self-stretch ${animationContext.sidebar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
             <SideBarRight state={state}/>
                   <div className="w-full h-full flex items-start justify-center">
@@ -138,9 +139,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         case 'Page' :
                           switch (state) {
                             case 'edit':
-                              return <EditPage returnpublishClick={returnpublishClick}  returnsaveClick={returnsaveClick}   save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full  mt-[4rem]  p-4 rounded-md "/>;
+                              return <EditPage returnpublishClick={returnpublishClick} returnsaveClick={returnsaveClick} save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full mt-[4rem] p-4 rounded-md "/>;
                             case 'new':
-                              return <NewPage returnpublishClick={returnpublishClick}  returnsaveClick={returnsaveClick}   save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full  mt-[4rem]  p-4 rounded-md " />;
+                              return <NewPage returnpublishClick={returnpublishClick} returnsaveClick={returnsaveClick} save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full mt-[4rem] p-4 rounded-md " />;
                             default:
                               return null;
                           }
@@ -157,9 +158,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         case 'Blogger':
                           switch (state) {
                             case 'edit':
-                              return <EditBlogger title="Edit Blogger" className=" w-[400px] mt-[4rem]  p-4 rounded-md shadow-sm" />;
+                              return <EditBlogger title="Edit Blogger" className=" w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
                             case 'new':
-                              return <NewBlogger  title="New Blogger" className=" w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
+                              return <NewBlogger title="New Blogger" className=" w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
 
                             default:
                               return null;
@@ -175,9 +176,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                         case 'Categories':
                           switch (state){
                             case 'edit':
-                              return < EditCategoy title="Edit Category" className="  w-[400px] mt-[4rem] p-4 rounded-md shadow-sm"/>;
+                              return <EditCategoy title="Edit Category" className="w-[400px] mt-[4rem] p-4 rounded-md shadow-sm"/>;
                             case 'new':
-                              return < NewCategory title="New Category" className=" w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
+                              return <NewCategory title="New Category" className="w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
 
                             default:
                                 return null;
@@ -186,7 +187,7 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                       })()}
             </div>
           </Tabs>
-          {loadingContext.loading && <PlaygroundSkeleton  ></PlaygroundSkeleton>}
+          {loadingContext.loading && <PlaygroundSkeleton />}
         </div>
       </div>
     </>
