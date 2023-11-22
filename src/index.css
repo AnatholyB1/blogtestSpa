@@ -145,8 +145,8 @@
 
 .ItemSideBar{
   position : fixed;
-  top : 140px;
-  left : -100px;
+  top : 0px;
+  left : 0px;
   display: flex;
   width: 370px;
   padding: 6px 0px 16px 0px;
@@ -217,3 +217,4 @@ font-style: normal;
 font-weight: 700;
 line-height: 32px; /* 133.333% */
 letter-spacing: -0.6px;}
+
