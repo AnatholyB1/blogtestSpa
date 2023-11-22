@@ -13,7 +13,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { ChevronRight, PlusCircle, Shuffle, UserPlus, Users, ChevronsUpDown, PanelLeftClose, LayoutGrid, LayoutDashboard, Newspaper, UserCircle, Layout, Search, Settings, ListMinus, PanelLeftOpen } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { BellIcon } from "@radix-ui/react-icons"
-import { Home } from "lucide-react"
 import { ListIcons } from "./sidebar/sidebardata/side-data"
 import {menuData, MenuData} from "./sidebar/sidebardata/data";
 
@@ -53,7 +52,6 @@ interface iconProps extends React.ReactElement<SVGAElement> { className?: string
 type BLogType = {title : TabContextType, icon : iconProps}
 const Blogs : BLogType[] = [{title : 'Overview', icon : <LayoutDashboard className={iconstyle}/>},{title : 'Post', icon : <Newspaper className={iconstyle}/>},{title : 'Categories', icon : <LayoutGrid className={iconstyle} />},{title : 'Blogger', icon : <UserCircle className={iconstyle}/>}]
 const Pages : BLogType[] = [{title : 'Page', icon : <Layout className={iconstyle} />},{title : 'SystemPage', icon : <LayoutGrid className={iconstyle}/>}]
-
 
 export function SidebarMain({ className}: {className? : string}) {
   const tab = useContext(TabContext)
