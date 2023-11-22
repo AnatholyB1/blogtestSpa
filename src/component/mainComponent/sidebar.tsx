@@ -69,15 +69,16 @@ export function SidebarMain({ className}: {className? : string}) {
     <> 
     <div id='full sidebar' className={cn(className, 'h-screen w-auto flex flex-column')}>
       <div id='first sidebar' className="fixed top-0 left-0 gap-[3px] py-3 px-3 flex flex-col items-center w-[60px] h-screen border-r border-[#E4E4E7] z-10 bg-white" >
-          <div className="pb-2">
-            <Button variant={'secondary'} className="px-[9px] border" onClick={()=>{animation.toggle('SideBar')}}>
-              <Home className="stroke-2 w-4 h-4"></Home>
-            </Button>
-          </div>
-          <div className="flex flex-col gap-4 flex-shrink-0 py-2">
+        <div className="nav-left-side">
+          <Button variant={'secondary'} className="px-[9px] border" onClick={()=>{animation.toggle('SideBar')}}>
+            <Home className="stroke-2 w-4 h-4"></Home>
+          </Button>
+          <a className='nav-btns add-ons' href={`${import.meta.env.VITE_BASE_URL}`}>
+            <Icons.ZaviagoAppIcon />
+          </a>
           <Dialog>
             {ListIcons.map((i, index) => (
-              <DialogTrigger  tabIndex={index} onClick={() => setSelected(index)}>{i}</DialogTrigger>
+              <DialogTrigger className="nav-btns add-ons" tabIndex={index} onClick={() => setSelected(index)}>{i}</DialogTrigger>
             ))}
               <DialogContent className='p-0 border-0 max-w-4xl'>
                 <DialogHeader className='flex-row'>
@@ -114,12 +115,10 @@ export function SidebarMain({ className}: {className? : string}) {
                 </DialogHeader>
               </DialogContent>
             </Dialog>
+            <Link className="w-9 h-9 border rounded-md flex items-center justify-center" to=''>
+              <PlusCircle className="w-4 h-4"></PlusCircle>
+            </Link>
           </div>
-        <div className="py-2">
-          <Link className="w-9 h-9 border rounded-md flex items-center justify-center" to=''>
-            <PlusCircle className="w-4 h-4"></PlusCircle>
-          </Link>
-        </div>
       </div>
 
       <div id='second sidebar' className={`nav-bar ${animation.sidebar ? 'open' : 'close'} h-screen border-r border-[#E4E4E7] bg-white p-3`}>
@@ -201,7 +200,7 @@ export function SidebarMain({ className}: {className? : string}) {
             </PopoverContent>
             </Popover>
             <Button onClick={() => animation.toggle('SideBar')} variant={'secondary'} className="p-0 h-10 w-10 flex justify-center items-center shadow-none">
-              <ListMinus viewBox='0 0 24 24' width='16' height='16'/>
+              <PanelLeftClose viewBox='0 0 24 24' width='16' height='16' strokeWidth='1.5'/>
             </Button>
             </div>
                 
