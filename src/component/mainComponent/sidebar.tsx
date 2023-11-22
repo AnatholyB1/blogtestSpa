@@ -5,21 +5,17 @@ import { Button } from "@/components/ui/button"
 import { TabContext } from "@/provider/tabProvider"
 import { useContext , useState} from "react"
 
-
-
 import { AnimationContext } from "@/provider/animationProvider"
 import {Link} from "react-router-dom";
 
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { ChevronRight, PlusCircle, Shuffle, UserPlus, Users, ChevronsUpDown, PanelLeftClose, LayoutGrid, LayoutDashboard, Newspaper, UserCircle, Layout, Search, Settings } from "lucide-react"
+import { ChevronRight, PlusCircle, Shuffle, UserPlus, Users, ChevronsUpDown, PanelLeftClose, LayoutGrid, LayoutDashboard, Newspaper, UserCircle, Layout, Search, Settings, ListMinus } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { BellIcon } from "@radix-ui/react-icons"
 import { Home } from "lucide-react"
 import { ListIcons } from "./sidebar/sidebardata/side-data"
 import {menuData, MenuData} from "./sidebar/sidebardata/data";
-
-
 
 import { LightningBoltIcon } from "@radix-ui/react-icons";
 import ServicePrivileges from "./sidebar/privileges";
@@ -28,10 +24,6 @@ import DrawLine from "./sidebar/drawline";
 import {  useEffect } from "react";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
 import { TabContextType } from "typing"
-
-
-
-
 
 const privileges = [
   {
@@ -56,7 +48,7 @@ const privileges = [
   }
 ]
 
-const iconstyle = 'w-4 h-4 stroke-2'
+const iconstyle = 'w-4 h-4 stroke-[1.5]'
 interface iconProps extends React.ReactElement<SVGAElement> { className?: string }
 type BLogType = {title : TabContextType, icon : iconProps}
 const Blogs : BLogType[] = [{title : 'Overview', icon : <LayoutDashboard className={iconstyle}/>},{title : 'Post', icon : <Newspaper className={iconstyle}/>},{title : 'Categories', icon : <LayoutGrid className={iconstyle} />},{title : 'Blogger', icon : <UserCircle className={iconstyle}/>}]
@@ -72,18 +64,20 @@ export function SidebarMain({ className}: {className? : string}) {
   useEffect(() => {
     if(selected > 0)
     {
-        data = menuData[selected]
+      data = menuData[selected]
     }
-
   }, [selected])
-
 
   return (
     <> 
     <div id='full sidebar' className={cn(className, 'h-screen w-auto flex flex-column')}>
-      <div id='first sidebar' className="fixed top-0 left-0 gap-[3px] py-[7px] px-[12px] flex flex-col items-center w-[60px]   h-screen border-r border-gray-300 z-10 bg-white" >
-          <div className=" py-[8px]"><Button variant={'secondary'} className="px-[9px] border" onClick={()=>{animation.toggle('SideBar')}}><Home className="stroke-2 w-4 h-4"></Home></Button></div>
-          <div className="flex flex-col gap-4 flex-shrink-0 py-[8px] ">
+      <div id='first sidebar' className="fixed top-0 left-0 gap-[3px] py-3 px-3 flex flex-col items-center w-[60px] h-screen border-r border-gray-300 z-10 bg-white" >
+          <div className="pb-2">
+            <Button variant={'secondary'} className="px-[9px] border" onClick={()=>{animation.toggle('SideBar')}}>
+              <Home className="stroke-2 w-4 h-4"></Home>
+            </Button>
+          </div>
+          <div className="flex flex-col gap-4 flex-shrink-0 py-2">
           <Dialog>
             {ListIcons.map((i, index) => (
           <DialogTrigger  tabIndex={index} onClick={() => setSelected(index)}>{i}</DialogTrigger>
@@ -125,13 +119,13 @@ export function SidebarMain({ className}: {className? : string}) {
               </DialogContent>
             </Dialog>
           </div>
-          <div className="py-[8px]"><Link className="w-[36px] h-[36px] border rounded-md flex items-center justify-center " to=''><PlusCircle className="w-4 h-4 stroke-1"></PlusCircle></Link></div>
+          <div className="py-[8px]"><Link className="w-[36px] h-[36px] border rounded-md flex items-center justify-center " to=''><PlusCircle className="w-4 h-4"></PlusCircle></Link></div>
       </div>
 
-      <div id='second sidebar' className={`nav-bar ${animation.sidebar ? 'open' : 'close'} h-screen border-r  border-gray-300 bg-white pt-[6px] px-[12px]`}>
+      <div id='second sidebar' className={`nav-bar ${animation.sidebar ? 'open' : 'close'} h-screen border-r border-gray-300 bg-white p-3`}>
         <div id="container" className="flex flex-col gap-4">
-        <div id="primary">
-            <div id='popover' className="flex  py-[8px] bg-white flex-row gap-2" aria-label="Sidebar">
+          <div id="primary">
+            <div id='popover' className="flex pb-2 bg-white flex-row gap-2" aria-label="Sidebar">
             <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
@@ -206,7 +200,9 @@ export function SidebarMain({ className}: {className? : string}) {
               </Command>
             </PopoverContent>
             </Popover>
-            <Button onClick={() => animation.toggle('SideBar')} variant={'secondary'} className="h-[40px] w-[40px] px-[10px] pt-[8px] flex  justify-center items-center  "><PanelLeftClose className="w-[16px] h-[16px]  stroke-1"/></Button>
+            <Button onClick={() => animation.toggle('SideBar')} variant={'secondary'} className="p-0 h-10 w-10 flex justify-center items-center">
+              <ListMinus viewBox='0 0 24 24' width='16' height='16'/>
+            </Button>
             </div>
                 
             <div id='main' className="flex flex-col items-center  h-[144px]">
@@ -215,7 +211,7 @@ export function SidebarMain({ className}: {className? : string}) {
                 <h2 className="text-forground font-inter text-[13px] leading-[20px]">Dashboard</h2>
               </Button>
               <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center  self-stretch">
-                <BellIcon className={iconstyle}/>
+                <BellIcon />
                 <h2 className="text-forground font-inter text-[13px] leading-[20px]">Notifications</h2>
               </Button>
               <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center  self-stretch">
@@ -275,10 +271,7 @@ export function SidebarMain({ className}: {className? : string}) {
                   )
                   }
                 </div>
-
-              </div>
-
-
+            </div>
         </div>
       </div>
     </div>

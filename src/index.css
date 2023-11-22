@@ -217,3 +217,31 @@ font-style: normal;
 font-weight: 700;
 line-height: 32px; /* 133.333% */
 letter-spacing: -0.6px;}
+
+.nav-btns {
+  min-width:36px;
+	min-height:36px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	cursor:pointer;
+  box-sizing:border-box;
+	border-radius:6px;
+  background-color:#F4F4F5;
+	outline:0px solid #2794F0;
+	border:1px solid #E4E4E7;
+  color:#6B7280;
+}
+
+.nav-btns.add {
+  background-color:white;
+}
+
+.nav-btns.add-ons {
+  border:none;
+  box-sizing:border-box;
+}
+
+.nav-bnts.add-ons:hover {
+  outline:2px solid #2794F0
+}
