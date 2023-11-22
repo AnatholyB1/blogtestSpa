@@ -95,10 +95,10 @@ export function WriterSelector({mode} : {mode : string} ) {
   },[postContext.data?.blogger])
   //use commandGroup tu categorise category in group
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-2 w-full">
       <HoverCard openDelay={200}>
         <HoverCardTrigger asChild>
-          <h1>Writter</h1>
+          <h1>Writer</h1>
         </HoverCardTrigger>
         <HoverCardContent
           align="start"

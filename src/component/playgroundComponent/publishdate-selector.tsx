@@ -24,10 +24,6 @@ export function DatePicker({mode} : {mode : string} ) {
   const [date, setDate] = React.useState<Date>()
   const postContext = useContext(PostContext);
 
-
-    
-  
-
   useEffect(() => {
     if(sessionStorage.getItem('date'))
     {
@@ -55,7 +51,7 @@ export function DatePicker({mode} : {mode : string} ) {
 
 
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-2 w-full">
         <HoverCard openDelay={200}>
         <HoverCardTrigger asChild>
           <h1>Publish Date</h1>
@@ -75,7 +71,7 @@ export function DatePicker({mode} : {mode : string} ) {
           disabled={mode == 'view' ? true : false}
           variant={"outline"}
           className={cn(
-            " flex items-center felx-grow justify-between w-[175px]",
+            " flex items-center flex-grow justify-between gap-x-2",
             !date && "text-muted-foreground"
           )}
         >

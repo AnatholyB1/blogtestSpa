@@ -26,7 +26,7 @@ import SideBarRight from "./sidebareright";
 
 const formSchema = z.object({
     name : z.string(),
-    blogger : z.string({ required_error: "Please select a writter." }).min(2,{ message: "Writter must be at least 2 characters.", }).max(50),
+    blogger : z.string({ required_error: "Please select a writer." }).min(2,{ message: "Writer must be at least 2 characters.", }).max(50),
     title : z.string({ required_error: "Please enter a title." }).min(2,{ message: "Title must be at least 2 characters.", }).max(50),
     content_json : z.object({blocks : z.array(z.any())}).required(),
     published : z.number(),
@@ -175,7 +175,7 @@ export default function EditPage ({ ...props}: EditPageProps)  {
                                         name={input.name}
                                         render={({ field }) => (
                                             <FormItem className="flex flex-col">
-                                            <FormLabel>Writter</FormLabel>
+                                            <FormLabel>Writer</FormLabel>
                                             <FormControl>
                                                 {!input.dropdown ?  <DatePickerDemo className="w-[200px]" default={field.value!} onDateSelected={(date) => {form.setValue('published_on',`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`)}} ></DatePickerDemo> 
                                                 : 

@@ -3,10 +3,10 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import {
-    Card,
-    CardContent,
-  } from "@/components/ui/card"
-  import { Button } from "@/components/ui/button";
+  Card,
+  CardContent,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import image1 from '@/public/image403.png'
@@ -14,13 +14,12 @@ import image2 from '@/public/image404.png'
 
 export default function Overview ({className, children} : {className ?: string, children ?: React.ReactNode})
 {
-
     return (
-        <div className={cn('flex flex-col w-full gap-[24px] max-w-[1100px]',className)}>
+        <div className={cn('flex flex-col w-full gap-[24px] max-w-[1000px]',className)}>
             <div className="flex flex-row gap-[15px] self-stretch items-center justify-center">
-            <Card className="bg-[#F4F4F5] p-[24px] w-full h-[228px]">
-            <CardContent className="flex flex-row justify-between items-start p-0 gap-[8px]">
-                <div className="flex w-[273px] h-[180px] flex-col items-start gap-[8px] justify-center">
+            <Card className="bg-[#F4F4F5] p-6 w-full h-[228px] shadow-none border-0">
+            <CardContent className="flex flex-row justify-between items-start p-0 gap-2">
+                <div className="flex w-[273px] h-[180px] flex-col items-start gap-2 justify-center">
                     <h1 className="text-[#09090B] font-Inter text-[18px] font-semibold leading-[28px] mb-4">
                         Create your first blog post
                     </h1>
@@ -33,7 +32,7 @@ export default function Overview ({className, children} : {className ?: string, 
                 </div>
             </CardContent>
             </Card>
-            <Card className="bg-[#F4F4F5] w-full p-[24px] h-[228px]">
+            <Card className="bg-[#F4F4F5] w-full p-[24px] h-[228px] shadow-none border-0">
             <CardContent className="flex flex-row justify-between items-start p-0 gap-[8px]">
                 <div className="flex w-[273px] h-[180px] flex-col items-start gap-[8px] justify-center">
                     <h1 className="text-[#09090B] font-Inter text-[18px] font-semibold leading-[28px] mb-4">
@@ -51,7 +50,6 @@ export default function Overview ({className, children} : {className ?: string, 
             </div>
             <Separator></Separator>
             {children}
-            
         </div>
     )
 }

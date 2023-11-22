@@ -26,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
     name : z.string(),
-    blogger : z.string({ required_error: "Please select a writter." }).min(2,{ message: "Writter must be at least 2 characters.", }).max(50),
+    blogger : z.string({ required_error: "Please select a writer." }).min(2,{ message: "Writer must be at least 2 characters.", }).max(50),
     content_json : z.object({blocks : z.array(z.any())}).required(),
 
 })
@@ -141,7 +141,7 @@ export default function EditSystemPage ({ ...props}: EditSystemProps)  {
                                         name={input.name}
                                         render={({ field }) => (
                                             <FormItem className="flex flex-col">
-                                            <FormLabel>Writter</FormLabel>
+                                            <FormLabel>Writer</FormLabel>
                                             <FormControl>
                                                 {!input.dropdown ?  <Input {...input} {...field}  /> : <ComboboxDemo default={form.getValues('blogger')} data={input.data!} onChange={(e : any) => form.setValue('blogger',e.name)} />}
                                             </FormControl>

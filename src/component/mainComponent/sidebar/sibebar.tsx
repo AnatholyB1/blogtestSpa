@@ -7,16 +7,11 @@ import { BellIcon } from "@radix-ui/react-icons";
 import {Icons} from "@/components/ui/icons";
 import ServiceModals from "./modal";
 
-
 // import TeamModal from "../components/switchTeamModal";
 
 export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }:{ isSidebarOpen : boolean, setIsSidebarOpen : any }){
   const [active, setActive] = useState('');
   const location = useLocation()
-
-
-
-
 
   const navigation = [
     { name: 'Dashboard', icon: <LayoutGrid viewBox='0 0 24 24' width='16' height='16' strokeWidth='1.5' color='#18181B' />, href: '/dashboard/app', current: active === '/dashboard/app' ? true : false, id: 'dashboard' },
@@ -24,7 +19,6 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }:{ isSidebarO
     { name: 'Search', icon: <Search viewBox='0 0 24 24' width='16' height='16' strokeWidth='1.5' color='#18181B' />, href: '/gifts-privileges', current: active === "/gifts-privileges" || active === "/gifts-privileges/premium" || active === "/gifts-privileges/free" ? true : false, active: active, id: 'gift' },
     { name: 'Settings', icon: <Settings viewBox='0 0 24 24' width='16' height='16' strokeWidth='1.5' color='#18181B' />, href: '/dashboard/settings/account', current: active == "/dashboard/settings/account" || active == "/dashboard/settings/billing-plans" || active == "/dashboard/settings/notifications" ? true : false, active: active, id: 'settings' },
   ]
-
 
   const workspaceApp = [
     { name: 'Blog & Website', icon: <LayoutGrid viewBox="0 0 24 24" width='16' height='16' strokeWidth='1.5' color='#18181B' />, id: 'blog-website' ,href: ''},
@@ -35,7 +29,6 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }:{ isSidebarO
   useEffect(() => {
     setActive(location.pathname);
   })
-
 
   const IconSidebar = () => {
     return (
@@ -83,45 +76,6 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }:{ isSidebarO
                 </Link>
               ))}
             </section>
-
-            {/* <section className="flex flex-col">
-              <Button variant='ghost' className="text-[#797979] text-sm font-semibold tracking-[-0.35px] justify-between" onClick={() => setSellingMenus(!sellingMenus)}>
-                Selling
-                <ChevronDown viewBox="0 0 24 24" width='16' height='16' strokeWidth='1.5' className={`${sellingMenus ? 'rotate-180' : ''} transition duration-200`}/>
-              </Button>
-              {sellingMenus ? (
-                <div className="mb-6">
-                  {settingsMenus.map((item, index) => (
-                    <>
-                      <Button variant='ghost' key={index} onClick={() => {handleSubMenuClick(index);console.log(activeSubmenus)}} className={`w-full flex justify-start gap-x-2 text-[13px] items-center leading-5 ${item.href === active ? 'bg-zinc-100' : ''}`}>
-                        {item.icon}
-                        {item.name}
-                      </Button>
-                      {activeSubmenus[index] && (
-                        <div>
-                          {item.submenus.map((submenu, subIndex) => (
-                            <Button variant='ghost' key={subIndex} className={`flex justify-start gap-x-2 text-[13px] items-center leading-5 ml-[15px] w-[calc(100%_-_15px)] ${item.href === active ? 'bg-zinc-100' : ''}`}>
-                              {submenu.icon}
-                              {submenu.title}
-                            </Button>
-                          ))}
-                        </div>
-                      )}
-                    </>
-                  ))}
-                </div>
-              ) : null}
-              <Button variant='ghost' className="text-[#797979] text-sm font-semibold tracking-[-0.35px] justify-between">
-                CRM
-              </Button>
-              <Button variant='ghost' className="text-[#797979] text-sm font-semibold tracking-[-0.35px] justify-between">
-                HR & HRM
-              </Button>
-              <Button variant='ghost' className="text-[#797979] text-sm font-semibold tracking-[-0.35px] justify-between">
-                Accounting
-              </Button>
-            </section> */}
-
 
             <section className="flex flex-col">
               <h3 className="text-[#797979] text-sm font-semibold p-4">WorkSpace App</h3>
