@@ -58,7 +58,7 @@ export const columnsTask: ColumnDef<(Task)>[] = [
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.blog_category}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[500px] truncate font-normal">
             {row.getValue("title")}
           </span>
         </div>
@@ -143,7 +143,7 @@ export const columnsPage: ColumnDef<(PageTab)>[] = [
   
         return (
           <div className="flex space-x-2">
-            <span className="max-w-[500px] truncate font-medium">
+            <span className="max-w-[500px] truncate font-normal">
               {row.getValue("title")}
             </span>
           </div>
@@ -201,7 +201,7 @@ export const columnsSystemPage: ColumnDef<(SystemPageTab)>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[500px] truncate font-normal">
             {row.getValue("title")}
           </span>
         </div>
@@ -254,7 +254,7 @@ export const columnsCategory: ColumnDef<(CategoryTab)>[] = [
 
       return (
         <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[500px] truncate font-normal">
             {row.getValue("title")}
           </span>
         </div>
@@ -330,7 +330,7 @@ export const columnsBlogger: ColumnDef<(BloggerType)>[] = [
                     <AvatarImage  className="h-6 w-6 rounded-[50%]" src={`https://dev.zaviago.com${getavatar()?.find((item)=> item.full_name == row.getValue('name')).avatar}`} />
                     <AvatarFallback className="rounded-1 bg-grey">CN</AvatarFallback>
                   </Avatar>
-          <span className="max-w-[500px] truncate font-medium">
+          <span className="max-w-[500px] truncate font-normal">
             {row.getValue("name")}
           </span>
         </div>

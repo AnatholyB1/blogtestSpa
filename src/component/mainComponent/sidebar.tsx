@@ -60,18 +60,15 @@ export function SidebarMain({ className}: {className? : string}) {
   const animation = useContext(AnimationContext)
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(0)
-  var data = {} as MenuData
+  const [data, setData] = useState<MenuData>({})
   useEffect(() => {
-    if(selected > 0)
-    {
-      data = menuData[selected]
-    }
+    if(selected > 0){setData(menuData[selected])}
   }, [selected])
 
   return (
     <> 
     <div id='full sidebar' className={cn(className, 'h-screen w-auto flex flex-column')}>
-      <div id='first sidebar' className="fixed top-0 left-0 gap-[3px] py-3 px-3 flex flex-col items-center w-[60px] h-screen border-r border-gray-300 z-10 bg-white" >
+      <div id='first sidebar' className="fixed top-0 left-0 gap-[3px] py-3 px-3 flex flex-col items-center w-[60px] h-screen border-r border-[#E4E4E7] z-10 bg-white" >
           <div className="pb-2">
             <Button variant={'secondary'} className="px-[9px] border" onClick={()=>{animation.toggle('SideBar')}}>
               <Home className="stroke-2 w-4 h-4"></Home>
@@ -80,10 +77,9 @@ export function SidebarMain({ className}: {className? : string}) {
           <div className="flex flex-col gap-4 flex-shrink-0 py-2">
           <Dialog>
             {ListIcons.map((i, index) => (
-          <DialogTrigger  tabIndex={index} onClick={() => setSelected(index)}>{i}</DialogTrigger>
-
-              ))}
-            <DialogContent className='p-0 border-0 max-w-4xl'>
+              <DialogTrigger  tabIndex={index} onClick={() => setSelected(index)}>{i}</DialogTrigger>
+            ))}
+              <DialogContent className='p-0 border-0 max-w-4xl'>
                 <DialogHeader className='flex-row'>
                   <DialogTitle className='relative'>
                     <img src={data.image} className='rounded-l-lg h-full w-[800px]'/>
@@ -100,8 +96,8 @@ export function SidebarMain({ className}: {className? : string}) {
                         <h1 className="main-heading tracking-[-0.6px] mt-3 mb-2">{data.title}</h1>
                         <p>{data.desc}</p>
                         <ul className="mt-6 gap-y-[17px] flex flex-col px-2">
-                          {privileges.map((p,index) => {
-                            return (<ServicePrivileges key={index} icon={p.icon} title={p.title} desc={p.desc}/>)
+                          {privileges.map(p => {
+                            return (<ServicePrivileges key={p.title} icon={p.icon} title={p.title} desc={p.desc}/>)
                           })}
                         </ul>
                       </section>
@@ -119,10 +115,14 @@ export function SidebarMain({ className}: {className? : string}) {
               </DialogContent>
             </Dialog>
           </div>
-          <div className="py-[8px]"><Link className="w-[36px] h-[36px] border rounded-md flex items-center justify-center " to=''><PlusCircle className="w-4 h-4"></PlusCircle></Link></div>
+        <div className="py-2">
+          <Link className="w-9 h-9 border rounded-md flex items-center justify-center" to=''>
+            <PlusCircle className="w-4 h-4"></PlusCircle>
+          </Link>
+        </div>
       </div>
 
-      <div id='second sidebar' className={`nav-bar ${animation.sidebar ? 'open' : 'close'} h-screen border-r border-gray-300 bg-white p-3`}>
+      <div id='second sidebar' className={`nav-bar ${animation.sidebar ? 'open' : 'close'} h-screen border-r border-[#E4E4E7] bg-white p-3`}>
         <div id="container" className="flex flex-col gap-4">
           <div id="primary">
             <div id='popover' className="flex pb-2 bg-white flex-row gap-2" aria-label="Sidebar">
@@ -132,10 +132,10 @@ export function SidebarMain({ className}: {className? : string}) {
                 variant="secondary"
                 role="combobox"
                 aria-expanded={open}
-                className=" justify-between h-10 flex-grow"
+                className="justify-between h-10 flex-grow shadow-none"
               >
                 <span className="flex gap-x-2 items-center justify-center leading-[1px] font-inter">
-                  <Icons.ZaviagoSearch  className="w-5 h-5"/>
+                  <Icons.ZaviagoSearch />
                   Zaviago
                 </span>
                 <ChevronsUpDown className="ml-2 shrink-0 opacity-50" viewBox="0 0 24 24" width='12' height='12' />
@@ -200,25 +200,25 @@ export function SidebarMain({ className}: {className? : string}) {
               </Command>
             </PopoverContent>
             </Popover>
-            <Button onClick={() => animation.toggle('SideBar')} variant={'secondary'} className="p-0 h-10 w-10 flex justify-center items-center">
+            <Button onClick={() => animation.toggle('SideBar')} variant={'secondary'} className="p-0 h-10 w-10 flex justify-center items-center shadow-none">
               <ListMinus viewBox='0 0 24 24' width='16' height='16'/>
             </Button>
             </div>
                 
             <div id='main' className="flex flex-col items-center  h-[144px]">
-              <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center self-stretch">
+              <Button variant="ghost" className="flex h-9 gap-2 justify-start items-center self-stretch" onClick={() => window.location.href = `${import.meta.env.VITE_BASE_URL}/`}>
                 <LayoutGrid className={iconstyle}/>
                 <h2 className="text-forground font-inter text-[13px] leading-[20px]">Dashboard</h2>
               </Button>
-              <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center  self-stretch">
+              <Button variant="ghost" className="flex h-9 gap-2 justify-start items-center  self-stretch">
                 <BellIcon />
                 <h2 className="text-forground font-inter text-[13px] leading-[20px]">Notifications</h2>
               </Button>
-              <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center  self-stretch">
+              <Button variant="ghost" className="flex h-9 gap-2 justify-start items-center  self-stretch">
                 <Search className={iconstyle}/>
                 <h2 className="text-forground font-inter text-[13px] leading-[20px]">Search</h2>
               </Button>
-              <Button variant="ghost" className="flex h-[36px] gap-[8px] justify-start items-center self-stretch">
+              <Button variant="ghost" className="flex h-9 gap-2 justify-start items-center self-stretch" onClick={() => window.location.href = `${import.meta.env.VITE_BASE_URL}/dashboard/settings/account`}>
                 <Settings className={iconstyle}/>
                 <h2 className="text-forground font-inter text-[13px] leading-[20px]">Settings</h2>
               </Button>
@@ -227,7 +227,7 @@ export function SidebarMain({ className}: {className? : string}) {
 
 
         <div id='secondary' className="flex flex-col gap-4">
-              <div id='Blogs block' className="flex flex-col py-2 gap-[8px]">
+              <div id='Blogs block' className="flex flex-col py-4 gap-[8px]">
                 <div  className="flex justify-start items-center">          
                     <h2 className="sidebar-title px-4">
                       Blogs
@@ -237,7 +237,7 @@ export function SidebarMain({ className}: {className? : string}) {
                   {Blogs.map((item, index)=> {
                     return (
                       <Link title='home' key={index} to="/" className="w-full">
-                        <Button variant="ghost" onClick={() => {tab.ChangeVariable(item.title)}} className="flex h-9 py-2 gap-2 w-full justify-start items-center  self-stretch">
+                        <Button variant="ghost" onClick={() => {tab.ChangeVariable(item.title)}} className="flex h-9 py-2 gap-2 w-full justify-start items-center self-stretch">
                           {item.icon}
                           <h2 className="sidebar-item">{item.title}</h2>   
                         </Button>
@@ -277,6 +277,5 @@ export function SidebarMain({ className}: {className? : string}) {
     </div>
     </div>
      </>
-   
   )
 }

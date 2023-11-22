@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { SystemPageContext } from "@/provider/SystemPageProvider"
 import { PageContext } from "@/provider/pageProvider"
 
-
 export default function MusicPage() {
   const animation = useContext(AnimationContext)
   const postcontext = useContext(PostContext)
@@ -64,16 +63,14 @@ export default function MusicPage() {
     
     <>
       <div className="hidden md:block">
-        <div className="border-t">
-          <div className="bg-background">
-            <div className="flex flex-column items-start">
-              <SidebarMain className="" />
-              <SideApp></SideApp>
-              <div  className={`main ${animation.sidebar ? 'open': ''} flex-grow  `}>
-              <Header className="flex h-[52px] px-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7]"/>
-                <div className="h-full ">
-                     <TaskPage ></TaskPage> 
-                </div>
+        <div className="bg-background">
+          <div className="flex flex-column items-start">
+            <SidebarMain className="" />
+            <SideApp />
+            <div  className={`main ${animation.sidebar ? 'open': ''} flex-grow  `}>
+            <Header className="flex h-[52px] px-[16px] justify-between items-center self-stretch border-b border-[#E4E4E7]"/>
+              <div className="h-full ">
+                <TaskPage />
               </div>
             </div>
           </div>

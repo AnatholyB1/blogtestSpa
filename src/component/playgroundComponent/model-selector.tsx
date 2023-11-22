@@ -95,7 +95,7 @@ export function ModelSelector({mode} : {mode : string} ) {
   //use commandGroup tu categorise category in group
   return (
 
-    <div className="grid gap-2">
+    <div className="grid gap-2 w-full">
       <HoverCard openDelay={200}>
         <HoverCardTrigger asChild>
           <h1 >Category</h1>
@@ -118,7 +118,7 @@ export function ModelSelector({mode} : {mode : string} ) {
             role="combobox"
             aria-expanded={open}
             aria-label="Select a model"
-            className="w-[175px] justify-between"
+            className="flex justify-between"
           >
             {selectedModel ? selectedModel.title : "Select a model..."}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />

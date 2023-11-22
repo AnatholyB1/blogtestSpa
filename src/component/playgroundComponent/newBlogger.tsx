@@ -110,7 +110,7 @@ export default function NewBlogger ({ ...props } : BloggerProps) {
             setPreview( 'https://dev.zaviago.com' + JSON.parse(sessionStorage.getItem('blogger')!).avatar ?? undefined)
             setloading(false)
         }else{
-            form.setValue('full_name','Writter Name');
+            form.setValue('full_name','Writer Name');
             form.setValue('bio','Write something about the writer.');
             form.setValue('disabled',0);
             setloading(false)
