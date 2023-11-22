@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { ChevronRight, PlusCircle, Shuffle, UserPlus, Users, ChevronsUpDown, PanelLeftClose, LayoutGrid, LayoutDashboard, Newspaper, UserCircle, Layout, Search, Settings, ListMinus } from "lucide-react"
+import { ChevronRight, PlusCircle, Shuffle, UserPlus, Users, ChevronsUpDown, PanelLeftClose, LayoutGrid, LayoutDashboard, Newspaper, UserCircle, Layout, Search, Settings, ListMinus, PanelLeftOpen } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { BellIcon } from "@radix-ui/react-icons"
 import { Home } from "lucide-react"
@@ -71,7 +71,7 @@ export function SidebarMain({ className}: {className? : string}) {
       <div id='first sidebar' className="fixed top-0 left-0 gap-[3px] py-3 px-3 flex flex-col items-center w-[60px] h-screen border-r border-[#E4E4E7] z-10 bg-white" >
         <div className="nav-left-side">
           <Button variant={'secondary'} className="px-[9px] border" onClick={()=>{animation.toggle('SideBar')}}>
-            <Home className="stroke-2 w-4 h-4"></Home>
+            <PanelLeftOpen color='#18181B' viewBox='0 0 24 24' width='16' height='16' strokeWidth='1.5'/>
           </Button>
           <a className='nav-btns add-ons' href={`${import.meta.env.VITE_BASE_URL}`}>
             <Icons.ZaviagoAppIcon />
