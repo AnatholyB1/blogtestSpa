@@ -226,13 +226,13 @@ export default function NewBlogger ({ ...props } : BloggerProps) {
                             </FormItem>
                         )}
                         />
-                        <h1 className="text-[#71717A] font-Inter text-[36px] font-extrabold leading-[40px] tracking[-0.9px]"
+                        <h1 className="text-[#71717A] font-Inter text-[36px] font-extrabold leading-[40px] tracking[-0.9px] mt-4"
                         >{form.getValues('full_name')}</h1>
                     <FormField
                         control={form.control}
                         name="bio"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="flex flex-col mt-6">
                             <FormLabel>Bio</FormLabel>
                             <FormControl>
                                 <Textarea placeholder="write something about the writer." {...field} />
@@ -248,7 +248,7 @@ export default function NewBlogger ({ ...props } : BloggerProps) {
                         control={form.control}
                         name="full_name"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col">
+                            <FormItem className="flex flex-col mt-6">
                             <FormLabel>Admin User</FormLabel>
                                 <Popover open={open} onOpenChange={setOpenCommand}>
                                 <PopoverTrigger asChild>

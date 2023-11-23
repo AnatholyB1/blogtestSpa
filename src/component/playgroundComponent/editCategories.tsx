@@ -14,12 +14,11 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-  } from "@/components/ui/form"
-  import { Input } from "@/components/ui/input";
- 
-  import { UploadCloud } from "lucide-react"
-  import { TypeContext } from "@/provider/typeProvider";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input";
 
+import { UploadCloud } from "lucide-react"
+import { TypeContext } from "@/provider/typeProvider";
 
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -255,16 +254,16 @@ export default function EditCategory ({ ...props} : EditCategoryProps) {
                         render={() => (
                             <FormItem className="w-auto h-auto">
                             <FormLabel className="relative w-full h-full " htmlFor="image"> 
-                                    {preview === 'undefined' ?                                         <>
-                                            <div title='header' className="w-full h-[16rem] border rounded-md shadow-sm  button-text"></div>
-                                            <div className="absolute top-1/2 left-1/2 origin-center -translate-x-1/2 -translate-y-1/2  ">
-                                            <div className="flex flex-col items-center gap-2  ">
+                                    {preview === 'undefined' ? 
+                                    <div title='header' className="w-full h-[16rem] border rounded-md shadow-sm flex items-center justify-center button-text">
+                                        <div className="flex flex-col items-center">
+                                            <div className="flex flex-col items-center gap-2">
                                                 <div className="flex items-center justify-center w-10 h-10 bg-slate-200/50 cursor-pointer rounded-full hover:bg-slate-200"><UploadCloud className="stroke-1"/></div>
                                                 <h2>Click to upload image</h2>
-                                                <p className="text-muted-foreground  text-center">PNG or JPEG (max. 800x400px)</p>
+                                                <p className="text-muted-foreground text-center">PNG or JPEG (max. 800x400px)</p>
                                             </div>                                           
-                                            </div>
-                                        </> :
+                                        </div>
+                                    </div>:
                                     <img className={`w-full h-[16rem] object-cover boder rounded-md shqdow-sm  `} src={preview!} alt="no image"/>}
                                     <Input id="image" className="hidden" hidden={true} type='file' onChange={(e) => handleFile(e.target.files)} />
                             </FormLabel>

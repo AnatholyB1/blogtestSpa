@@ -132,59 +132,59 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
           </div> : <SkeletonHeader/>}
           <Tabs defaultValue="complete" className={`editor overflow-auto flex  p-6 8 6 0  flex-1 self-stretch ${animationContext.sidebar ? 'open' : ''} ${animationContext.sidebarRight ? 'openright' : ''}`}>
             <SideBarRight state={state}/>
-                  <div className="w-full h-full flex items-start justify-center">
-                      {(() => {
-                        switch(page)
-                        {
-                        case 'Page' :
-                          switch (state) {
-                            case 'edit':
-                              return <EditPage returnpublishClick={returnpublishClick} returnsaveClick={returnsaveClick} save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full mt-[4rem] p-4 rounded-md "/>;
-                            case 'new':
-                              return <NewPage returnpublishClick={returnpublishClick} returnsaveClick={returnsaveClick} save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full mt-[4rem] p-4 rounded-md " />;
-                            default:
-                              return null;
-                          }
-                        case 'Post' :
-                          switch (state) {
-                            case 'edit':
-                              return <EditBlog state={state} />;
-                            case 'new':
-                              return <NewBlog state={state}/>;
+            <div className="w-full h-full flex items-start justify-center">
+                {(() => {
+                  switch(page)
+                  {
+                  case 'Page' :
+                    switch (state) {
+                      case 'edit':
+                        return <EditPage returnpublishClick={returnpublishClick} returnsaveClick={returnsaveClick} save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full mt-[4rem] p-4 rounded-md "/>;
+                      case 'new':
+                        return <NewPage returnpublishClick={returnpublishClick} returnsaveClick={returnsaveClick} save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full mt-[4rem] p-4 rounded-md " />;
+                      default:
+                        return null;
+                    }
+                  case 'Post' :
+                    switch (state) {
+                      case 'edit':
+                        return <EditBlog state={state} />;
+                      case 'new':
+                        return <NewBlog state={state}/>;
 
-                            default:
-                              return null;
-                          }
-                        case 'Blogger':
-                          switch (state) {
-                            case 'edit':
-                              return <EditBlogger title="Edit Blogger" className=" w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
-                            case 'new':
-                              return <NewBlogger title="New Blogger" className=" w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
+                      default:
+                        return null;
+                    }
+                  case 'Blogger':
+                    switch (state) {
+                      case 'edit':
+                        return <EditBlogger title="Edit Blogger" className=" w-[400px] mt-6 p-4 rounded-md" />;
+                      case 'new':
+                        return <NewBlogger title="New Blogger" className=" w-[400px] mt-6 p-4 rounded-md" />;
 
-                            default:
-                              return null;
-                          }
-                        case 'SystemPage':
-                          switch (state) {
-                            case 'edit':
-                              return <EditSystemPage  returnpublishClick={returnpublishClick}  returnsaveClick={returnsaveClick}   save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full  mt-[4rem]  p-4 rounded-md " />;
+                      default:
+                        return null;
+                    }
+                  case 'SystemPage':
+                    switch (state) {
+                      case 'edit':
+                        return <EditSystemPage  returnpublishClick={returnpublishClick}  returnsaveClick={returnsaveClick}   save={isSaveClicked} publish={isPublishClicked} state={state} className="w-full  mt-[4rem]  p-4 rounded-md " />;
 
-                            default:
-                              return null;
-                          }
-                        case 'Categories':
-                          switch (state){
-                            case 'edit':
-                              return <EditCategoy title="Edit Category" className="w-[400px] mt-[4rem] p-4 rounded-md shadow-sm"/>;
-                            case 'new':
-                              return <NewCategory title="New Category" className="w-[400px] mt-[4rem] p-4 rounded-md shadow-sm" />;
+                      default:
+                        return null;
+                    }
+                  case 'Categories':
+                    switch (state){
+                      case 'edit':
+                        return <EditCategoy title="Edit Category" className="w-[400px] mt-6 p-4 rounded-md"/>;
+                      case 'new':
+                        return <NewCategory title="New Category" className="w-[400px] mt-6 p-4 rounded-md" />;
 
-                            default:
-                                return null;
-                          }
-                        }
-                      })()}
+                      default:
+                        return null;
+                    }
+                  }
+                })()}
             </div>
           </Tabs>
           {loadingContext.loading && <PlaygroundSkeleton />}
