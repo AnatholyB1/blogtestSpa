@@ -121,10 +121,12 @@ export function DataTableRowActions<TData>({
       {tabType.variable != 'Blogger' && tabType.variable != 'Categories' ? <DropdownMenuItem  onClick={() => {setPage(row.id)}}>View</DropdownMenuItem> : <></>}
       <DropdownMenuItem onClick={() => {setCopy(true),setPage(row.id)}} >Make a copy</DropdownMenuItem>
       <DropdownMenuSeparator />
-      <DropdownMenuItem className="flex justify-between" onClick={() => {tabType.addRow(row.getValue('title') ? row.getValue('title') : row.getValue('name'))}}>
-        <DeleteModal custom={true}>Delete</DeleteModal>
-        <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut> 
-      </DropdownMenuItem>
+      <DeleteModal custom={true} className="w-full">
+        <DropdownMenuItem className="flex justify-between w-full" onClick={() => {tabType.addRow(row.getValue('title') ? row.getValue('title') : row.getValue('name'))}}>
+          Delete
+          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut> 
+        </DropdownMenuItem>
+      </DeleteModal>
     </DropdownMenuContent>
     </DropdownMenu>
     </>

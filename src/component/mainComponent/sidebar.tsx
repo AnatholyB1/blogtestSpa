@@ -60,7 +60,7 @@ export function SidebarMain({ className}: {className? : string}) {
   const [selected, setSelected] = useState(0)
   const [data, setData] = useState<MenuData>({})
   useEffect(() => {
-    if(selected > 0){setData(menuData[selected])}
+    if(selected >= 0){setData(menuData[selected])}
   }, [selected])
 
   return (

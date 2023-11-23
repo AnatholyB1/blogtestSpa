@@ -77,8 +77,12 @@ export default function DeleteModal ({custom = false, children, className} : {cu
             </div>
             )}
         <AlertDialog>
-            {!custom && (<AlertDialogTrigger className={cn(className,"rounded-[6px] bg-[#EF4444] text-[#FAFAFA] flex h-[40px] p-2 justify-center items-center gap-2")}><Trash2 className="w-[16px] h-[16px]"></Trash2><span>Delete</span></AlertDialogTrigger>) }
-            {children && (<AlertDialogTrigger>{children}</AlertDialogTrigger>)}
+            {!custom && (
+            <AlertDialogTrigger className={cn(className,"rounded-[6px] bg-[#EF4444] text-sm text-[#FAFAFA] flex px-4 py-2 justify-center items-center gap-2 h-9")}>
+                <Trash2 className="w-4 h-4" />Delete
+            </AlertDialogTrigger>)
+            }
+            {children && (<AlertDialogTrigger className={className}>{children}</AlertDialogTrigger>)}
         <AlertDialogContent>
             <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
