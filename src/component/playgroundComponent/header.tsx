@@ -11,6 +11,7 @@ import ZaviagoIcon from "@/public/zaviagoIcon"
 import { BellIcon, LightningBoltIcon } from "@radix-ui/react-icons"
 import HelpMenu from "./header/helpMenu"
 import AvatarMenu from "./header/avatarMenu"
+import UpgradeProModal from "./header/upgradeProModal"
 
 export default function Header ({className} : {className ?: string}) {
     const tab = useContext(TabContext)
@@ -22,10 +23,7 @@ export default function Header ({className} : {className ?: string}) {
         <div className="flex flex-row items-center space-x-3">
             <div className="flex px-[2px] items-center pr-6">
                 <div className="flex items-center">
-                  <Button variant='ghost' className='text-[#006AFF] hover:text-[#006AFF] hover:bg-transparent gap-x-2 text-xs flex items-center font-normal'>
-                    <LightningBoltIcon color='#006AFF'/>
-                    Upgrade to Pro
-                  </Button>
+                  <UpgradeProModal />
                   <div className="space-x-5 flex items-center">
                     <Dialog>
                       <DialogTrigger className='bg-zinc-100 rounded-md px-2 py-[6px] text-[13px] h-7 flex items-center w-[300px] text-zinc-500 tracking-[0.02em] gap-x-[9px] leading-5'>
