@@ -120,11 +120,11 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                   Last Updated : 
                   <span className="text-[#71717A] font-Inter text-[13px] font-bold leading-[20px]">time</span>
                 </span>
-                <DrawLine color="#E4E4E7" height="32px" width="1px"/>
+                {/* <DrawLine color="#E4E4E7" height="32px" width="1px"/>
                 <Button className="flex px-4 py-2 justify-center items-center gap-2" variant={'outline'}>
                   <MessageSquare className="w-4 h-4 stroke-1" />
                   <span className="text-[#18181B] font-Inter text-[14px] font-medium leading-[20px]">Comment</span>
-                </Button>
+                </Button> */}
               </div>
               {animation ? (
                 <Button className="px-4 py-2" variant={'secondary'} onClick={() => SetAnimation(!animation)} >
@@ -187,9 +187,9 @@ export default function PlaygroundPage({state, page} : {state : string, page : T
                   case 'Categories':
                     switch (state){
                       case 'edit':
-                        return <EditCategoy title="Edit Category" className="w-[400px] p-4 rounded-md"/>;
+                        return <EditCategoy title="Edit Category" className="w-[400px] p-4 rounded-md flex flex-col gap-y-4"/>;
                       case 'new':
-                        return <NewCategory title="New Category" className="w-[400px] p-4 rounded-md" />;
+                        return <NewCategory title="New Category" className="w-[400px] p-4 rounded-md flex flex-col gap-y-4" />;
 
                       default:
                         return null;

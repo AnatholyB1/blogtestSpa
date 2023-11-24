@@ -70,8 +70,8 @@ export default function DeleteModal ({custom = false, children, className} : {cu
             {loading && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
                 <div className="flex items-center space-x-2 bg-white rounded p-6">
-                    <Loader2 className='text-red-500 animate-spin'/>
-                    <span className="text-red-500">Deleting...</span>
+                    <Loader2 className='animate-spin'/>
+                    <span>Deleting...</span>
                 </div>
             </div>
             )}
