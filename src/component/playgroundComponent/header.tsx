@@ -12,8 +12,17 @@ import { BellIcon, LightningBoltIcon } from "@radix-ui/react-icons"
 import HelpMenu from "./header/helpMenu"
 import AvatarMenu from "./header/avatarMenu"
 import UpgradeProModal from "./header/upgradeProModal"
+import { useState } from "react"
 
 export default function Header ({className} : {className ?: string}) {
+  const [open, setOpen] = useState<boolean>(false)
+
+  window.onkeydown = (e): void => {
+    if (e.ctrlKey && e.key === 'g'){
+      e.preventDefault()
+      setOpen(true)
+    }
+  }
     const tab = useContext(TabContext)
     return ( 
       <div className={cn(className,'font-inter h-12 px-7')}>
@@ -25,8 +34,8 @@ export default function Header ({className} : {className ?: string}) {
                 <div className="flex items-center">
                   <UpgradeProModal />
                   <div className="space-x-5 flex items-center">
-                    <Dialog>
-                      <DialogTrigger className='bg-zinc-100 rounded-md px-2 py-[6px] text-[13px] h-7 flex items-center w-[300px] text-zinc-500 tracking-[0.02em] gap-x-[9px] leading-5'>
+                    <Dialog open={open} onOpenChange={setOpen}>
+                      <DialogTrigger className='outline-none bg-zinc-100 rounded-md px-2 py-[6px] text-[13px] h-7 flex items-center w-[300px] text-zinc-500 tracking-[0.02em] gap-x-[9px] leading-5'>
                         <Search viewBox='0 0 24 24' width='14' height='14' className='ml-1'/>
                         Search or type a command (Ctrl + G)
                       </DialogTrigger>

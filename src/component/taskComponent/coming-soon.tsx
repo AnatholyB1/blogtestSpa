@@ -1,7 +1,6 @@
 import {AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle} from '@/components/ui/alert-dialog';
 import {ReactElement, useState, useEffect} from 'react';
 
-
 export type CustomType ={
         title : string,
         description : string,
@@ -32,7 +31,5 @@ export function AlertComingSoon ({...props}) : AlertComingSoon {
             </AlertDialogContent>
             </AlertDialog>
     )
-
-
 }
 

@@ -26,9 +26,6 @@ export type SystemTask = {
   published_on : string
 }
 
-
-
-
 export default function TaskPage() {
   const tabType = useContext(TabContext);
   let doctype = 'Blog Post';
@@ -91,7 +88,6 @@ export default function TaskPage() {
           });
           return acc;
         }, []).slice(0, 3);
-        
         break;
       case 'SystemPage':
         tasks = data.reduce((acc: SystemTask [], item) => {
@@ -131,16 +127,15 @@ export default function TaskPage() {
 
   useEffect(() => {
     mutate()
-    
+
     if (error) {
-      
       toast({title:'Eroor : error while fetching the blogs'})
     }
   },[error, tabType.mutate])
   return (
     <>
-      <div className="flex h-full flex-1 flex-col gap-[20px] px-[50px] py-[20px] flex-wrap content-center">
-        <div className="flex items-center justify-between space-y-2">
+      <div className="flex h-full flex-1 flex-col gap-5 px-[50px] py-5 flex-wrap content-center">
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between space-y-2">
           <div>
             <h2 className="blog-title">{tabType.variable}</h2>
             <p className="blog-description">{description.find((item) => item.id =tabType.variable)?.des}</p>
@@ -148,8 +143,12 @@ export default function TaskPage() {
           <div className="flex items-center space-x-2">
           </div>
           <div className="flex flex-row gap-2">
-          {tabType.delete && <DeleteModal className="w-[160px] h-[40px]"></DeleteModal>}
-           <MoreActionsComponent></MoreActionsComponent> {tabType.variable != 'SystemPage'  && <Button className="" onClick={() => {router(`new${tabType.variable == 'Overview' ? 'Post' : tabType.variable}`)}}><PlusCircle className="w-[16px] h-[16px]" ></PlusCircle > <span className="pl-2" >New {tabType.variable == 'Overview' ? "Post" : tabType.variable }</span></Button>}
+          {tabType.delete && <DeleteModal className="h-[40px]" />}
+           <MoreActionsComponent /> {tabType.variable != 'SystemPage'  && <Button className="" onClick={() => {router(`new${tabType.variable == 'Overview' ? 'Post' : tabType.variable}`)}}>
+            <PlusCircle className="w-4 h-4" />
+            <span className="pl-2" >New {tabType.variable == 'Overview' ? "Post" : tabType.variable }</span>
+          </Button>
+          }
           </div>
         </div>
         {isLoading ? <TabSkeleton/> : (() => {
@@ -157,10 +156,8 @@ export default function TaskPage() {
           {
             case "Categories":
               return <DataTable data={tasks} columns={columnsCategory} currentTab={tabType.variable}/>
-            
             case "Blogger":
               return <DataTable data={tasks} columns={columnsBlogger} currentTab={tabType.variable}/>
-            
             case "Overview":
               return <Overview ><DataTable data={tasks} columns={columnsTask} currentTab={tabType.variable}/></Overview>
             case "SystemPage":

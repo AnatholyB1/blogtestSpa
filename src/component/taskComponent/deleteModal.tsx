@@ -10,12 +10,11 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
-  import { Trash2 } from "lucide-react"
-  import { TabContext } from "@/provider/tabProvider"
-  import { useContext} from "react"
-  import { useFrappeDeleteDoc, useFrappeGetDocList } from "frappe-react-sdk"
+import { Loader2, Trash2 } from "lucide-react"
+import { TabContext } from "@/provider/tabProvider"
+import { useContext} from "react"
+import { useFrappeDeleteDoc, useFrappeGetDocList } from "frappe-react-sdk"
 import { cn } from "@/lib/utils"
-  
 
 export default function DeleteModal ({custom = false, children, className} : {custom? : boolean, children? : React.ReactNode, className? : string}) {
     const tabContext = useContext(TabContext);
@@ -70,9 +69,9 @@ export default function DeleteModal ({custom = false, children, className} : {cu
         <>
             {loading && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
-                <div className="flex items-center space-x-2 bg-white rounded p-2">
-
-                <span>Loading...</span>
+                <div className="flex items-center space-x-2 bg-white rounded p-6">
+                    <Loader2 className='animate-spin'/>
+                    <span>Deleting...</span>
                 </div>
             </div>
             )}
