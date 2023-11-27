@@ -58,10 +58,9 @@ export function SidebarMain({ className}: {className? : string}) {
   const animation = useContext(AnimationContext)
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(0)
-  const [data, setData] = useState<MenuData>({})
-  useEffect(() => {
-    if(selected >= 0){setData(menuData[selected])}
-  }, [selected])
+  // useEffect(() => {
+  //   if(selected >= 0){setData(menuData[selected])}
+  // }, [selected])
 
   return (
     <> 
@@ -78,7 +77,8 @@ export function SidebarMain({ className}: {className? : string}) {
             {ListIcons.map((i, index) => (
               <DialogTrigger className="nav-btns add-ons" tabIndex={index} onClick={() => setSelected(index)}>{i}</DialogTrigger>
             ))}
-              <DialogContent className='p-0 border-0 max-w-4xl'>
+              {menuData.filter(item => item.id == selected).map(data => (
+                <DialogContent className='p-0 border-0 max-w-4xl'>
                 <DialogHeader className='flex-row'>
                   <DialogTitle className='relative'>
                     <img src={data.image} className='rounded-l-lg h-full w-[800px]'/>
@@ -112,6 +112,7 @@ export function SidebarMain({ className}: {className? : string}) {
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>
+              ))}
             </Dialog>
             <Link className="w-9 h-9 border rounded-md flex items-center justify-center" to=''>
               <PlusCircle className="w-4 h-4"></PlusCircle>

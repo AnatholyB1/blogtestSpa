@@ -190,9 +190,9 @@ export default function NewCategory ({...props}:NewCategoryProps) {
         <>
             {loading ? 'loading ...' :
              <Form  {...form}>          
-                <form title={props.title!} className={cn('flex flex-col gap-4',props.className)} {...props} onSubmit={form.handleSubmit(onSubmit)}>
+                <form title={props.title!} className={cn('flex gap-4',props.className)} {...props} onSubmit={form.handleSubmit(onSubmit)}>
 
-                    <>{props.title && <h1 className="text-[#09090B] font-Inter text-[18px] font-semibold leading-[28px] mb-4">{props.title}</h1>}</>
+                    <>{props.title && <h1 className="text-[#09090B] font-Inter text-[18px] font-semibold leading-[28px]">{props.title}</h1>}</>
                     <FormField
                         control={form.control}
                         name="title"
