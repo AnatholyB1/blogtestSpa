@@ -13,6 +13,7 @@ import HelpMenu from "./header/helpMenu"
 import AvatarMenu from "./header/avatarMenu"
 import UpgradeProModal from "./header/upgradeProModal"
 import { useState } from "react"
+import NotificationsTopbar from "./header/notificationsTopbar"
 
 export default function Header ({className} : {className ?: string}) {
   const [open, setOpen] = useState<boolean>(false)
@@ -60,7 +61,7 @@ export default function Header ({className} : {className ?: string}) {
                     </DialogContent>
                     </Dialog>
 
-                    <BellIcon color='#7D7D7D' width='21' height='21'/>
+                    <NotificationsTopbar />
                   </div>
                 </div>
             </div>

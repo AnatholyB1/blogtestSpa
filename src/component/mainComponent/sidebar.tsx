@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { ChevronRight, PlusCircle, Shuffle, UserPlus, Users, ChevronsUpDown, PanelLeftClose, LayoutGrid, LayoutDashboard, Newspaper, UserCircle, Layout, Search, Settings, ListMinus, PanelLeftOpen } from "lucide-react"
+import { ChevronRight, PlusCircle, Shuffle, UserPlus, Users, ChevronsUpDown, PanelLeftClose, LayoutGrid, LayoutDashboard, Newspaper, UserCircle, Layout, Search, Settings, PanelLeftOpen, Home } from "lucide-react"
 import { Icons } from "@/components/ui/icons"
 import { BellIcon } from "@radix-ui/react-icons"
 import { ListIcons } from "./sidebar/sidebardata/side-data"
@@ -20,7 +20,7 @@ import { LightningBoltIcon } from "@radix-ui/react-icons";
 import ServicePrivileges from "./sidebar/privileges";
 import { ServiceBadge } from "./sidebar/badge";
 import DrawLine from "./sidebar/drawline";
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import { EyeNoneIcon } from "@radix-ui/react-icons";
 import { TabContextType } from "typing"
 
@@ -58,18 +58,21 @@ export function SidebarMain({ className}: {className? : string}) {
   const animation = useContext(AnimationContext)
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(0)
-  // useEffect(() => {
-  //   if(selected >= 0){setData(menuData[selected])}
-  // }, [selected])
 
   return (
     <> 
     <div id='full sidebar' className={cn(className, 'h-screen w-auto flex flex-column')}>
       <div id='first sidebar' className="fixed top-0 left-0 gap-[3px] py-3 px-3 flex flex-col items-center w-[60px] h-screen border-r border-[#E4E4E7] z-10 bg-white" >
         <div className="nav-left-side">
-          <Button variant={'secondary'} className="px-[9px] border" onClick={()=>{animation.toggle('SideBar')}}>
-            <PanelLeftOpen color='#18181B' viewBox='0 0 24 24' width='16' height='16' strokeWidth='1.5'/>
-          </Button>
+          {animation.sidebar === true ? (
+            <Button variant={'secondary'} className="px-[9px] border" onClick={()=> window.location.href="https://zaviago-dashboard.vercel.app/"}>
+              <Home color='#18181B' viewBox='0 0 24 24' width='16' height='16' strokeWidth='1.5'/>
+            </Button>
+          ) : (
+            <Button variant={'secondary'} className="px-[9px] border" onClick={()=>{animation.toggle('SideBar')}}>
+              <PanelLeftOpen color='#18181B' viewBox='0 0 24 24' width='16' height='16' strokeWidth='1.5'/>
+            </Button>
+          )}
           <a className='nav-btns add-ons' href={`${import.meta.env.VITE_BASE_URL}`}>
             <Icons.ZaviagoAppIcon />
           </a>
